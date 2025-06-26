@@ -108,6 +108,8 @@ class configmanager(object):
         group.add_option("-i", "--init", dest="init", help="install one or more modules (comma-separated list, use \"all\" for all modules), requires -d")
         group.add_option("-u", "--update", dest="update",
                           help="update one or more modules (comma-separated list, use \"all\" for all modules). Requires -d.")
+        group.add_option("--auto-update", dest="auto_update", default=False, action="store_true", 
+                          help="automatically update modules at server startup, based on the difference between 'lastest_version' and 'installed_version' on ir.module.module records, requires -d")
         group.add_option("--without-demo", dest="without_demo",
                           help="disable loading demo data for modules to be installed (comma-separated, use \"all\" for all modules). Requires -d and -i. Default is %default",
                           my_default=False)
@@ -387,6 +389,9 @@ class configmanager(object):
         die(opt.overwrite_existing_translations and not (opt.translate_in or opt.update),
             "the i18n-overwrite option cannot be used without the i18n-import option or without the update option")
 
+        die(opt.auto_update and (not opt.db_name),
+            "the auto-update option cannot be used without the database (-d) option")
+
         die(opt.translate_out and (not opt.db_name),
             "the i18n-export option cannot be used without the database (-d) option")
 
@@ -440,7 +445,7 @@ class configmanager(object):
                 'db_port', 'db_template', 'logfile', 'pidfile', 'smtp_port',
                 'email_from', 'smtp_server', 'smtp_user', 'smtp_password',
                 'db_maxconn', 'import_partial', 'addons_path', 'upgrade_path',
-                'syslog', 'without_demo', 'screencasts', 'screenshots',
+                'syslog', 'auto_update', 'without_demo', 'screencasts', 'screenshots',
                 'dbfilter', 'log_level', 'log_db',
                 'log_db_level', 'geoip_database', 'dev_mode', 'shell_interface'
         ]
@@ -462,7 +467,7 @@ class configmanager(object):
         keys = [
             'language', 'translate_out', 'translate_in', 'overwrite_existing_translations',
             'dev_mode', 'shell_interface', 'smtp_ssl', 'load_language',
-            'stop_after_init', 'without_demo', 'http_enable', 'syslog',
+            'stop_after_init', 'auto_update', 'without_demo', 'http_enable', 'syslog',
             'list_db', 'proxy_mode',
             'test_file', 'test_tags',
             'osv_memory_count_limit', 'osv_memory_age_limit', 'transient_age_limit', 'max_cron_threads', 'unaccent',

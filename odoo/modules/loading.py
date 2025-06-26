@@ -430,6 +430,12 @@ def load_modules(db, force_demo=False, status=None, update_module=False):
                 modules = Module.search([('state', 'in', ('installed', 'to upgrade')), ('name', 'in', module_names)])
                 if modules:
                     modules.button_upgrade()
+            
+            if tools.config['auto_update']:
+                Module.search([('state', 'in', ('installed', 'to upgrade'))]).filtered(
+                    lambda r: tools.parse_version(r.installed_version) > tools.parse_version(r.latest_version)
+                    # Odoo still didn't fix the inverted meaning of installed_version and latest_version
+                ).button_upgrade()
 
             cr.execute("update ir_module_module set state=%s where name=%s", ('installed', 'base'))
             Module.invalidate_cache(['state'])

@@ -59,6 +59,7 @@ from odoo.release import nt_service_name
 from odoo.tools import config
 from odoo.tools import stripped_sys_argv, dumpstacks, log_ormcache_stats
 from ..tests import loader, runner
+from .monitoring import PrometheusObserver
 
 _logger = logging.getLogger(__name__)
 
@@ -880,6 +881,7 @@ class PreforkServer(CommonServer):
                 self.process_signals()
                 self.process_zombie()
                 self.process_timeout()
+                PrometheusObserver.clear_registry()
                 self.process_spawn()
                 self.sleep()
             except KeyboardInterrupt:

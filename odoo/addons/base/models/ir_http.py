@@ -24,6 +24,7 @@ from odoo.http import request, content_disposition
 from odoo.tools import consteq, pycompat
 from odoo.tools.mimetypes import get_extension, guess_mimetype
 from odoo.modules.module import get_resource_path, get_module_path
+from odoo.service.monitoring import PrometheusObserver
 
 from odoo.http import ALLOWED_DEBUG_MODES
 from odoo.tools.misc import str2bool
@@ -203,6 +204,7 @@ class IrHttp(models.AbstractModel):
         if ('werkzeug' in tools.config['dev_mode']
                 and not isinstance(exception, werkzeug.exceptions.NotFound)
                 and request._request_type != 'json'):
+            PrometheusObserver.update_with_exception(exception)
             raise exception
 
         try:

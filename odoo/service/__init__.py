@@ -4,6 +4,7 @@
 from . import common
 from . import db
 from . import model
+from . import monitoring
 from . import wsgi_server
 from . import server
 

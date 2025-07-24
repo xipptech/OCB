@@ -394,6 +394,13 @@ def _call_kw_multi(method, self, args, kwargs):
 
 def call_kw(model, name, args, kwargs):
     """ Invoke the given method ``name`` on the recordset ``model``. """
+    from .service.monitoring import PrometheusObserver
+    PrometheusObserver.update(
+        PrometheusObserver.RequestMetadata, 
+        model=model._name, 
+        method=name, 
+        service='object'
+    )
     method = getattr(type(model), name, None)
     if not method:
         raise AttributeError(f"The method '{name}' does not exist on the model '{model._name}'")

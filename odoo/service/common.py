@@ -6,6 +6,7 @@ import odoo.release
 import odoo.tools
 from odoo.exceptions import AccessDenied
 from odoo.tools.translate import _
+from .monitoring import PrometheusObserver
 
 _logger = logging.getLogger(__name__)
 
@@ -50,6 +51,11 @@ def exp_set_loglevel(loglevel, logger=None):
     return True
 
 def dispatch(method, params):
+    PrometheusObserver.update(
+        PrometheusObserver.RequestMetadata, 
+        method=method, 
+        service='common'
+    )
     g = globals()
     exp_method_name = 'exp_' + method
     if exp_method_name in g:

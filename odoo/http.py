@@ -49,6 +49,7 @@ except ImportError:
 import odoo
 from .service.server import memory_info
 from .service import security, model as service_model
+from .service.monitoring import PrometheusObserver
 from .sql_db import flush_env
 from .tools.func import lazy_property
 from .tools import ustr, consteq, frozendict, pycompat, unique, date_utils
@@ -658,6 +659,7 @@ class JsonRequest(WebRequest):
                                             werkzeug.exceptions.NotFound)):
                     _logger.warning(exception)
                 else:
+                    PrometheusObserver.update_with_exception(exception)
                     _logger.exception("Exception during JSON request handling.")
             error = {
                 'code': 200,
@@ -763,6 +765,8 @@ class HttpRequest(WebRequest):
                 })
                 return werkzeug.utils.redirect('/web/login?%s' % query)
         except werkzeug.exceptions.HTTPException as e:
+            if e.code >= 500:
+                PrometheusObserver.update_with_exception(exception)
             return e
 
     def _is_cors_preflight(self, endpoint):
@@ -1487,6 +1491,12 @@ class Root(object):
             current_thread.query_time = 0
             current_thread.perf_t0 = time.time()
 
+            PrometheusObserver.start_request()
+            PrometheusObserver.add(PrometheusObserver.RequestMetadata(
+                path=httprequest.path,
+                http_method=httprequest.method,
+            ))
+
             explicit_session = self.setup_session(httprequest)
             self.setup_db(httprequest)
             self.setup_lang(httprequest)
@@ -1536,6 +1546,13 @@ class Root(object):
 
         except werkzeug.exceptions.HTTPException as e:
             return e(environ, start_response)
+        finally:
+            PrometheusObserver.add(PrometheusObserver.PerformanceMetrics(
+                elapsed_time=time.time() - current_thread.perf_t0,
+                database_time=current_thread.query_time,
+                query_count=current_thread.query_count,
+            ))
+            PrometheusObserver.end_request()
 
     def get_db_router(self, db):
         if not db:

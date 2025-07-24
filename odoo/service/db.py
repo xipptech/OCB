@@ -26,6 +26,7 @@ import odoo.sql_db
 import odoo.tools
 from odoo.sql_db import db_connect
 from odoo.release import version_info
+from .monitoring import PrometheusObserver
 
 _logger = logging.getLogger(__name__)
 
@@ -448,6 +449,11 @@ def exp_server_version():
 def dispatch(method, params):
     g = globals()
     exp_method_name = 'exp_' + method
+    PrometheusObserver.update(
+        PrometheusObserver.RequestMetadata, 
+        method=exp_method_name, 
+        service='db'
+    )
     if method in ['db_exist', 'list', 'list_lang', 'server_version']:
         return g[exp_method_name](*params)
     elif exp_method_name in g:

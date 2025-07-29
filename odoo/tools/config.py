@@ -117,9 +117,6 @@ class configmanager(object):
                         help="Use this for big data importation, if it crashes you will be able to continue at the current state. Provide a filename to store intermediate importation states.")
         group.add_option("--prometheus-enable", dest="prometheus_enable", default=False, action="store_true",
                          help="Enable Prometheus metrics collection. Requires --prometheus-multiproc-dir to be set when using multi-process model.")
-        group.add_option("--prometheus-multiproc-dir", dest="prometheus_multiproc_dir", my_default="/var/lib/odoo/prometheus",
-                         help="Directory where Prometheus metrics will be stored in multi-process mode. "
-                              "This directory must be shared between all Odoo workers and must be writable by the Odoo user.")
         group.add_option("--pidfile", dest="pidfile", help="file where the server pid will be stored")
         group.add_option("--addons-path", dest="addons_path",
                          help="specify additional addons paths (separated by commas).",
@@ -397,8 +394,8 @@ class configmanager(object):
         die(opt.auto_update and (not opt.db_name),
             "the auto-update option cannot be used without the database (-d) option")
 
-        die(opt.prometheus_enable and bool(opt.workers) and not opt.prometheus_multiproc_dir,
-            "the prometheus-enable option requires the prometheus-multiproc-dir option to be set when using workers")
+        die(opt.prometheus_enable and bool(opt.workers) and not os.environ.get('PROMETHEUS_MULTIPROC_DIR'),
+            "the prometheus-enable option requires the PROMETHEUS_MULTIPROC_DIR environment variable to be set when using workers")
 
         die(opt.translate_out and (not opt.db_name),
             "the i18n-export option cannot be used without the database (-d) option")
@@ -449,7 +446,7 @@ class configmanager(object):
 
         # if defined do not take the configfile value even if the defined value is None
         keys = ['http_interface', 'http_port', 'longpolling_port', 'http_enable',
-                'prometheus_multiproc_dir', 'prometheus_enable',
+                'prometheus_enable',
                 'db_name', 'db_user', 'db_password', 'db_host', 'db_sslmode',
                 'db_port', 'db_template', 'logfile', 'pidfile', 'smtp_port',
                 'email_from', 'smtp_server', 'smtp_user', 'smtp_password',
@@ -477,7 +474,7 @@ class configmanager(object):
             'language', 'translate_out', 'translate_in', 'overwrite_existing_translations',
             'dev_mode', 'shell_interface', 'smtp_ssl', 'load_language',
             'stop_after_init', 'auto_update', 'without_demo', 'http_enable', 'syslog',
-            'prometheus_multiproc_dir', 'prometheus_enable',
+            'prometheus_enable',
             'list_db', 'proxy_mode',
             'test_file', 'test_tags',
             'osv_memory_count_limit', 'osv_memory_age_limit', 'transient_age_limit', 'max_cron_threads', 'unaccent',

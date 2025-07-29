@@ -29,31 +29,25 @@ class PrometheusObserver:
 
     @classmethod
     def _init(cls):
-        registry = cls.get_registry()
-
         cls.request_count = Counter(
             "http_requests_total",
             "Total HTTP Requests",
             cls.RequestMetadata.labels(),
-            registry=registry,
         )
         cls.request_latency = Histogram(
             "http_request_duration_seconds",
             "HTTP request latency in seconds",
             cls.RequestMetadata.labels(),
             buckets=(0.005, 0.01, 0.025, 0.05, 0.1, 0.25, 0.5, 1, 2.5, 5, 10, 100),
-            registry=registry,
         )
         cls.exception_count = Counter(
             "http_exceptions_total",
             "Total exceptions encountered",
             cls.RequestMetadata.labels(),
-            registry=registry,
         )
         cls.in_progress_requests = Gauge(
             "http_requests_in_progress",
             "Number of HTTP requests currently in progress",
-            registry=registry,
         )
         cls.is_initialized = True
         cls.data_queue = dict()
@@ -73,16 +67,6 @@ class PrometheusObserver:
         database_time: float = 0
         query_count: int = 0
     
-    @classmethod
-    def get_registry(cls):
-        if cls._registry is not None:
-            return cls._registry
-        registry = CollectorRegistry()
-        if config["workers"]:
-            multiprocess.MultiProcessCollector(registry, config["prometheus_multiproc_dir"])
-        cls._registry = registry
-        return registry
-
     @classmethod
     def add(cls, data):
         if not config["prometheus_enable"]:
@@ -153,7 +137,7 @@ class PrometheusObserver:
 
     @classmethod
     def clear_registry(cls):
-        dir = config["prometheus_multiproc_dir"]
+        dir = os.environ.get("PROMETHEUS_MULTIPROC_DIR")
         if not dir:
             return
         for f in os.listdir(dir):

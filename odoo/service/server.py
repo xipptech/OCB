@@ -60,6 +60,7 @@ from odoo.tools import config
 from odoo.tools import stripped_sys_argv, dumpstacks, log_ormcache_stats
 from ..tests import loader, runner
 from .monitoring import PrometheusObserver
+from prometheus_client import multiprocess
 
 _logger = logging.getLogger(__name__)
 
@@ -724,7 +725,8 @@ class PreforkServer(CommonServer):
         if pid in self.workers:
             _logger.debug("Worker (%s) unregistered", pid)
             try:
-                self.workers_http.pop(pid, None)
+                if self.workers_http.pop(pid, None):
+                    multiprocess.mark_process_dead(pid)
                 self.workers_cron.pop(pid, None)
                 u = self.workers.pop(pid)
                 u.close()
@@ -732,6 +734,7 @@ class PreforkServer(CommonServer):
                 return
 
     def worker_kill(self, pid, sig):
+        multiprocess.mark_process_dead(pid)
         try:
             os.kill(pid, sig)
         except OSError as e:
@@ -837,6 +840,8 @@ class PreforkServer(CommonServer):
             self.socket.bind(self.address)
             self.socket.listen(8 * self.population)
 
+        PrometheusObserver.clear_registry()
+
     def stop(self, graceful=True):
         if self.long_polling_pid is not None:
             # FIXME make longpolling process handle SIGTERM correctly
@@ -881,7 +886,6 @@ class PreforkServer(CommonServer):
                 self.process_signals()
                 self.process_zombie()
                 self.process_timeout()
-                PrometheusObserver.clear_registry()
                 self.process_spawn()
                 self.sleep()
             except KeyboardInterrupt:

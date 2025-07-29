@@ -765,7 +765,7 @@ class HttpRequest(WebRequest):
                 })
                 return werkzeug.utils.redirect('/web/login?%s' % query)
         except werkzeug.exceptions.HTTPException as e:
-            if e.code >= 500:
+            if (e.code or 0) >= 500:
                 PrometheusObserver.update_with_exception(exception)
             return e
 

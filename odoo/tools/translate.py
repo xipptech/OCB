@@ -1732,21 +1732,29 @@ def load_language(cr, lang):
     installer.lang_install()
 
 
-def get_po_paths(module_name: str, lang: str, env: odoo.api.Environment | None = None):
+def get_po_paths(module_name: str, lang: str, env: odoo.api.Environment | None = None, include_overrides: bool = False):
     lang_base = lang.split('_', 1)[0]
     # Load the base as a fallback in case a translation is missing:
     po_names = [lang_base, lang]
     # Exception for Spanish locales: they have two bases, es and es_419:
     if lang_base == 'es' and lang not in ('es_ES', 'es_419'):
         po_names.insert(1, 'es_419')
-    po_paths = (
-        join(module_name, dir_, filename + '.po')
-        for filename in OrderedSet(po_names)
-        for dir_ in ('i18n', 'i18n_extra')
-    )
-    for path in po_paths:
-        with suppress(FileNotFoundError):
-            yield file_path(path, env=env)
+
+    def module_paths(module):
+        for filename in OrderedSet(po_names):
+            for dir_ in ('i18n', 'i18n_extra'):
+                with suppress(FileNotFoundError):
+                    yield file_path(join(module, dir_, filename + '.po'), env=env)
+
+    yield from module_paths(module_name)
+
+    if not include_overrides:
+        return
+
+    for addon in odoo.modules.get_modules():
+        if addon == module_name:
+            continue
+        yield from module_paths(addon)
 
 
 class CodeTranslations:
@@ -1774,7 +1782,7 @@ class CodeTranslations:
 
     @staticmethod
     def _get_code_translations(module_name, lang, filter_func):
-        po_paths = get_po_paths(module_name, lang)
+        po_paths = get_po_paths(module_name, lang, include_overrides=True)
         translations = {}
         for po_path in po_paths:
             try:

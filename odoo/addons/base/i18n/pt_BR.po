@@ -30443,8 +30443,8 @@ msgid ""
 "If you really, really need access, perhaps you can win over your friendly "
 "administrator with a batch of freshly baked cookies."
 msgstr ""
-"Se você realmente precisar de acesso, talvez valha a pena tentar conquistar "
-"o administrador com uns pães de queijo."
+"Acesso restrito. Entre em contato com o administrador do sistema para "
+"solicitar autorização."
 
 #. module: base
 #: model:ir.model.fields,help:base.field_ir_model_access__active
@@ -47817,7 +47817,7 @@ msgid ""
 "\n"
 "Sorry, %(user)s doesn't have '%(operation)s' access to:"
 msgstr ""
-"Ops! Parece que você se deparou com alguns registros ultrassecretos.\n"
+"Parece que você se deparou com alguns registros restritos.\n"
 "\n"
 "Desculpe, %(user)s não tem '%(operation)s' acesso a:"
 

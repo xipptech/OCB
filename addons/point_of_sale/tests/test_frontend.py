@@ -2472,6 +2472,10 @@ class TestUi(TestPointOfSaleHttpCommon):
         self.assertEqual(order.amount_total, 2.80, "The total amount should be rounded to 2 decimals")
         self.assertEqual(order.amount_return, 0, "The return amount should be rounded to 2 decimals")
 
+    def test_stale_draft_read_keeps_order_paid(self):
+        self.main_pos_config.with_user(self.pos_user).open_ui()
+        self.start_tour("/pos/ui?config_id=%d" % self.main_pos_config.id, 'test_stale_draft_read_keeps_order_paid', login="pos_user")
+
     def test_offline_barcode_not_in_pos(self):
         """
         Tests that an unwanted error is not thrown when trying to scan a barcode while offline
@@ -2521,6 +2525,68 @@ class TestUi(TestPointOfSaleHttpCommon):
         self.main_pos_config.with_user(self.pos_user).open_ui()
         self.start_tour("/pos/ui?config_id=%d" % self.main_pos_config.id, 'test_barcode_scan_preselect_always_variant', login="pos_user")
 
+    def test_barcode_scan_no_variant_extra_price(self):
+        """ Scanning a product with a no_variant attribute must add the picked
+        value's extra price, and scanning an "always" variant must add its extra
+        only once (dbc23b106c8b regression). """
+        toppings = self.env['product.attribute'].create({
+            'name': 'Toppings',
+            'create_variant': 'no_variant',
+            'display_type': 'multi',
+            'value_ids': [
+                (0, 0, {'name': 'Cheese', 'sequence': 1}),
+                (0, 0, {'name': 'Bacon', 'sequence': 2}),
+            ],
+        })
+        multi_product = self.env['product.template'].create({
+            'name': 'Multi Attr Product',
+            'available_in_pos': True,
+            'list_price': 10,
+            'taxes_id': False,
+            'attribute_line_ids': [
+                (0, 0, {
+                    'attribute_id': toppings.id,
+                    'value_ids': [(6, 0, toppings.value_ids.ids)],
+                }),
+            ],
+        })
+        multi_product.attribute_line_ids.product_template_value_ids.filtered(
+            lambda ptav: ptav.name == 'Bacon'
+        ).price_extra = 3
+        multi_product.product_variant_ids.barcode = 'MULTI_001'
+
+        color_attribute = self.env['product.attribute'].create({
+            'name': 'Color',
+            'create_variant': 'always',
+            'display_type': 'radio',
+            'value_ids': [
+                (0, 0, {'name': 'White', 'sequence': 1}),
+                (0, 0, {'name': 'Black', 'sequence': 2}),
+            ],
+        })
+        always_product = self.env['product.template'].create({
+            'name': 'Always Variant Product',
+            'available_in_pos': True,
+            'list_price': 20,
+            'taxes_id': False,
+            'attribute_line_ids': [
+                (0, 0, {
+                    'attribute_id': color_attribute.id,
+                    'value_ids': [(6, 0, color_attribute.value_ids.ids)],
+                }),
+            ],
+        })
+        always_product.attribute_line_ids.product_template_value_ids.filtered(
+            lambda ptav: ptav.name == 'Black'
+        ).price_extra = 10
+        black_variant = always_product.product_variant_ids.filtered(
+            lambda v: 'Black' in v.product_template_variant_value_ids.mapped('name')
+        )
+        black_variant.barcode = 'ALWAYS_BLACK_001'
+
+        self.main_pos_config.with_user(self.pos_user).open_ui()
+        self.start_tour("/pos/ui?config_id=%d" % self.main_pos_config.id, 'test_barcode_scan_no_variant_extra_price', login="pos_user")
+
     def test_refund_backend_duplicate(self):
         self.main_pos_config.with_user(self.pos_user).open_ui()
         current_session = self.main_pos_config.current_session_id
@@ -2551,6 +2617,141 @@ class TestUi(TestPointOfSaleHttpCommon):
         order_payment.with_context(**payment_context).check()
         order.refund()
         self.start_tour("/pos/ui?config_id=%d" % self.main_pos_config.id, 'test_refund_backend_duplicate', login="pos_user")
+
+    def test_saver_screen_close_overlays(self):
+        """Test that active overlays (e.g., dropdown menus) are closed when the SaverScreen is triggered."""
+        self.main_pos_config.with_user(self.pos_user).open_ui()
+        self.start_pos_tour('SaverScreenCloseOverlaysTour')
+
+    def test_single_value_multi_attribute_configurator(self):
+        # A multi-select attribute with a single value must still open the
+        # configurator when the product is added to the order.
+        product = self.env['product.product'].create({
+            'name': 'Single Multi Product',
+            'available_in_pos': True,
+            'list_price': 10,
+            'taxes_id': False,
+        })
+        multi_attribute = self.env['product.attribute'].create({
+            'name': 'Extras',
+            'display_type': 'multi',
+            'create_variant': 'no_variant',
+        })
+        multi_value = self.env['product.attribute.value'].create({
+            'name': 'Extra Cheese',
+            'attribute_id': multi_attribute.id,
+        })
+        attribute_line = self.env['product.template.attribute.line'].create({
+            'product_tmpl_id': product.product_tmpl_id.id,
+            'attribute_id': multi_attribute.id,
+            'value_ids': [(6, 0, multi_value.ids)],
+        })
+        attribute_line.product_template_value_ids[0].price_extra = 5
+
+        self.main_pos_config.with_user(self.pos_user).open_ui()
+        self.start_pos_tour('test_single_value_multi_attribute_configurator')
+
+    def test_single_attribute_value_products(self):
+        self.main_pos_config.open_ui()
+        self.start_pos_tour('test_single_attribute_value_products')
+
+    def test_price_extra_pricelist_based_pricelist(self):
+        """
+        Tests that extra price is carried over when changing to a pricelist based pricelist
+        """
+        extra_attribute = self.env['product.attribute'].create({
+            'name': 'Extra attribute',
+            'create_variant': 'no_variant',
+        })
+        extra_value = self.env['product.attribute.value'].create({
+            'name': 'Extra value',
+            'attribute_id': extra_attribute.id,
+        })
+        attribute_line = self.env['product.template.attribute.line'].create({
+            'product_tmpl_id': self.whiteboard_pen.product_tmpl_id.id,
+            'attribute_id': extra_attribute.id,
+            'value_ids': [Command.set(extra_value.ids)]
+        })
+        attribute_line.product_template_value_ids[0].price_extra = 100
+
+        pricelist_1 = self.env['product.pricelist'].create({'name': 'Pricelist 1'})
+        pricelist_2 = self.env['product.pricelist'].create({
+            'name': 'Pricelist 2',
+            'item_ids': [Command.create({
+                'compute_price': 'percentage',
+                'base': 'pricelist',
+                'base_pricelist_id': pricelist_1.id,
+                'percent_price': 50,
+                'applied_on': '3_global',
+            })],
+        })
+
+        self.main_pos_config.write({
+            'pricelist_id': pricelist_1.id,
+            'available_pricelist_ids': [Command.set([pricelist_1.id, pricelist_2.id])],
+        })
+        self.main_pos_config.with_user(self.pos_user).open_ui()
+        self.start_tour("/pos/ui?config_id=%d" % self.main_pos_config.id, 'test_price_extra_pricelist_based_pricelist', login="pos_user")
+
+    def _check_ticket_screen_keeps_variants_collapsed(self, sold_variant_index, tour='test_ticket_screen_keeps_variants_collapsed'):
+        attribute = self.env['product.attribute'].create({
+            'name': 'Side',
+            'create_variant': 'always',
+            'value_ids': [Command.create({'name': 'Bread'}), Command.create({'name': 'Rice'})],
+        })
+        template = self.env['product.template'].create({
+            'name': 'Variant Soup',
+            'available_in_pos': True,
+            'list_price': 10,
+            'taxes_id': False,
+            'attribute_line_ids': [Command.create({
+                'attribute_id': attribute.id,
+                'value_ids': [Command.set(attribute.value_ids.ids)],
+            })],
+        })
+        self.assertEqual(len(template.product_variant_ids), 2)
+
+        self.main_pos_config.with_user(self.pos_user).open_ui()
+        order = self.env['pos.order'].create({
+            'company_id': self.env.company.id,
+            'session_id': self.main_pos_config.current_session_id.id,
+            'config_id': self.main_pos_config.id,
+            'lines': [Command.create({
+                'name': 'OL/0001',
+                'product_id': template.product_variant_ids[sold_variant_index].id,
+                'price_unit': 10.00,
+                'discount': 0,
+                'qty': 1,
+                'tax_ids': False,
+                'price_subtotal': 10.00,
+                'price_subtotal_incl': 10.00,
+            })],
+            'amount_paid': 10.00,
+            'amount_total': 10.00,
+            'amount_tax': 0.0,
+            'amount_return': 0.0,
+            'to_invoice': False,
+            'pos_reference': 'Test/0001',
+        })
+        order.action_pos_order_paid()
+
+        self.start_pos_tour(tour)
+
+    def test_ticket_screen_keeps_variants_collapsed(self):
+        """ Fetching paid orders in the ticket screen must not undo the
+            client-side grouping of a template's variants into one card.
+        """
+        self._check_ticket_screen_keeps_variants_collapsed(0)
+
+    def test_ticket_screen_keeps_displayed_variant(self):
+        """ Same, when the paid order holds the variant displayed on the card. """
+        self._check_ticket_screen_keeps_variants_collapsed(-1)
+
+    def test_synced_products_keep_variants_collapsed(self):
+        """ Products synced from another device must not undo the client-side
+            grouping of a template's variants into one card.
+        """
+        self._check_ticket_screen_keeps_variants_collapsed(0, 'test_synced_products_keep_variants_collapsed')
 
 
 # This class just runs the same tests as above but with mobile emulation

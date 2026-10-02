@@ -605,41 +605,6 @@ class Website(models.Model):
                     {f'o-color-{i}': color for i, color in enumerate(selected_palette, 1)}
                 )
 
-        # Update CTA
-        cta_data = website.get_cta_data(kwargs.get('website_purpose'), kwargs.get('website_type'))
-        if cta_data['cta_btn_text']:
-            xpath_view = 'website.snippets'
-            parent_view = self.env['website'].with_context(website_id=website.id).viewref(xpath_view)
-            self.env['ir.ui.view'].create({
-                'name': parent_view.key + ' CTA',
-                'key': parent_view.key + "_cta",
-                'inherit_id': parent_view.id,
-                'website_id': website.id,
-                'type': 'qweb',
-                'priority': 32,
-                'arch_db': """
-                    <data>
-                        <xpath expr="//t[@t-set='cta_btn_href']" position="replace">
-                            <t t-set="cta_btn_href">%s</t>
-                        </xpath>
-                        <xpath expr="//t[@t-set='cta_btn_text']" position="replace">
-                            <t t-set="cta_btn_text">%s</t>
-                        </xpath>
-                    </data>
-                """ % (cta_data['cta_btn_href'], cta_data['cta_btn_text'])
-            })
-            try:
-                view_id = self.env['website'].viewref('website.header_call_to_action')
-                if view_id:
-                    el = etree.fromstring(view_id.arch_db)
-                    btn_cta_el = el.xpath("//a[hasclass('btn_cta')]")
-                    if btn_cta_el:
-                        btn_cta_el[0].attrib['href'] = cta_data['cta_btn_href']
-                        btn_cta_el[0].text = cta_data['cta_btn_text']
-                    view_id.with_context(website_id=website.id).write({'arch_db': etree.tostring(el)})
-            except ValueError as e:
-                logger.warning(e)
-
         # Configure the features
         features = self.env['website.configurator.feature'].browse(kwargs.get('selected_features'))
 
@@ -689,6 +654,41 @@ class Website(models.Model):
         # some new module and we need the overrides of these new menus e.g. for
         # the call to `get_cta_data`.
         website = self.env['website'].browse(website.id)
+
+        # Update CTA
+        cta_data = website.get_cta_data(kwargs.get('website_purpose'), kwargs.get('website_type'))
+        if cta_data['cta_btn_text']:
+            xpath_view = 'website.snippets'
+            parent_view = self.env['website'].with_context(website_id=website.id).viewref(xpath_view)
+            self.env['ir.ui.view'].create({
+                'name': parent_view.key + ' CTA',
+                'key': parent_view.key + "_cta",
+                'inherit_id': parent_view.id,
+                'website_id': website.id,
+                'type': 'qweb',
+                'priority': 32,
+                'arch_db': """
+                    <data>
+                        <xpath expr="//t[@t-set='cta_btn_href']" position="replace">
+                            <t t-set="cta_btn_href">%s</t>
+                        </xpath>
+                        <xpath expr="//t[@t-set='cta_btn_text']" position="replace">
+                            <t t-set="cta_btn_text">%s</t>
+                        </xpath>
+                    </data>
+                """ % (cta_data['cta_btn_href'], cta_data['cta_btn_text']),
+            })
+            try:
+                view_id = self.env['website'].viewref('website.header_call_to_action')
+                if view_id:
+                    el = etree.fromstring(view_id.arch_db)
+                    btn_cta_el = el.xpath("//a[hasclass('btn_cta')]")
+                    if btn_cta_el:
+                        btn_cta_el[0].attrib['href'] = cta_data['cta_btn_href']
+                        btn_cta_el[0].text = cta_data['cta_btn_text']
+                    view_id.with_context(website_id=website.id).write({'arch_db': etree.tostring(el)})
+            except ValueError as e:
+                logger.warning(e)
 
         # Update footers links, needs to be done after "Features" addition to go
         # through module overrides of `configurator_get_footer_links`.
@@ -1367,10 +1367,11 @@ class Website(models.Model):
         # We will now try to find a website matching the request host/domain (if
         # there is one on request) or return a random one.
 
-        # The format of `httprequest.host` is `domain:port`
+        # The format of `httprequest.host` is `domain:port`, while the url set
+        # on the thread is a full url: only keep its `domain:port` part.
         domain_name = (
             request and request.httprequest.host
-            or hasattr(threading.current_thread(), 'url') and threading.current_thread().url
+            or hasattr(threading.current_thread(), 'url') and get_base_domain(threading.current_thread().url)
             or '')
         website_id = self.sudo()._get_current_website_id(domain_name, fallback=fallback)
         return self.browse(website_id)
@@ -1570,6 +1571,10 @@ class Website(models.Model):
             domain += [('url', 'like', query_string)]
 
         pages = self._get_website_pages(domain)
+
+        # Only fetch the fields needed below: lazily reading a view field would
+        # prefetch arch_db arch_prev for every page and may end in a out-of-memory error.
+        pages.view_id.fetch(['name', 'priority', 'write_date'])
 
         for page in pages:
             record = {'loc': page['url'], 'id': page['id'], 'name': page['name']}

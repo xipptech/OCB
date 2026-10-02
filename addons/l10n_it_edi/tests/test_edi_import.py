@@ -18,10 +18,13 @@ class TestItEdiImport(TestItEdi):
     """ Main test class for the l10n_it_edi vendor bills XML import"""
 
     fake_test_content = """<?xml version="1.0" encoding="UTF-8"?>
-        <p:FatturaElettronica versione="FPR12" xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
-        xmlns:p="http://ivaservizi.agenziaentrate.gov.it/docs/xsd/fatture/v1.2"
-        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:schemaLocation="http://ivaservizi.agenziaentrate.gov.it/docs/xsd/fatture/v1.2 http://www.fatturapa.gov.it/export/fatturazione/sdi/fatturapa/v1.2/Schema_del_file_xml_FatturaPA_versione_1.2.xsd">
+        <p:FatturaElettronica
+            xmlns:ds="___ignore___"
+            xmlns:p="___ignore___"
+            xmlns:xsi="___ignore___"
+            xsi:schemaLocation="___ignore___"
+            versione="FPR12"
+        >
         <FatturaElettronicaHeader>
           <DatiTrasmissione>
             <IdTrasmittente>
@@ -118,6 +121,56 @@ class TestItEdiImport(TestItEdi):
                 },
             ],
         }], applied_xml)
+
+    def test_receive_vendor_bill_applies_fiscal_position(self):
+        """ The fiscal position set on the bill remaps the taxes decoded from
+            the XML, matching what a manual line entry produces.
+        """
+        company = self.company
+        # The tax the importer decodes from a 22% line, before any mapping. The
+        # search is the same one _l10n_it_edi_search_tax_for_import runs.
+        source_tax = self.env['account.tax'].search([
+            *self.env['account.tax']._check_company_domain(company),
+            ('amount_type', '=', 'percent'),
+            ('amount', '=', 22.0),
+            ('type_tax_use', '=', 'purchase'),
+            ('l10n_it_exempt_reason', '=', False),
+        ]).filtered(
+            lambda tax: all(rl.factor_percent >= 0 for rl in tax.invoice_repartition_line_ids)
+        )[0]
+        # A distinct rate so the importer's search can never select it directly:
+        # it can only land on the line through the fiscal position mapping.
+        mapped_tax = self.env['account.tax'].with_company(company).create({
+            'name': '10% mapped by fiscal position',
+            'amount': 10.0,
+            'amount_type': 'percent',
+            'type_tax_use': 'purchase',
+        })
+        fiscal_position = self.env['account.fiscal.position'].with_company(company).create({
+            'name': 'Remap 22% purchase',
+            'tax_ids': [Command.create({
+                'tax_src_id': source_tax.id,
+                'tax_dest_id': mapped_tax.id,
+            })],
+        })
+        self.env['res.partner'].with_company(company).create({
+            'name': 'SELLER FP SRL',
+            'vat': 'IT12345670017',
+            'l10n_it_codice_fiscale': '12345670017',
+            'country_id': self.env.ref('base.it').id,
+            'is_company': True,
+            'property_account_position_id': fiscal_position.id,
+        })
+
+        invoice = self._assert_import_invoice('IT01234567890_FPMAP.xml', [{
+            'move_type': 'in_invoice',
+            'amount_untaxed': 100.0,
+            'invoice_line_ids': [{
+                'price_unit': 100.0,
+                'tax_ids': mapped_tax.ids,
+            }],
+        }])
+        self.assertEqual(invoice.fiscal_position_id, fiscal_position)
 
     def test_receive_vendor_bill_sconto_maggiorazione(self):
         """ Test a sample e-invoice file with
@@ -780,3 +833,63 @@ class TestItEdiImport(TestItEdi):
             moves.l10n_it_edi_attachment_id.mapped('name'),
             ['IT01234567890_FPR03.xml', 'IT01234567890_FPR02.xml.p7m']
         )
+
+    def test_correct_journal_type_after_exception_in_SDI_import_bill(self):
+        """Test that when an exception (of any kind) is raised while importing a
+        SDI file the entry move created is a vendor bill move (in_invoice). """
+
+        def mock_commit(self):
+            pass
+
+        def patched_import_invoice(self, invoice, data, is_new):
+            with self._get_edi_creation() as self:
+                self.move_type = 'in_invoice'
+                raise Exception('This is an exception!')
+
+        with (
+            patch.object(self.env.registry['account.move'], '_l10n_it_edi_import_invoice', patched_import_invoice),
+            patch.object(self.env.registry['account_edi_proxy_client.user'], '_decrypt_data', return_value=self.fake_test_content),
+            patch.object(sql_db.Cursor, "commit", mock_commit),
+            tools.mute_logger("odoo.addons.account.models.account_move"),
+        ):
+            self.env['account.move'].with_company(self.company)._l10n_it_edi_process_downloads({
+                '999999999': {
+                    'filename': 'IT01234567890_FPR01.xml',
+                    'file': self.fake_test_content,
+                    'key': str(uuid.uuid4()),
+                }},
+                self.proxy_user,
+            )
+
+        expected_journal = self.env['account.journal'].search([
+            ('company_id', '=', self.company.id),
+            ('type', '=', 'purchase'),
+        ], limit=1)
+
+        move = self.env['account.move'].search([
+            ('company_id', '=', self.company.id),
+            ('journal_id', '=', expected_journal.id),
+            ('state', '=', 'draft'),
+            ('invoice_line_ids', '=', False),
+            ('message_ids.body', 'like', 'Error importing attachment'),
+        ], limit=1)
+        self.assertTrue(move)
+
+    def test_receive_bill_xml_and_p7m_arbitrary_filename(self):
+        """ Test the correct import of an XML and P7M file based on their content """
+        expected_data = [{
+            'invoice_date': fields.Date.from_string('2026-07-21'),
+            'ref': 'test/2026/01',
+            'amount_untaxed': 80.0,
+            'amount_tax': 17.60,
+            'invoice_line_ids': [
+                {
+                    'name': 'Prodotto test acquisto',
+                    'quantity': 2.0,
+                    'price_unit': 40.0,
+                },
+            ],
+        }]
+
+        self._assert_import_invoice('arbitary_name_it_edi.xml', expected_data)
+        self._assert_import_invoice('arbitary_name_it_edi.xml.p7m', expected_data)

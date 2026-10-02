@@ -267,8 +267,10 @@ class StockMove(models.Model):
                 move.picked = False
 
     def _inverse_picked(self):
-        for move in self:
-            move.move_line_ids.picked = move.picked
+        picked_moves = self.filtered('picked')
+        not_picked_moves = self - picked_moves
+        picked_moves.move_line_ids.picked = True
+        not_picked_moves.move_line_ids.picked = False
 
     @api.depends('picking_id.priority')
     def _compute_priority(self):
@@ -424,14 +426,14 @@ class StockMove(models.Model):
                     continue
                 if float_is_zero(quantity, precision_rounding=move.product_uom.rounding):
                     break
-                qty_ml_dec = min(ml.quantity, ml.product_uom_id._compute_quantity(quantity, ml.product_uom_id, round=False))
+                qty_ml_dec = min(ml.quantity, move.product_uom._compute_quantity(quantity, ml.product_uom_id, round=False))
                 if float_is_zero(qty_ml_dec, precision_rounding=ml.product_uom_id.rounding):
                     continue
                 if float_compare(ml.quantity, qty_ml_dec, precision_rounding=ml.product_uom_id.rounding) == 0 and ml.state not in ['done', 'cancel']:
                     mls_to_unlink.add(ml.id)
                 else:
                     ml.quantity -= qty_ml_dec
-                quantity -= move.product_uom._compute_quantity(qty_ml_dec, move.product_uom, round=False)
+                quantity -= ml.product_uom_id._compute_quantity(qty_ml_dec, move.product_uom, round=False)
             self.env['stock.move.line'].browse(mls_to_unlink).unlink()
 
         def _process_increase(move, quantity):
@@ -644,7 +646,8 @@ Please change the quantity done or the rounding precision of your unit of measur
     def _compute_show_info(self):
         for move in self:
             move.show_quant = move.picking_code != 'incoming'\
-                           and move.product_id.is_storable
+                           and move.product_id.is_storable\
+                           and not (move.has_tracking != 'none' and move.picking_type_id.use_create_lots and not move.picking_type_id.use_existing_lots)
             move.show_lots_text = move.has_tracking != 'none'\
                 and move.picking_type_id.use_create_lots\
                 and not move.picking_type_id.use_existing_lots\
@@ -1862,8 +1865,15 @@ Please change the quantity done or the rounding precision of your unit of measur
         grouped_move_lines_in = self._get_available_move_lines_in()
         grouped_move_lines_out = self._get_available_move_lines_out(assigned_moves_ids, partially_available_moves_ids)
         available_move_lines = {key: grouped_move_lines_in[key] - grouped_move_lines_out.get(key, 0) for key in grouped_move_lines_in}
-        # pop key if the quantity available amount to 0
         rounding = self.product_id.uom_id.rounding
+        # remove what this move already reserved
+        for move_line in self.move_line_ids:
+            if float_is_zero(move_line.quantity_product_uom, precision_rounding=rounding):
+                continue
+            key = (move_line.location_id, move_line.lot_id, move_line.package_id, move_line.owner_id)
+            if key in available_move_lines:
+                available_move_lines[key] -= move_line.quantity_product_uom
+        # pop key if the quantity available amount to 0
         return dict((k, v) for k, v in available_move_lines.items() if float_compare(v, 0, precision_rounding=rounding) > 0)
 
     def _action_assign(self, force_qty=False):
@@ -1971,10 +1981,6 @@ Please change the quantity done or the rounding precision of your unit of measur
                     available_move_lines = move._get_available_move_lines(assigned_moves_ids, partially_available_moves_ids)
                     if not available_move_lines:
                         continue
-                    for move_line in move.move_line_ids.filtered(lambda m: m.quantity_product_uom):
-                        if available_move_lines.get((move_line.location_id, move_line.lot_id, move_line.package_id, move_line.owner_id)):
-                            available_move_lines[(move_line.location_id, move_line.lot_id, move_line.package_id, move_line.owner_id)] -= move_line.quantity_product_uom
-
                     taken_quantities = {}
                     all_move_line_vals = []
                     for (location_id, lot_id, package_id, owner_id), quantity in available_move_lines.items():
@@ -2612,7 +2618,7 @@ Please change the quantity done or the rounding precision of your unit of measur
                     ),
                 ),
             ),
-            'readOnly': False,
+            'readOnly': len(self) > 1,
         }
 
     def _is_incoming(self):

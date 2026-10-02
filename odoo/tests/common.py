@@ -975,13 +975,16 @@ class TransactionCase(BaseCase):
             caller = inspect.currentframe().f_back
             filename = inspect.getsourcefile(caller)
 
+            # Normalize path separators for cross-platform compatibility (Windows uses \)
+            filename_normalized = filename.replace(os.sep, '/') if filename else ''
+
             # special case / fastpath because this does model alterations everywhere
-            if filename.endswith('odoo/models.py'):
+            if filename_normalized.endswith('odoo/models.py'):
                 actual_setattr(model, key, value)
                 return
 
             valid_paths = SETATTR_SOURCES.get(caller.f_code.co_name)
-            if not (valid_paths and filename.endswith(valid_paths)):
+            if not (valid_paths and filename_normalized.endswith(valid_paths)):
                 _logger.runbot(
                     "%s:%s:%s setting %s.%s to %s",
                     filename,
@@ -1066,12 +1069,26 @@ class TransactionCase(BaseCase):
 
         cls.env = api.Environment(cls.cr, odoo.SUPERUSER_ID, {})
 
-        # speedup CryptContext. Many user an password are done during tests, avoid spending time hasing password with many rounds
+        # speedup CryptContext. Many password-type logins are done during tests, avoid spending time hashing password with many rounds
         def _crypt_context(self):  # noqa: ARG001
-            return CryptContext(
+            cryptCtx = CryptContext(
                 ['pbkdf2_sha512', 'plaintext'],
                 pbkdf2_sha512__rounds=1,
             )
+            # The modified hash configuration causes rotation of the in-database password hash values.
+            # Rotating password hashes mid-test causes session_id rotation leading into indeterministic 'user not logged in' errors.
+            # Never returning a replacement hash prevents this problem.
+            original_verify_and_update = cryptCtx.verify_and_update
+
+            def mock_verify_and_update(*args, **kwargs):
+                valid, replacement_hash = original_verify_and_update(*args, **kwargs)
+                if replacement_hash:
+                    _logger.info("Surpressing hash update in CryptContext override")
+                return valid, None
+
+            cryptCtx.verify_and_update = mock_verify_and_update
+            return cryptCtx
+
         cls._crypt_context_patcher = patch('odoo.addons.base.models.res_users.Users._crypt_context', _crypt_context)
         cls.startClassPatcher(cls._crypt_context_patcher)
 

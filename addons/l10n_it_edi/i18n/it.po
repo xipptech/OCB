@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 18.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-05-15 18:17+0000\n"
-"PO-Revision-Date: 2026-03-27 16:45+0000\n"
-"Last-Translator: Michele Di Croce <dicroce.m@stesi.consulting>\n"
+"POT-Creation-Date: 2026-08-07 18:09+0000\n"
+"PO-Revision-Date: 2026-08-10 09:08+0000\n"
+"Last-Translator: \"Marianna Ciofani (cima)\" <cima@odoo.com>\n"
 "Language-Team: Italian <https://translate.odoo.com/projects/odoo-18-l10n/"
 "l10n_it_edi/it/>\n"
 "Language: it\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.16.2\n"
+"X-Generator: Weblate 2026.6.1\n"
 
 #. module: l10n_it_edi
 #: model_terms:ir.ui.view,arch_db:l10n_it_edi.report_invoice_document
@@ -292,6 +292,8 @@ msgid ""
 "Could not retrieve a partner corresponding to '%s'. A new partner was "
 "created."
 msgstr ""
+"Impossibile recuperare un partner corrispondente a \"%s\". È stato creato un "
+"nuovo partner."
 
 #. module: l10n_it_edi
 #: model:ir.model.fields,field_description:l10n_it_edi.field_l10n_it_ddt__create_uid
@@ -469,14 +471,14 @@ msgstr "Riferimento fattura"
 #. module: l10n_it_edi
 #. odoo-python
 #: code:addons/l10n_it_edi/models/account_move.py:0
-msgid "Invoice(s) to check"
-msgstr "Fattura/e da controllare"
+msgid "Invoices must have %(number)s one %(kind)s tax set per line."
+msgstr "Le fatture devono riportare %(number)s un'imposta %(kind)s per riga."
 
 #. module: l10n_it_edi
 #. odoo-python
 #: code:addons/l10n_it_edi/models/account_move.py:0
-msgid "Invoices must have %(number)s one %(kind)s tax set per line."
-msgstr "Le fatture devono riportare %(number)s un'imposta %(kind)s per riga."
+msgid "Invoices to check"
+msgstr "Fatture da controllare"
 
 #. module: l10n_it_edi
 #: model:ir.model.fields,field_description:l10n_it_edi.field_res_config_settings__is_edi_proxy_active
@@ -631,6 +633,8 @@ msgid ""
 "Only partners that have a 6-chars long l10n_it_pa_index actually belong to "
 "the Public Administration"
 msgstr ""
+"Solo i partner che hanno un l10n_it_pa_index lungo 6 caratteri appartengono "
+"effettivamente alla Pubblica Amministrazione"
 
 #. module: l10n_it_edi
 #: model:ir.model.fields,field_description:l10n_it_edi.field_account_bank_statement_line__l10n_it_origin_document_date
@@ -705,6 +709,16 @@ msgstr ""
 #: model:ir.model.fields.selection,name:l10n_it_edi.selection__res_company__l10n_it_eco_index_sole_shareholder__sm
 msgid "Più soci"
 msgstr "Più soci"
+
+#. module: l10n_it_edi
+#. odoo-python
+#: code:addons/l10n_it_edi/models/account_move.py:0
+msgid ""
+"Please delete the PDF attachment before sending to the SDI. Odoo will "
+"regenerate the PDF, making sure everything is consistent with the XML."
+msgstr ""
+"Ti chiediamo di eliminare l’allegato PDF prima di inviarlo all’SDI. Odoo "
+"rigenererà il PDF assicurandosi che tutto sia coerente con l’XML."
 
 #. module: l10n_it_edi
 #. odoo-python
@@ -812,7 +826,7 @@ msgstr "Invia l'XML della Fatturazione Elettronica all'Agenzia delle Entrate"
 #. module: l10n_it_edi
 #: model_terms:ir.ui.view,arch_db:l10n_it_edi.account_invoice_form_l10n_it
 msgid "Send to SDI"
-msgstr ""
+msgstr "Invia a SDI"
 
 #. module: l10n_it_edi
 #. odoo-python
@@ -841,6 +855,49 @@ msgstr "Capitale sociale investito"
 #: model:ir.model.fields,field_description:l10n_it_edi.field_res_company__l10n_it_eco_index_sole_shareholder
 msgid "Shareholder"
 msgstr "Socio"
+
+#. module: l10n_it_edi
+#. odoo-python
+#: code:addons/l10n_it_edi/models/account_move.py:0
+msgid ""
+"Simplified Invoices (TD07) are generally preferred when partner address is "
+"incomplete, so please issue an ordinary invoice instead."
+msgstr ""
+"Le fatture semplificate (TD07) sono generalmente preferite quando "
+"l’indirizzo del partner è incompleto. Di conseguenza, ti chiediamo di "
+"emettere una fattura ordinaria."
+
+#. module: l10n_it_edi
+#. odoo-python
+#: code:addons/l10n_it_edi/models/account_move.py:0
+msgid ""
+"Simplified Invoices (TD07) can only be issued for a total amount of up to "
+"400€. Please issue an ordinary invoice instead."
+msgstr ""
+"Le fatture semplificate (TD07) possono essere emesse solo per un importo "
+"totale massimo di 400 €. Emetti una fattura ordinaria."
+
+#. module: l10n_it_edi
+#. odoo-python
+#: code:addons/l10n_it_edi/models/account_move.py:0
+msgid ""
+"Simplified Invoices (TD07) can only be used with domestic partners that do "
+"not belong to the Public Administration. Please issue an ordinary invoice "
+"instead."
+msgstr ""
+"Le fatture semplificate (TD07) possono essere utilizzate solo con partner "
+"nazionali che non appartengono alla Pubblica Amministrazione. Emetti una "
+"fattura ordinaria."
+
+#. module: l10n_it_edi
+#. odoo-python
+#: code:addons/l10n_it_edi/models/account_move.py:0
+msgid ""
+"Simplified Invoices (TD07) cannot be used for self-invoices. Please issue an "
+"ordinary invoice instead."
+msgstr ""
+"Le fatture semplificate (TD07) non possono essere utilizzate per le "
+"autofatture. Emetti una fattura ordinaria."
 
 #. module: l10n_it_edi
 #: model:ir.model.fields.selection,name:l10n_it_edi.selection__res_company__l10n_it_eco_index_sole_shareholder__su
@@ -909,7 +966,7 @@ msgstr ""
 #. odoo-python
 #: code:addons/l10n_it_edi/models/account_move.py:0
 msgid "The bank account couldn't be fetched: %s"
-msgstr ""
+msgstr "Non è stato possibile recupero il conto bancario: %s"
 
 #. module: l10n_it_edi
 #. odoo-python
@@ -1232,7 +1289,7 @@ msgstr "IVA"
 #. odoo-python
 #: code:addons/l10n_it_edi/models/account_move.py:0
 msgid "VAT %(vat_code)s %(tax_amount)s collected via OSS"
-msgstr ""
+msgstr "IVA %(vat_code)s %(tax_amount)s riscossa tramite OSS"
 
 #. module: l10n_it_edi
 #. odoo-python
@@ -1256,6 +1313,12 @@ msgstr "Visualizza impostazioni"
 #. odoo-python
 #: code:addons/l10n_it_edi/models/account_move.py:0
 msgid "View invoice(s)"
+msgstr "Visualizza fatture"
+
+#. module: l10n_it_edi
+#. odoo-python
+#: code:addons/l10n_it_edi/models/account_move.py:0
+msgid "View invoices"
 msgstr "Visualizza fatture"
 
 #. module: l10n_it_edi
@@ -1441,6 +1504,9 @@ msgstr "esattamente"
 #: code:addons/l10n_it_edi/models/account_move.py:0
 msgid "from XML file:"
 msgstr "dal file XML:"
+
+#~ msgid "Invoice(s) to check"
+#~ msgstr "Fattura/e da controllare"
 
 #~ msgid "Bank account not found, useful informations from XML file:"
 #~ msgstr "Conto bancario non trovato, informazioni utili dal file XML:"

@@ -19,9 +19,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 18.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-06-19 17:37+0000\n"
-"PO-Revision-Date: 2026-06-12 08:53+0000\n"
-"Last-Translator: Jan Zorko <jan.zorko@implex.si>\n"
+"POT-Creation-Date: 2026-07-17 17:37+0000\n"
+"PO-Revision-Date: 2026-09-16 18:33+0000\n"
+"Last-Translator: Weblate <noreply-mt-weblate@weblate.org>\n"
 "Language-Team: Slovenian <https://translate.odoo.com/projects/odoo-18/mail/"
 "sl/>\n"
 "Language: sl\n"
@@ -30,7 +30,7 @@ msgstr ""
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=4; plural=n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || "
 "n%100==4 ? 2 : 3;\n"
-"X-Generator: Weblate 2026.6.1\n"
+"X-Generator: Weblate 2026.8.1\n"
 
 #. module: mail
 #. odoo-python
@@ -213,7 +213,7 @@ msgstr "%(recipientCount)s več"
 #. odoo-javascript
 #: code:addons/mail/static/src/discuss/core/web/discuss_core_web_service.js:0
 msgid "%(user)s just connected for the first time. Wish them luck!"
-msgstr ""
+msgstr "%(user)s se je ravnokar prvič povezal. Naj ima srečo!"
 
 #. module: mail
 #. odoo-python
@@ -954,24 +954,34 @@ msgid "Add Reaction"
 msgstr "Dodaj reakcijo"
 
 #. module: mail
-#. odoo-javascript
-#: code:addons/mail/static/src/core/common/message_actions.js:0
-msgid "Add a Reaction"
-msgstr "Dodaj reakcijo"
-
-#. module: mail
 #: model_terms:ir.ui.view,arch_db:mail.res_config_settings_view_form
-msgid "Add a Tenor GIF API key to enable GIFs support."
-msgstr "Dodajte ključ API-ja Tenor GIF, da omogočite podporo za GIF-e."
+msgid ""
+"Add a Klipy GIF API key to enable GIFs support. If you were using a Tenor "
+"GIF API key (service shutdown on June 30, 2026), please replace it here with "
+"a Klipy GIF API key"
+msgstr ""
+"Dodajte ključ API Klipy GIF, da omogočite podporo za GIF-e. Če ste "
+"uporabljali ključ API Tenor GIF (storitev bo ukinjena 30. junija 2026), ga "
+"tukaj zamenjajte s ključem API Klipy GIF."
 
 #. module: mail
 #: model:ir.model.fields,help:mail.field_res_config_settings__tenor_api_key
 msgid ""
-"Add a Tenor GIF API key to enable GIFs support. https://"
-"developers.google.com/tenor/guides/quickstart#setup"
+"Add a Klipy GIF API key to enable GIFs support. https://docs.klipy.com/"
+"getting-started\n"
+"If you were using a Tenor GIF API key (service shutdown on June 30, 2026), "
+"please replace it here with a Klipy GIF API key"
 msgstr ""
-"Dodajte ključ API-ja Tenor GIF, da omogočite podporo za GIF-e. https://"
-"developers.google.com/tenor/guides/quickstart#setup"
+"Dodajte ključ API Klipy GIF, da omogočite podporo za GIF-e. https://"
+"docs.klipy.com/getting-started Če ste uporabljali ključ API Tenor GIF "
+"(storitev bo ukinjena 30. junija 2026), ga tukaj zamenjajte s ključem API "
+"Klipy GIF"
+
+#. module: mail
+#. odoo-javascript
+#: code:addons/mail/static/src/core/common/message_actions.js:0
+msgid "Add a Reaction"
+msgstr "Dodaj reakcijo"
 
 #. module: mail
 #. odoo-javascript
@@ -3517,7 +3527,7 @@ msgstr "Urejanje naročnine"
 #. odoo-javascript
 #: code:addons/mail/static/src/views/web/fields/many2many_tags_email/many2many_tags_email.js:0
 msgid "Edit: %s"
-msgstr ""
+msgstr "Uredi: %s"
 
 #. module: mail
 #: model:ir.model.fields,field_description:mail.field_mail_blacklist_remove__email
@@ -3981,6 +3991,13 @@ msgid ""
 "Template Source Snippet:\n"
 "%(template_src)s"
 msgstr ""
+"Ni uspelo upodobiti QWeb predloge za %(template_label)s\n"
+"Ciljni model: %(model_name)s\n"
+"Jezikovni kontekst: %(lang_context)s\n"
+"Napaka: %(error_details)s\n"
+"\n"
+"Izsek izvorne predloge:\n"
+"%(template_src)s"
 
 #. module: mail
 #. odoo-python
@@ -3989,6 +4006,8 @@ msgid ""
 "Failed to render inline_template template: %(template_txt)s\n"
 "Error details: %(error)s"
 msgstr ""
+"Upodabljanje predloge inline_template ni uspelo: %(template_txt)s\n"
+"Podrobnosti napake: %(error)s"
 
 #. module: mail
 #. odoo-python
@@ -4891,6 +4910,16 @@ msgid "If you want to use twilio as TURN/STUN server provider"
 msgstr "Če želite uporabljati twilio kot ponudnika strežnika TURN/STUN"
 
 #. module: mail
+#. odoo-javascript
+#: code:addons/mail/static/src/discuss/gif_picker/common/gif_picker.xml:0
+msgid ""
+"If you were using a Tenor API key, please replace it with a Klipy API key in "
+"the General Settings."
+msgstr ""
+"Če ste uporabljali ključ API Tenor, ga prosimo zamenjajte s ključem API "
+"Klipy v Splošnih nastavitvah."
+
+#. module: mail
 #: model_terms:ir.ui.view,arch_db:mail.mail_resend_message_view_form
 msgid "Ignore all"
 msgstr "Prezri vse"
@@ -5456,6 +5485,32 @@ msgstr "Ključ"
 #: model_terms:ir.ui.view,arch_db:mail.message_notification_limit_email
 msgid "Kind Regards"
 msgstr "Lep pozdrav"
+
+#. module: mail
+#: model:ir.model.fields,field_description:mail.field_res_config_settings__tenor_api_key
+msgid "Klipy API key"
+msgstr "Klipy API ključ"
+
+#. module: mail
+#: model_terms:ir.ui.view,arch_db:mail.res_config_settings_view_form
+msgid "Klipy GIF API key"
+msgstr "Klipy GIF API ključ"
+
+#. module: mail
+#: model_terms:ir.ui.view,arch_db:mail.res_config_settings_view_form
+msgid "Klipy GIF content filter"
+msgstr ""
+
+#. module: mail
+#: model:ir.model.fields,field_description:mail.field_res_config_settings__tenor_gif_limit
+#: model_terms:ir.ui.view,arch_db:mail.res_config_settings_view_form
+msgid "Klipy GIF limits"
+msgstr ""
+
+#. module: mail
+#: model:ir.model.fields,field_description:mail.field_res_config_settings__tenor_content_filter
+msgid "Klipy content filter"
+msgstr ""
 
 #. module: mail
 #. odoo-javascript
@@ -6060,7 +6115,7 @@ msgstr "Označi kot opravljeno"
 #. odoo-python
 #: code:addons/mail/models/mail_render_mixin.py:0
 msgid "Mass Mailing Template: '%(name)s' (ID: %(record_id)s)"
-msgstr ""
+msgstr "Predloga množičnega pošiljanja: '%(name)s' (ID: %(record_id)s)"
 
 #. module: mail
 #. odoo-javascript
@@ -6708,7 +6763,7 @@ msgstr "Ni zgodovine sporočil"
 #. odoo-python
 #: code:addons/mail/models/mail_render_mixin.py:0
 msgid "No language detected in context"
-msgstr ""
+msgstr "V kontekstu ni zaznanega jezika"
 
 #. module: mail
 #. odoo-python
@@ -8735,6 +8790,12 @@ msgstr "Išči strežnike vhodne pošte"
 
 #. module: mail
 #. odoo-javascript
+#: code:addons/mail/static/src/discuss/gif_picker/common/gif_picker.xml:0
+msgid "Search Klipy"
+msgstr "Išči Klipy"
+
+#. module: mail
+#. odoo-javascript
 #: code:addons/mail/static/src/core/common/search_messages_panel.js:0
 msgid "Search Message"
 msgstr "Iskanje sporočila"
@@ -8776,12 +8837,6 @@ msgstr "Gumb za iskanje"
 #: code:addons/mail/static/src/discuss/core/public_web/sub_channel_list.xml:0
 msgid "Search by name"
 msgstr "Iskanje po imenu"
-
-#. module: mail
-#. odoo-javascript
-#: code:addons/mail/static/src/discuss/gif_picker/common/gif_picker.xml:0
-msgid "Search for a GIF"
-msgstr "Iskanje GIF-a"
 
 #. module: mail
 #. odoo-javascript
@@ -8910,6 +8965,8 @@ msgstr ""
 #: code:addons/mail/wizard/mail_activity_schedule.py:0
 msgid "Selected user '%(user)s' cannot upload documents on model '%(model)s'"
 msgstr ""
+"Izbrani uporabnik '%(user)s' ne more nalagati dokumentov na modelu '%(model)"
+"s'"
 
 #. module: mail
 #. odoo-javascript
@@ -9172,13 +9229,13 @@ msgstr ""
 #. odoo-javascript
 #: code:addons/mail/static/src/core/web/suggested_recipient_list.xml:0
 msgid "Show less"
-msgstr ""
+msgstr "Prikaži manj"
 
 #. module: mail
 #. odoo-javascript
 #: code:addons/mail/static/src/core/web/suggested_recipient_list.xml:0
 msgid "Show more"
-msgstr ""
+msgstr "Prikaži več"
 
 #. module: mail
 #. odoo-javascript
@@ -9595,7 +9652,7 @@ msgstr "Ustvarjanje predloge iz programa Composer zahteva veljaven model."
 #. odoo-python
 #: code:addons/mail/models/mail_render_mixin.py:0
 msgid "Template name not identified"
-msgstr ""
+msgstr "Naziv predloge ni prepoznan"
 
 #. module: mail
 #. odoo-python
@@ -9624,36 +9681,6 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:mail.view_email_template_search
 msgid "Templates"
 msgstr "Predloge"
-
-#. module: mail
-#: model:ir.model.fields,field_description:mail.field_res_config_settings__tenor_api_key
-msgid "Tenor API key"
-msgstr "Ključ Tenor API"
-
-#. module: mail
-#: model_terms:ir.ui.view,arch_db:mail.res_config_settings_view_form
-msgid "Tenor GIF API key"
-msgstr "Ključ API-ja Tenor GIF"
-
-#. module: mail
-#: model_terms:ir.ui.view,arch_db:mail.res_config_settings_view_form
-msgid "Tenor GIF content filter"
-msgstr ""
-
-#. module: mail
-#: model_terms:ir.ui.view,arch_db:mail.res_config_settings_view_form
-msgid "Tenor GIF limits"
-msgstr ""
-
-#. module: mail
-#: model:ir.model.fields,field_description:mail.field_res_config_settings__tenor_gif_limit
-msgid "Tenor Gif Limit"
-msgstr ""
-
-#. module: mail
-#: model:ir.model.fields,field_description:mail.field_res_config_settings__tenor_content_filter
-msgid "Tenor content filter"
-msgstr ""
 
 #. module: mail
 #: model_terms:ir.ui.view,arch_db:mail.view_email_server_form
@@ -10582,19 +10609,19 @@ msgstr "Neimenovano"
 #. odoo-python
 #: code:addons/mail/models/mail_tracking_value.py:0
 msgid "Unnamed %(record_model_name)s (%(record_id)s)"
-msgstr ""
+msgstr "Neimenovan %(record_model_name)s (%(record_id)s)"
 
 #. module: mail
 #. odoo-python
 #: code:addons/mail/models/mail_render_mixin.py:0
 msgid "Unnamed Mail Template"
-msgstr ""
+msgstr "Neimenovana predloga e-pošte"
 
 #. module: mail
 #. odoo-python
 #: code:addons/mail/models/mail_render_mixin.py:0
 msgid "Unnamed Mailing"
-msgstr ""
+msgstr "Neimenovano pošiljanje"
 
 #. module: mail
 #. odoo-javascript
@@ -11398,7 +11425,7 @@ msgstr ""
 #. odoo-python
 #: code:addons/mail/models/mail_alias_domain.py:0
 msgid "You cannot assign an empty domain name."
-msgstr ""
+msgstr "Ne morete dodeliti praznega imena domene."
 
 #. module: mail
 #. odoo-python
@@ -11903,7 +11930,7 @@ msgstr "vam je pravkar dodelil naslednjo aktivnost:"
 
 #. module: mail
 #: model:ir.model.fields,help:mail.field_res_config_settings__tenor_content_filter
-msgid "https://developers.google.com/tenor/guides/content-filtering"
+msgid "https://docs.klipy.com/migrate-from-tenor/content-filtering"
 msgstr ""
 
 #. module: mail
@@ -12219,7 +12246,26 @@ msgstr "“%(member_name)s” v “%(channel_name)s”"
 #. odoo-javascript
 #: code:addons/mail/static/src/core/web/activity.js:0
 msgid "“%s”"
-msgstr ""
+msgstr "“%s”"
+
+#~ msgid "Search for a GIF"
+#~ msgstr "Iskanje GIF-a"
+
+#~ msgid "Add a Tenor GIF API key to enable GIFs support."
+#~ msgstr "Dodajte ključ API-ja Tenor GIF, da omogočite podporo za GIF-e."
+
+#~ msgid ""
+#~ "Add a Tenor GIF API key to enable GIFs support. https://"
+#~ "developers.google.com/tenor/guides/quickstart#setup"
+#~ msgstr ""
+#~ "Dodajte ključ API-ja Tenor GIF, da omogočite podporo za GIF-e. https://"
+#~ "developers.google.com/tenor/guides/quickstart#setup"
+
+#~ msgid "Tenor API key"
+#~ msgstr "Ključ Tenor API"
+
+#~ msgid "Tenor GIF API key"
+#~ msgstr "Ključ API-ja Tenor GIF"
 
 #~ msgid ""
 #~ "Failed to render QWeb template: %(template_src)s\n"

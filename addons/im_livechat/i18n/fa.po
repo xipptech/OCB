@@ -8,13 +8,14 @@
 # Mohammad Tahmasebi <hit.tah75@gmail.com>, 2025
 # Naser mars, 2025
 # Weblate <noreply-mt-weblate@weblate.org>, 2026.
+# Heshmatkhah <maheshmatkhah.soft@gmail.com>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 18.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-04-03 18:39+0000\n"
-"PO-Revision-Date: 2026-04-04 12:29+0000\n"
-"Last-Translator: Weblate <noreply-mt-weblate@weblate.org>\n"
+"PO-Revision-Date: 2026-09-02 13:11+0000\n"
+"Last-Translator: Heshmatkhah <maheshmatkhah.soft@gmail.com>\n"
 "Language-Team: Persian <https://translate.odoo.com/projects/odoo-18/"
 "im_livechat/fa/>\n"
 "Language: fa\n"
@@ -22,7 +23,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 5.16.2\n"
+"X-Generator: Weblate 2026.8.1\n"
 
 #. module: im_livechat
 #. odoo-python
@@ -750,7 +751,7 @@ msgstr "برای سایر وبسایتها"
 #. module: im_livechat
 #: model_terms:ir.ui.view,arch_db:im_livechat.im_livechat_channel_view_form
 msgid "FOR WEBSITES BUILT WITH ODOO"
-msgstr ""
+msgstr "برای وب سایت‌های ساخته شده با اودو"
 
 #. module: im_livechat
 #: model:ir.model.fields.selection,name:im_livechat.selection__chatbot_script__first_step_warning__first_step_invalid
@@ -807,7 +808,7 @@ msgid ""
 "Go to <strong>Website</strong> &gt; <strong>Configuration</strong> &gt; "
 "<strong>Settings</strong> &gt; <strong>Email</strong> &amp; "
 "<strong>Marketing.</strong>"
-msgstr ""
+msgstr "وارد مسیر وب سایت، پیکربندی، تنظیمات، ایمیل، بازاریابی شوید."
 
 #. module: im_livechat
 #: model_terms:ir.ui.view,arch_db:im_livechat.discuss_channel_view_search
@@ -1715,7 +1716,7 @@ msgstr "نوع مرحله"
 #. odoo-python
 #: code:addons/im_livechat/models/chatbot_script.py:0
 msgid "Step of type 'Question' must have answers."
-msgstr ""
+msgstr "مرحله از نوع «سؤال» باید دارای پاسخ باشد."
 
 #. module: im_livechat
 #. odoo-javascript

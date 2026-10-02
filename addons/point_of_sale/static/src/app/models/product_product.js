@@ -37,7 +37,7 @@ export class ProductProduct extends Base {
     async _onScaleNotAvailable() {}
 
     isConfigurable() {
-        return this.attribute_line_ids.map((a) => a.product_template_value_ids).flat().length > 1;
+        return this.attribute_line_ids.map((a) => a.product_template_value_ids).flat().length >= 1;
     }
 
     needToConfigure() {
@@ -170,7 +170,13 @@ export class ProductProduct extends Base {
 
         if (rule.base === "pricelist") {
             if (rule.base_pricelist_id) {
-                price = this.get_price(rule.base_pricelist_id, quantity, 0, true, list_price);
+                price = this.get_price(
+                    rule.base_pricelist_id,
+                    quantity,
+                    price_extra,
+                    true,
+                    list_price
+                );
             }
         } else if (rule.base === "standard_price") {
             price = this.standard_price;

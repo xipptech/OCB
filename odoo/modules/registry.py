@@ -32,6 +32,7 @@ from odoo.tools import (
 from odoo.tools.func import locked
 from odoo.tools.lru import LRU
 from odoo.tools.misc import Collector, format_frame
+from odoo.tools.version_tag_reset import reset_classes_tp_versions_used
 
 if typing.TYPE_CHECKING:
     from odoo.models import BaseModel
@@ -110,9 +111,11 @@ class Registry(Mapping):
         cls.registries[db_name] = registry  # pylint: disable=unsupported-assignment-operation
         try:
             registry.setup_signaling()
+            from odoo.http import borrow_request  # noqa: PLC0415
             # This should be a method on Registry
             try:
-                odoo.modules.load_modules(registry, force_demo, status, update_module)
+                with borrow_request():
+                    odoo.modules.load_modules(registry, force_demo, status, update_module)
             except Exception:
                 odoo.modules.reset_modules_state(db_name)
                 raise
@@ -127,6 +130,7 @@ class Registry(Mapping):
         registry = cls.registries[db_name]  # pylint: disable=unsubscriptable-object
 
         registry._init = False
+        reset_classes_tp_versions_used(registry.values(), reset_above_ratio=0.3)  # cpython optimisation
         registry.ready = True
         registry.registry_invalidated = bool(update_module)
         registry.signal_changes()
@@ -360,6 +364,8 @@ class Registry(Mapping):
             for model in env.values():
                 model._register_hook()
             env.flush_all()
+
+        reset_classes_tp_versions_used(self.values())  # cpython optimisation
 
     @lazy_property
     def field_computed(self):

@@ -52,8 +52,8 @@ msgstr ""
 "Project-Id-Version: Odoo Server 18.0+e\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-02-16 16:38+0000\n"
-"PO-Revision-Date: 2026-06-26 09:48+0000\n"
-"Last-Translator: Saara Hakanen <sahak@odoo.com>\n"
+"PO-Revision-Date: 2026-09-23 17:53+0000\n"
+"Last-Translator: Weblate <noreply-mt-weblate@weblate.org>\n"
 "Language-Team: Finnish <https://translate.odoo.com/projects/odoo-18/base/fi/>"
 "\n"
 "Language: fi\n"
@@ -61,7 +61,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2026.6.1\n"
+"X-Generator: Weblate 2026.8.1\n"
 
 #. module: base
 #: model:ir.module.module,description:base.module_l10n_at_reports
@@ -967,11 +967,11 @@ msgid ""
 "tax calculation.\n"
 msgstr ""
 "\n"
-"kolmannen osapuolen verolaskenta\n"
+"Kolmannen osapuolen verolaskelma\n"
 "=========================\n"
 "\n"
-"Tarjoaa yhteisen käyttöliittymän, jota käytetään kun verolaskenta hankitaan "
-"ulkoistettuna.\n"
+"Tarjoaa yhteisen käyttöliittymän verolaskelmien ulkoistamista tukevien "
+"sovellusten käyttöönottoon.\n"
 
 #. module: base
 #: model:ir.module.module,description:base.module_sale_external_tax
@@ -3171,7 +3171,7 @@ msgid ""
 "* Cost structure report\n"
 msgstr ""
 "\n"
-"Analyyttinen kirjanpito MRP-valmistusmoduulissa\n"
+"Laskentakohteet Tarvelaskennassa\n"
 "==========================\n"
 "\n"
 "* Kustannusrakenneraportti\n"
@@ -3194,13 +3194,14 @@ msgid ""
 "\n"
 msgstr ""
 "\n"
-"Analyyttinen kirjanpito MRP:ssä\n"
+"Laskentakohteet Tarvelaskennassa\n"
 "==========================\n"
 "\n"
 "* Kustannusrakenneraportti\n"
 "\n"
-"Mahdollistaa myös tuotteen kustannusten laskemisen sen BoM:n perusteella "
-"käyttäen sen komponenttien ja työkeskustoimintojen kustannuksia.\n"
+"Mahdollistaa myös tuotteen kustannusten laskemisen sen materiaaliluettelon "
+"perusteella, käyttäen sen komponenttien ja työkeskustoimintojen "
+"kustannuksia.\n"
 "Se lisää painikkeen itse tuotteeseen, mutta myös toiminnon tuotteiden "
 "luettelonäkymään.\n"
 "Jos automaattinen varaston arvonmääritys on aktiivinen, tarvittavat "
@@ -3835,12 +3836,12 @@ msgstr ""
 "=======================================\n"
 "Erämaksut mahdollistavat maksujen ryhmittelyn.\n"
 "\n"
-"Niitä käytetään erityisesti, mutta ei ainoastaan, useiden sekkien "
+"Niitä käytetään erityisesti, mutta ei ainoastaan, useiden shekkien "
 "ryhmittelyyn ennen niiden tallettamista pankkiin yhtenä eränä.\n"
 "Tällöin talletettu kokonaissumma näkyy pankkitiliotteessasi yhtenä "
 "tapahtumana.\n"
-"Kun teet täsmäytyksen, valitse vain vastaava erämaksu, jotta kaikki erän "
-"maksut voidaan täsmäyttää.\n"
+"Kun teet täsmäytyksen, valitse vain vastaava erämaksu täsmäyttääksesi kaikki "
+"erän maksut.\n"
 
 #. module: base
 #: model:ir.module.module,description:base.module_l10n_be_hr_payroll
@@ -4327,6 +4328,9 @@ msgid ""
 "Bridge module to support the debit notes (nota di debito - NDD) by adding "
 "debit note fields.\n"
 msgstr ""
+"\n"
+"Siltamoduuli veloituslaskujen tukemiseksi (nota di debito - NDD) lisäämällä "
+"veloituslaskukentät."
 
 #. module: base
 #: model:ir.module.module,description:base.module_base_automation_hr_contract
@@ -5368,15 +5372,15 @@ msgid ""
 "is resulting to 11%.\n"
 msgstr ""
 "\n"
-"E-laskutusominaisuuden tarjoaa DJP (Indonesian verotoimisto). Alkaen 1. "
-"tammikuuta 2025\n"
-"Indonesia käyttää CoreTax- järjestelmää, joka muuttaa E-Fakturin "
+"Sähköisen laskutusominaisuuden tarjoaa DJP (Indonesian verovirasto). Alkaen "
+"1. tammikuuta 2025\n"
+"Indonesia siirtyy käyttämään CoreTax -järjestelmää, joka muuttaa E-Fakturin "
 "tiedostomuotoa ja sisältöä.\n"
 "Olemme siirtymässä CSV-tiedostoista XML-muotoon.\n"
 "Samalla verosääntelyn toistuvien muutosten vuoksi yleisessä E-Faktur-"
 "järjestelmässä\n"
-"veroperuste (DPP) on nyt kerrottava kertoimella 11/12, kun se kerrotaan "
-"12%:n verolla, mikä\n"
+"veroperuste (DPP) on nyt kerrottava kertoimella 11/12 monistettaessa 12% "
+"verolla, mikä\n"
 "johtaa lopputulokseen 11%.\n"
 
 #. module: base
@@ -7017,9 +7021,9 @@ msgid ""
 msgstr ""
 "\n"
 "Luo Intrastat XML-raportin ilmoitusta varten\n"
-"Laskujen perusteella.\n"
-"Lisää Intrastat XML -raporttiin mahdollisuuden määrittää tavaroiden "
-"alkuperämaa ja kumppanin alv.\n"
+"laskujen perusteella.\n"
+"Lisää mahdollisuuden määrittää tavaroiden alkuperämaan ja kumppanin ALV:n "
+"Intrastat XML-raportissa.\n"
 
 #. module: base
 #: model:ir.module.module,description:base.module_l10n_lt_intrastat
@@ -7512,6 +7516,13 @@ msgid ""
 "transport\n"
 "modes classified as Air or Sea in the e-Way Bill system.\n"
 msgstr ""
+"\n"
+"Intian – E-waybill -lähetyssatamat\n"
+"====================================\n"
+"Otettiin käyttöön uusi moduuli intialaisten satamakoodien hallintaan, "
+"erityisesti\n"
+"e-Way Bill -järjestelmässä ilma- tai merikuljetuksiksi luokiteltujen "
+"kuljetusmuotojen osalta.\n"
 
 #. module: base
 #: model:ir.module.module,description:base.module_l10n_in
@@ -11507,40 +11518,38 @@ msgstr ""
 "Tämä on perusmoduuli Belgian kirjanpitokaavion hallintaan Odoossa.\n"
 "==============================================================================\n"
 "\n"
-"Kun tämä moduuli on asennettu, kirjanpidon konfigurointiohjattu "
-"konfigurointi käynnistyy.\n"
-"    * Meillä on tilimalleja, joista voi olla apua tilikarttojen luomisessa.\n"
+"Kun tämä moduuli on asennettu, kirjanpidon ohjattu määritystoiminto "
+"käynnistyy.\n"
+"    * Meillä on tilipohjia, joista voi olla apua tilikarttojen luomisessa.\n"
 "    * Kyseisessä ohjatussa toiminnossa sinua pyydetään antamaan yrityksen "
 "nimi,\n"
-"      seurattava tilikarttamalli, luotavien numeroiden määrä, tilikarttasi "
-"koodi\n"
-"      tili ja pankkitili, valuutta, jolla päiväkirjat luodaan.\n"
+"      seurattava mallipohja, luotavien numeroiden määrä, tilisi ja "
+"pankkitilisi\n"
+"      koodi sekä valuutta, jolla päiväkirjat luodaan.\n"
 "\n"
-"Näin luodaan puhdas kopio Chart Template -kaaviointimallista.\n"
+"Näin syntyy puhdas kopio kaaviopohjasta.\n"
 "\n"
 "Tämän moduulin tarjoamat ohjatut toiminnot:\n"
 "--------------------------------\n"
-"    * Partner VAT Intra: Luetteloi kumppanit ja niihin liittyvät alv:t ja "
-"laskut\n"
+"    * Kumppanin issäinen ALV: Luetteloi kumppanit sekä niihin liittyvät "
+"arvonlisäverot ja laskutetut\n"
 "      määrät. Valmistelee XML-tiedostomuodon.\n"
 "\n"
-"        **Polku, josta pääsee käsiksi:** Laskutus/Raportointi/"
-"Lainsäädäntöraportit/Belgium Statements/Kumppanin alv Intra\n"
-"    * Säännöllinen alv-ilmoitus: Valmistelee XML-tiedoston alv-ilmoitusta "
-"varten\n"
-"      parhaillaan kirjautuneen käyttäjän pääyhtiön.\n"
+"        **Reitti:** Laskutus/Raportointi/Lainsäädännölliset raportit/Belgian "
+"tiliotteet/Kumppanin sisäinen ALV\n"
+"    * Säännöllinen ALV-ilmoitus: Valmistelee XML-tiedoston kirjautuneena "
+"olevan käyttäjän\n"
+"      pääyrityksen ALV-ilmoitusta varten.\n"
 "\n"
-"        **Polku, johon pääsee:** Invoicing/Reporting/Legal Reports/Belgium "
-"Statements/Periodical VAT Declaration (Laskutus/Raportointi/"
-"Lainsäädäntöraportit/Belgium Statements/Periodical VAT Declaration)\n"
-"    * Arvonlisäverovelvollisten asiakkaiden vuosittainen luettelointi: "
-"Valmistelee XML-tiedoston arvonlisäverotusta varten\n"
-"      Sisäänkirjautuneen käyttäjän pääyrityksen ilmoitus Perustuu "
-"seuraavaan\n"
+"        **Reitti** Laskutus/Raportointi/Lainsäädännölliset raportit/Belgian "
+"tiliotteet/Säännöllinen ALV-ilmoitus\n"
+"    * ALV-velvollisten asiakkaiden vuosittainen luettelointi: Valmistelee "
+"XML-tiedoston kirjautuneena olevan käyttäjän\n"
+"      pääyrityksen ALV-ilmoitusta varten.\n"
 "      Verovuosi.\n"
 "\n"
-"        **Polku, johon pääsee:** Laskutus/Raportointi/Lainmukaiset raportit/"
-"Belgium-ilmoitukset/Annual Listing Of VAT-Subjected Customers\n"
+"        **Reitti:** Laskutus/Raportointi/Lainsäädännölliset raportit/Belgian "
+"tiliotteet/ALV-velvollisten asiakkaiden vuosittainen luettelointi\n"
 "\n"
 
 #. module: base
@@ -12343,7 +12352,7 @@ msgid ""
 "your visitors to subscribe with their phone number.\n"
 msgstr ""
 "\n"
-"Tämä moduuli lisää uuden mallin uutiskirjelohkoon, jonka avulla voidaan\n"
+"Tämä moduuli lisää uuden mallipohjan uutiskirjepalkkiin, jonka avulla\n"
 "kävijät voivat tilata uutiskirjeen puhelinnumerollaan.\n"
 
 #. module: base
@@ -12423,18 +12432,18 @@ msgid ""
 "impersonification, in case someone gains to the user's database.\n"
 msgstr ""
 "\n"
-"Tämä moduuli lisää yleisiä ominaisuuksia Odoo DB:n rekisteröimiseksi "
+"Tämä moduuli lisää yleisiä ominaisuuksia Odoo tietokannan rekisteröimiseksi "
 "välityspalvelimeen, joka vastaa tietojen vastaanottamisesta (web-palveluiden "
 "pyyntöjen kautta).\n"
-"- Edi_proxy_userilla on yksilöllinen tunniste tietyssä proxy-tyypissä (esim. "
-"l10n_it_edi, peppol), joka\n"
-"jonka avulla hänet voidaan tunnistaa, kun hän vastaanottaa hänelle osoitetun "
-"asiakirjan. Se on liitetty tiettyyn yritykseen tietyllä tavalla\n"
-"Odoo-tietokantaan.\n"
+"- Edi_proxy_user -käyttäjällä on yksilöllinen tunniste tietyssä proxy-"
+"tyypissä (esim. l10n_it_edi, peppol), jonka\n"
+"avulla käyttäjä voidaan tunnistaa tämän vastaanottaessa hänelle osoitetun "
+"asiakirjan. Se on liitetty tiettyyn yritykseen tietyssä\n"
+"Odoo-tietokannassa.\n"
 "- Salausominaisuuksien avulla voidaan purkaa kaikki käyttäjän tiedot, kun ne "
-"vastaanotetaan välittäjältä.\n"
-"- Tunnistaminen tarjoaa lisäturvatason, jolla vältetään henkilöityminen, jos "
-"joku pääsee käsiksi käyttäjän tietokantaan.\n"
+"vastaanotetaan välityspalvelimelta.\n"
+"- Tunnistautuminen tarjoaa lisäturvatason, jolla vältetään toisena henkilönä "
+"esiintyminen, jos joku pääsee käsiksi käyttäjän tietokantaan.\n"
 
 #. module: base
 #: model:ir.module.module,description:base.module_portal
@@ -12918,14 +12927,14 @@ msgid ""
 "requiring a new tax configuration.\n"
 msgstr ""
 "\n"
-"Tämän moduulin avulla voidaan päivittää olemassa olevien "
-"kirjanpitomerkintöjen veroruudukot.\n"
-"Debug-tilassa on käytettävissä painike, jolla voit päivittää kirjausten "
-"veroristikot\n"
-"kirjanpidon asetuksissa.\n"
-"Tämä on tyypillisesti hyödyllistä sen jälkeen, kun veroraporttiin on tehty "
-"joitakin oikeudellisia muutoksia,\n"
-"jotka edellyttävät uutta verokokoonpanoa.\n"
+"Tämän moduulin avulla voit päivittää olemassa olevien kirjanpitomerkintöjen "
+"verotaulukot.\n"
+"Kehittäjätilassa on käytettävissä painike, jolla voit päivittää kirjaustesi "
+"verotaulukon\n"
+"Kirjanpito-asetuksissa.\n"
+"Tämä on yleensä hyödyllinen, jos veroraporttiin on tehty oikeudellisia "
+"muutoksia,\n"
+"jotka edellyttävät verojen uudelleen määrittämistä.\n"
 
 #. module: base
 #: model:ir.module.module,description:base.module_mrp_subcontracting_landed_costs
@@ -12975,11 +12984,10 @@ msgid ""
 "take them into account in your stock valuation.\n"
 msgstr ""
 "\n"
-"Tämän moduulin avulla voit helposti lisätä lisäkustannuksia "
-"valmistustilaukseen\n"
-"ja päättää näiden kustannusten jakamisesta varastosiirtojen kesken, jotta "
-"voitte\n"
-"ottaa ne huomioon varaston arvonmäärityksessä.\n"
+"Tämän moduulin avulla voit lisätä tuotantotilaukseen helposti "
+"lisäkustannuksia\n"
+"ja päättää näiden jakamisesta varastosiirtojen kesken. Tämä mahdollistaa\n"
+"niiden huomioimisen varaston arvonmäärityksessä.\n"
 
 #. module: base
 #: model:ir.module.module,description:base.module_membership
@@ -13052,11 +13060,12 @@ msgstr ""
 "Tämän moduulin avulla voit hallita ostosopimuksia.\n"
 "===========================================================\n"
 "\n"
-"Hallitse tarjouspyyntöjä ja yleistilauksia. Tarjouspyyntöjä käytetään "
-"hankkimaan\n"
-"kilpailevia tarjouksia eri toimittajilta ja valita parhaat. Yleistilaukset\n"
-"ovat sopimuksia, joita teet toimittajien kanssa, jotta voit hyödyntää "
-"ennalta määritettyä hinnoittelua.\n"
+"Hallinnoi tarjousten kilpailutusta ja puitetilauksia. Tarjousten "
+"kilpailutusta käytetään\n"
+"eri toimittajien tarjousten hankkimiseksi ja parhaiden tarjousten "
+"valitsemiseksi. Puitetilaukset\n"
+"ovat sopimuksia, joita teet toimittajien kanssa hyödyntääksesi ennalta "
+"määritettyä hinnoittelua.\n"
 
 #. module: base
 #: model:ir.module.module,description:base.module_sale_project_forecast
@@ -13203,8 +13212,8 @@ msgid ""
 "\n"
 msgstr ""
 "\n"
-"Tämä moduuli sisältää Chilen asetuksen tekniset vaatimukset.\n"
-"Asenna tämä, jos käytät myyntipistesovellusta Chilessä.    \n"
+"Tämä moduuli sisältää Chilen säännösten tekniset vaatimukset.\n"
+"Asenna tämä, jos käytät Kassajärjestelmä-sovellusta Chilessä.\n"
 "\n"
 
 #. module: base
@@ -13423,21 +13432,20 @@ msgid ""
 msgstr ""
 "\n"
 "Tämä moduuli mahdollistaa SEPA Direct Debit (SDD) -yhteensopivien XML-"
-"tiedostojen tuottamisen (yhdenmukaiset\n"
-"pain.008.001.02-määrityksen mukainen), joka lähetetään pankkiin, jotta "
-"voidaan\n"
-"kerätä joukko maksuja.\n"
+"tiedostojen luomisen\n"
+"(pain.008.001.02 -määritysten mukaisesti) pankkiin lähetettäväksi ja "
+"joukkomaksujen\n"
+"keräämiseksi.\n"
 "\n"
-"Jotta asiakas voi käyttää tätä maksutapaa, hänen on ensin täytynyt\n"
+"Jotta asiakas voi käyttää tätä maksutapaa, hänen on ensin\n"
 "palautettava yritykselle valtuutus, jossa annetaan suostumus "
 "suoraveloituksen käyttöön.\n"
-"Tämän suostumuksen on oltava koodattu Odoossa \"asiakkaan mandaatiksi\".\n"
+"Tämän suostumuksen on oltava 'asiakkaan valtuutus' Odoossa.\n"
 "\n"
-"Sinun on myös täytettävä seuraavat vaatimukset, jotta voit asianmukaisesti "
-"noudattaa seuraavia vaatimuksia\n"
-"luoda SDD-tiedosto:\n"
+"Sinun on myös täytettävä seuraavat vaatimukset, jotta voit luoda\n"
+"SDD-tiedoston asianmukaisesti:\n"
 "- Yritystililläsi on oltava voimassa oleva IBAN-numero\n"
-"- Yrityksellesi on annettava velkojatunnus (tämä voidaan tehdä kohdassa "
+"- Yritykselläsi on oltava luotonantajan tunnus (tämän voi tehdä kohdassa "
 "Asetukset - Yleiset asetukset - Kirjanpito)\n"
 "- Yrityksesi on määritettävä SDD-maksujen vastaanottamista varten päiväkirja "
 "(jälleen kirjanpitomoduulin asetuksissa)\n"
@@ -13446,12 +13454,13 @@ msgstr ""
 "\n"
 "Odoo ilmoittaa sinulle, jos jokin näistä vaatimuksista ei täyty.\n"
 "\n"
-"Jos haluat rekisteröidä maksun avoimille laskuille, voit käyttää erityistä\n"
-"\"SEPA Direct Debit\" -vaihtoehtoa valitsemalla pankkitili \"Register\" "
-"-kohdassa\n"
-"Maksun kirjaaminen' -ohjattu toiminto. Näyttöön tulee virheilmoitus, jos "
-"voimassa olevaa valtakirjaa ei ole annettu\n"
-"käytettävissä valitun laskun maksun luomista varten.\n"
+"Jos haluat rekisteröidä maksun avoimille laskuille, voit käyttää sille "
+"omistettua\n"
+"'SEPA Direct Debit' -toimintoa valitsemalla pankkitilin ohjatussa "
+"'Rekisteröi\n"
+"maksu' toiminnossa. Näytölle ilmestyy virheilmoitus, jos voimassa olevaa "
+"valtakirjaa ei ole\n"
+"saatavilla valitun laskun maksun luomista varten.\n"
 
 #. module: base
 #: model:ir.module.module,description:base.module_l10n_jp_zengin
@@ -14282,10 +14291,10 @@ msgid ""
 msgstr ""
 "\n"
 "Tämä moduuli tarjoaa perustoiminnot maksujen suorittamiseen tulostamalla "
-"šekkejä.\n"
+"shekkejä.\n"
 "Sitä on käytettävä sellaisten moduulien riippuvuutena, jotka tarjoavat "
-"maakohtaisia šekkimalleja.\n"
-"Šekkiasetukset sijaitsevat kirjanpitopäiväkirjojen määrityssivulla.\n"
+"maakohtaisia shekkimalleja.\n"
+"Shekkiasetukset sijaitsevat kirjanpitopäiväkirjojen asetukset-sivulla.\n"
 
 #. module: base
 #: model:ir.module.module,description:base.module_website_enterprise
@@ -14608,8 +14617,8 @@ msgid ""
 "system when using the POS app.\n"
 msgstr ""
 "\n"
-"Tämän moduulin avulla käyttäjä voi lähettää yhdistettyjä laskuja MyInvois-"
-"järjestelmään kassajärjestelmää käyttäessään.\n"
+"Tämän moduulin avulla käyttäjä voi lähettää Kassajärjestelmä-sovelluksella "
+"yhdistettyjä laskuja MyInvois-järjestelmään.\n"
 
 #. module: base
 #: model:ir.module.module,description:base.module_l10n_my_edi
@@ -15917,8 +15926,8 @@ msgid ""
 "<code>log(message, level='info')</code>: logging function to record debug "
 "information in <code>ir.logging</code> table"
 msgstr ""
-"<code>log(message, level='info')</code>: kirjausfunktio, joka tallentaa "
-"vikailmoitustiedot <code>ir.logging-taulukkoon</code>"
+"<code>log(message, level='info')</code>: kirjausfunktio viankorjaustietojen "
+"tallentamiseksi <code>ir.logging</code>-taulukkoon"
 
 #. module: base
 #: model_terms:ir.ui.view,arch_db:base.view_server_action_form
@@ -17132,7 +17141,7 @@ msgstr "Tilinumero"
 #. module: base
 #: model:ir.module.module,shortdesc:base.module_account_online_payment
 msgid "Account Online Payment"
-msgstr "Tili Online-maksu"
+msgstr "Tilin verkkomaksu"
 
 #. module: base
 #: model:ir.module.module,shortdesc:base.module_account_qr_code_sepa
@@ -17575,7 +17584,7 @@ msgstr ""
 #. module: base
 #: model:ir.module.module,summary:base.module_account_reports_cash_basis
 msgid "Add cash basis functionality for reports"
-msgstr "Lisää raporttien kassaperusteisuus"
+msgstr "Lisää maksuperusteinen toiminnallisuus raportteihin"
 
 #. module: base
 #: model:ir.module.module,summary:base.module_website_slides_survey
@@ -19605,18 +19614,18 @@ msgstr ""
 #. module: base
 #: model:ir.module.module,shortdesc:base.module_analytic
 msgid "Analytic Accounting"
-msgstr "Analyyttinen kirjanpito"
+msgstr "Laskentakohteet"
 
 #. module: base
 #: model:ir.module.module,shortdesc:base.module_analytic_enterprise
 msgid "Analytic Accounting Enterprise"
-msgstr "Kustannuspaikat Enterprise"
+msgstr "Laskentakohteet, Yritys"
 
 #. module: base
 #: model:ir.module.module,summary:base.module_mrp_account
 #: model:ir.module.module,summary:base.module_mrp_account_enterprise
 msgid "Analytic accounting in Manufacturing"
-msgstr "Kustannuspaikat valmistuksessa"
+msgstr "Laskentakohteet tuotannossa"
 
 #. module: base
 #: model:ir.module.module,summary:base.module_mrp_workorder_hr_account
@@ -20496,7 +20505,7 @@ msgstr "Varat"
 #. module: base
 #: model:ir.module.module,shortdesc:base.module_account_asset
 msgid "Assets Management"
-msgstr "Omistusten hallinta"
+msgstr "Omaisuuden hallinta"
 
 #. module: base
 #: model:ir.module.module,shortdesc:base.module_account_asset_fleet
@@ -20657,7 +20666,7 @@ msgstr "Houkuttele kävijöitä tilaamaan postituslistoja"
 #. module: base
 #: model:ir.module.module,shortdesc:base.module_certification_organism
 msgid "Audit & Certification"
-msgstr "Tilinarkastus & sertifiointi"
+msgstr "Auditointi & sertifiointi"
 
 #. module: base
 #: model:res.currency,currency_subunit_label:base.ISK
@@ -20875,8 +20884,8 @@ msgid ""
 "Automatically finds the purchase order linked to a vendor bill when using "
 "invoice extraction"
 msgstr ""
-"Löytää automaattisesti ostotilauksen, joka on linkitetty myyjän laskuun, kun "
-"käytetään laskujen louhintaa"
+"Löytää automaattisesti toimittajan laskuun linkitetyn ostotilauksen, kun "
+"käytetään laskujen poimintaa"
 
 #. module: base
 #: model:ir.module.module,summary:base.module_website_appointment_sale_project
@@ -20998,7 +21007,7 @@ msgstr "Avatax Brasilian Verkkokaupan verouudistuksessa"
 #. module: base
 #: model:ir.module.module,shortdesc:base.module_account_avatax_stock
 msgid "Avatax for Inventory"
-msgstr "Avatax for Inventory"
+msgstr "Avatax varastoinnille"
 
 #. module: base
 #: model:ir.module.module,shortdesc:base.module_account_avatax_sale
@@ -21638,7 +21647,7 @@ msgstr "Belgia - Palkanlaskenta - Kuljetuskalusto"
 #. module: base
 #: model:ir.module.module,shortdesc:base.module_l10n_be_hr_payroll_account
 msgid "Belgium - Payroll with Accounting"
-msgstr "Belgia - Kirjanpito ja palkkahallinto"
+msgstr "Belgia - Palkanlaskenta kirjanpidolla"
 
 #. module: base
 #: model:res.country,name:base.bz
@@ -22864,7 +22873,7 @@ msgstr "Šekkien hallinta"
 #. module: base
 #: model:ir.model.fields,field_description:base.field_ir_attachment__checksum
 msgid "Checksum/SHA1"
-msgstr "Checksum/SHA1"
+msgstr "Tarkistussumma/SHA1"
 
 #. module: base
 #: model:res.currency,currency_subunit_label:base.BTN
@@ -23273,7 +23282,7 @@ msgstr "Sarake, joka viittaa tietueeseen mallitaulukossa"
 #: model_terms:res.partner,website_description:base.res_partner_12
 #: model_terms:res.partner,website_description:base.res_partner_5
 msgid "Come see us live, we hope to meet you!"
-msgstr "Tule katsomaan meitä livenä, toivomme tapaavamme sinut!"
+msgstr "Tule tapaamaan meitä paikan päälle, toivomme tapaavamme sinut!"
 
 #. module: base
 #: model:ir.model.fields.selection,name:base.selection__report_paperformat__format__comm10e
@@ -23588,7 +23597,7 @@ msgstr "Asetukset"
 #: model:ir.model,name:base.model_ir_actions_todo
 #: model:ir.ui.menu,name:base.menu_ir_actions_todo_form
 msgid "Configuration Wizards"
-msgstr "Määritä ohjattuja toimintoja"
+msgstr "Ohjatut määritystoiminnot"
 
 #. module: base
 #: model:ir.module.module,summary:base.module_partner_commission
@@ -23755,7 +23764,7 @@ msgstr "Konsultointipalvelut"
 #: model_terms:ir.ui.view,arch_db:base.view_company_form
 #: model_terms:ir.ui.view,arch_db:base.view_partner_simple_form
 msgid "Contact"
-msgstr "Kontakti"
+msgstr "Yhteystieto"
 
 #. module: base
 #: model_terms:ir.ui.view,arch_db:base.view_partner_form
@@ -24999,13 +25008,13 @@ msgstr "Veloituslaskut"
 #. module: base
 #: model:ir.model.fields,field_description:base.field_ir_mail_server__smtp_debug
 msgid "Debugging"
-msgstr "Virheenjäljitys"
+msgstr "Viankorjaus"
 
 #. module: base
 #. odoo-python
 #: code:addons/base/models/ir_ui_view.py:0
 msgid "Debugging information:"
-msgstr "Vianmääritystiedot:"
+msgstr "Viankorjaustiedot:"
 
 #. module: base
 #: model:ir.actions.act_window,name:base.action_decimal_precision_form
@@ -25779,13 +25788,13 @@ msgstr "Doctor"
 #. module: base
 #: model_terms:ir.ui.view,arch_db:base.view_base_module_uninstall
 msgid "Document"
-msgstr "Dokumentti"
+msgstr "Asiakirja"
 
 #. module: base
 #: model:ir.model.fields,field_description:base.field_report_layout__view_id
 #: model:ir.model.fields,field_description:base.field_res_company__external_report_layout_id
 msgid "Document Template"
-msgstr "Dokumenttipohja"
+msgstr "Asiakirjapohja"
 
 #. module: base
 #: model:ir.module.category,name:base.module_category_productivity_documents
@@ -26083,6 +26092,12 @@ msgid ""
 "back in 19.0.\n"
 "    This module ports the feature back in 18.0"
 msgstr ""
+"Seurantaraportin uudistuksen yhteydessä versiossa 18.0\n"
+"    kirjausrivien kenttä ”Ei seurantaa” poistettiin, minkä vuoksi "
+"yksittäisiä\n"
+"    kirjausrivejä ei voitu sulkea pois seurannan käynnistyksestä. Tämä "
+"ominaisuus lisättiin takaisin versiossa 19.0.\n"
+"    Tämä moduuli tuo ominaisuuden takaisin versioon 18.0"
 
 #. module: base
 #: model:ir.module.module,description:base.module_pos_no_followup
@@ -26094,6 +26109,12 @@ msgid ""
 "back in 19.0.\n"
 "    This module ports the feature back in 18.0 for point of sale."
 msgstr ""
+"Seurantaraportin uudistuksen yhteydessä versiossa 18.0\n"
+"    kirjausrivien kenttä ”Ei seurantaa” poistettiin, minkä vuoksi "
+"yksittäisiä\n"
+"    kirjausrivejä ei voitu sulkea pois seurannan käynnistyksestä. Tämä "
+"ominaisuus lisättiin takaisin versiossa 19.0.\n"
+"    Tämä moduuli tuo ominaisuuden takaisin version 18.0 kassajärjestelmään."
 
 #. module: base
 #: model:ir.module.module,summary:base.module_l10n_nl_reports_sbr
@@ -27841,7 +27862,7 @@ msgstr "Laajennus, jonka avulla seuranta-asiakirjat voi lähettää postitse"
 #: model_terms:ir.ui.view,arch_db:base.view_client_action_form
 #: model_terms:ir.ui.view,arch_db:base.view_window_action_form
 msgid "External ID"
-msgstr "Ulkoinen ID"
+msgstr "Ulkoinen tunnus"
 
 #. module: base
 #: model:ir.model.constraint,message:base.constraint_ir_model_data_name_nospaces
@@ -28388,7 +28409,7 @@ msgstr "Suodata dokumenttejani"
 #: model_terms:ir.ui.view,arch_db:base.ir_filters_view_tree
 #: model_terms:ir.ui.view,arch_db:base.view_window_action_form
 msgid "Filters"
-msgstr "Suotimet"
+msgstr "Suodattimet"
 
 #. module: base
 #: model_terms:ir.ui.view,arch_db:base.ir_filters_view_search
@@ -28398,12 +28419,12 @@ msgstr "Omat suotimeni"
 #. module: base
 #: model_terms:ir.ui.view,arch_db:base.ir_filters_view_search
 msgid "Filters shared with all users"
-msgstr "Suotimet, jotka on jaettu kaikkien käyttäjien kanssa"
+msgstr "Kaikkien käyttäjien kanssa jaetut suodattimet"
 
 #. module: base
 #: model_terms:ir.ui.view,arch_db:base.ir_filters_view_search
 msgid "Filters visible only for one user"
-msgstr "Suotimet, jotka näkyvät vain yhdelle käyttäjälle"
+msgstr "Vain yhdelle käyttäjälle näkyvät suodattimet"
 
 #. module: base
 #: model:res.partner.industry,name:base.res_partner_industry_K
@@ -28639,7 +28660,7 @@ msgstr ""
 #. module: base
 #: model:ir.model.fields,help:base.field_ir_model_fields__relation
 msgid "For relationship fields, the technical name of the target model"
-msgstr "Yhteyskentille tarkoitetun kohdekentän tekninen nimi"
+msgstr "Kohdemallin tekninen nimi suhdekentille"
 
 #. module: base
 #. odoo-python
@@ -29123,11 +29144,11 @@ msgid ""
 "\n"
 "OFX and QIF imports are available in Enterprise version."
 msgstr ""
-"Ohjattu toiminto, jonka avulla voi tuoda tiliotteita.\n"
+"Ohjattu toiminto pankkitiliotteiden tuomiseen.\n"
 "\n"
-"(Tämä moduuli ei sisällä minkäänlaista tuontiformaattia.)\n"
+"(Tämä moduuli ei sisällä minkään tyyppistä tuontiformaattia.)\n"
 "\n"
-"OFX- ja QIF-tuonti on saatavilla Enterprise-versiossa."
+"OFX- ja QIF-tuonti on saatavilla Yritys-versiossa."
 
 #. module: base
 #: model:ir.model.fields,field_description:base.field_res_partner__partner_latitude
@@ -29294,7 +29315,7 @@ msgstr "Siirry käyttäjiin"
 #. module: base
 #: model:ir.module.module,shortdesc:base.module_google_calendar
 msgid "Google Calendar"
-msgstr "Google-kalenteri"
+msgstr "Google Kalenteri"
 
 #. module: base
 #: model:ir.module.module,shortdesc:base.module_google_gmail
@@ -30443,9 +30464,9 @@ msgid ""
 "If enabled, the full output of SMTP sessions will be written to the server "
 "log at DEBUG level (this is very verbose and may include confidential info!)"
 msgstr ""
-"Jos tämä on käytössä, SMTP-istuntojen kaikki tulosteet kirjoitetaan "
-"palvelimen lokiin DEBUG-tasolla (tämä on hyvin yksityiskohtaista ja voi "
-"sisältää luottamuksellista tietoa!)"
+"Jos otettu käyttöön, SMTP-istuntojen kaikki tulokset kirjoitetaan palvelimen "
+"lokiin viankorjauksen tasolla (tämä on hyvin yksityiskohtaista ja voi "
+"sisältää luottamuksellisia tietoja!)"
 
 #. module: base
 #: model:ir.model.fields,help:base.field_ir_actions_report__attachment_use
@@ -30763,7 +30784,7 @@ msgstr "Sisäänlue CAMT-tiliote"
 #. module: base
 #: model:ir.module.module,shortdesc:base.module_account_bank_statement_import_csv
 msgid "Import CSV Bank Statement"
-msgstr "Sisäänlue CSV-tiliote"
+msgstr "Tuo CSV-tiliote"
 
 #. module: base
 #: model:ir.module.module,summary:base.module_account_winbooks_import
@@ -30773,12 +30794,12 @@ msgstr "Sisäänlue dataa Winbooksista"
 #. module: base
 #: model:ir.module.module,shortdesc:base.module_account_bank_statement_import_ofx
 msgid "Import OFX Bank Statement"
-msgstr "Sisäänlue OFX-tiliote"
+msgstr "Tuo OFX-tiliote"
 
 #. module: base
 #: model:ir.module.module,shortdesc:base.module_account_bank_statement_import_qif
 msgid "Import QIF Bank Statement"
-msgstr "Sisäänlue QIF-tiliote"
+msgstr "Tuo QIF-tiliote"
 
 #. module: base
 #: model:ir.module.module,summary:base.module_sale_shopee
@@ -31748,7 +31769,7 @@ msgstr "Virheellinen xmlid %(xmlid)s napin tyyppiselle toiminnolle."
 #: model:ir.module.module,shortdesc:base.module_stock
 #: model_terms:ir.ui.view,arch_db:base.user_groups_view
 msgid "Inventory"
-msgstr "Varasto"
+msgstr "Varastointi"
 
 #. module: base
 #: model_terms:res.partner,website_description:base.res_partner_2
@@ -32769,7 +32790,7 @@ msgstr "Käynnistä"
 #: model_terms:ir.ui.view,arch_db:base.config_wizard_step_view_form
 #: model_terms:ir.ui.view,arch_db:base.ir_actions_todo_tree
 msgid "Launch Configuration Wizard"
-msgstr "Lounaskonfiguraation velho"
+msgstr "Käynnistä ohjattu määritystoiminto"
 
 #. module: base
 #: model:ir.module.module,shortdesc:base.module_industry_lawyer
@@ -33843,7 +33864,7 @@ msgstr "Alusta verkko-oppimisen hallintaan ja julkaisuihin"
 #. module: base
 #: model:ir.module.module,summary:base.module_account_asset_fleet
 msgid "Manage assets with fleets"
-msgstr "Hallitse omaisuuseriä kuljetuskalustoilla"
+msgstr "Hallinnoi omaisuuseriä kuljetuskalustojen kanssa"
 
 #. module: base
 #: model:ir.module.module,summary:base.module_certificate
@@ -33864,9 +33885,7 @@ msgstr "Hallitse kulkuneuvojen hylättyjä menoja"
 #. module: base
 #: model:ir.module.module,summary:base.module_mrp_plm
 msgid "Manage engineering change orders on products, bills of material"
-msgstr ""
-"Tuotteita, materiaaliluetteloita koskevien teknisten muutostilausten "
-"hallinnointi"
+msgstr "Hallinnoi tuotteiden teknisiä muutostilauksia ja materiaaliluetteloita"
 
 #. module: base
 #: model:ir.module.module,summary:base.module_event_booth
@@ -33901,7 +33920,7 @@ msgstr ""
 #. module: base
 #: model:ir.module.module,summary:base.module_accountant
 msgid "Manage financial and analytic accounting"
-msgstr "Hallinnoida taloudellista ja analyyttistä kirjanpitoa"
+msgstr "Hallinnoi taloutta ja laskentakohteita"
 
 #. module: base
 #: model:ir.module.module,summary:base.module_website_sale_stock
@@ -34323,7 +34342,7 @@ msgstr "Yhdistä automaattisesti kaikki prosessit"
 #. module: base
 #: model_terms:ir.ui.view,arch_db:base.base_partner_merge_automatic_wizard_form
 msgid "Merge Contacts"
-msgstr "Yhdistä kontaktit"
+msgstr "Yhteystietojen yhdistäminen"
 
 #. module: base
 #: model:ir.model,name:base.model_base_partner_merge_line
@@ -34338,7 +34357,7 @@ msgstr "Ohjattu kumppaneiden yhdistämistoiminto"
 #. module: base
 #: model_terms:ir.ui.view,arch_db:base.base_partner_merge_automatic_wizard_form
 msgid "Merge the following contacts"
-msgstr "Yhdistä seuraavat kontaktit"
+msgstr "Yhdistä seuraavat yhteystiedot"
 
 #. module: base
 #: model_terms:ir.ui.view,arch_db:base.base_partner_merge_automatic_wizard_form
@@ -36205,122 +36224,117 @@ msgstr ""
 "--------\n"
 "\n"
 "Tehosta myynnin tuottavuutta, paranna voittoprosenttia ja kasvata "
-"liikevaihtoa Odoo CRM:n avulla\n"
-"<a href=\"https://www.odoo.com/app/crm\">Avoimen lähdekoodin CRM</a>:n "
-"avulla.\n"
+"liikevaihtoa Odoon\n"
+"<a href=\"https://www.odoo.com/app/crm\">Avoimen lähdekoodin CRM-"
+"järjestelmän</a> avulla.\n"
 "\n"
-"Hallitse myyntisuppiloa vaivattomasti. Houkuttele liidit, seuraa "
-"puhelimitse\n"
-"puheluita ja tapaamisia. Analysoi liidien laatua ja tee tietoon perustuvia\n"
-"päätöksiä ja säästää aikaa integroimalla sähköpostit suoraan sovellukseen.\n"
+"Hallitse myyntiputkea vaivattomasti. Houkuttele liidejä, hoida "
+"jälkiseurantaa\n"
+"puhelimitse ja tapaamisissa. Analysoi liidien laatua ja tee tietoon "
+"perustuvia\n"
+"päätöksiä.Säästää aikaa integroimalla sähköpostit suoraan sovellukseen.\n"
 "\n"
-"Myyntisuppilosi, kuten sinä haluat\n"
+"Myyntiputkesi sellaisena kuin sinä haluat\n"
 "--------------------------------------\n"
 "\n"
-"Seuraa mahdollisuuksiesi putkea vallankumouksellisen kanban-näkymän avulla. "
-"Työ\n"
-"sisällä myyntisuppilossasi ja saat välittömästi visuaalista tietoa "
-"seuraavista toimista,\n"
-"uusista viesteistä, parhaista mahdollisuuksista ja odotetuista tuloista.\n"
+"Seuraa myyntimahdollisuuksiesi jatkumoa vallankumouksellisen kanban-näkymän "
+"avulla. Työskentele\n"
+"myyntiputkessasi saadaksesi välittömästi visuaalista tietoa seuraavista "
+"toiminnoista,\n"
+"uusista viesteistä, parhaista myyntimahdollisuuksista sekä ennustetuista "
+"tuloista.\n"
 "\n"
-"Liidien hallinta helppoa\n"
+"Liidien hallinta on nyt helppoa\n"
 "-------------------------\n"
 "\n"
-"Luo liidit automaattisesti saapuvista sähköposteista. Analysoi liidien "
+"Luo liidejä automaattisesti saapuvista sähköposteista. Analysoi liidien "
 "tehokkuutta ja\n"
-"vertaile suorituskykyä kampanjoittain, kanavittain tai myyntitiimeittäin.\n"
+"vertaile suorituskykyä kampanjoittain, kanavoittain tai myyntitiimeittäin.\n"
 "\n"
-"Etsi päällekkäiset liidit, yhdistä ne ja määritä ne oikealle myyjälle "
-"yhdellä kertaa\n"
-"toiminto. Käytä vähemmän aikaa hallintoon ja enemmän aikaa liidien "
+"Löydä päällekkäiset liidit, yhdistä ne ja välitä oikealle myyjälle yhdellä\n"
+"toiminnolla. Käytä vähemmän aikaa hallinnointiin ja enemmän aikaa liidien "
 "karsimiseen.\n"
 "\n"
-"Järjestä mahdollisuutesi\n"
+"Järjestä myyntimahdollisuutesi\n"
 "---------------------------\n"
 "\n"
-"Järjestä mahdollisuutesi, jotta voit keskittyä parhaisiin tarjouksiin. "
-"Hallitse kaikkia\n"
-"asiakkaan vuorovaikutusta tilaisuudesta, kuten sähköposteja, puheluita,\n"
-"sisäiset muistiinpanot, kokoukset ja tarjoukset.\n"
+"Organisoi myyntimahdollisuutesi, jotta voit keskittyä parhaisiin "
+"tarjouksiin. Hallitse kaikkia\n"
+"asiakkaan kanssa käytyjä keskusteluja, kuten sähköposteja, puheluita,\n"
+"sisäisiä muistiinpanoja, kokouksia ja tarjouksia.\n"
 "\n"
-"Seuraa sinua kiinnostavia tilaisuuksia, jotta saat ilmoituksen tietyistä "
-"tapahtumista:\n"
-"mahdollisuudet, jotka liittyvät mahdollisuuksiin: voitettu tai menetetty "
-"sopimus, vaiheen muutos, uusi asiakaskysyntä jne.\n"
+"Seuraa sinua kiinnostavia myyntimahdollisuuksia, jotta saat ilmoituksen "
+"tietyistä tapahtumista:\n"
+"voitettu tai menetetty, vaiheen muutos, uusi asiakaspyyntö, jne.\n"
 "\n"
 "Sähköpostin integrointi ja automatisointi\n"
 "--------------------------------\n"
 "\n"
-"Työskentele jo päivittäin käyttämiesi sähköpostisovellusten kanssa. Olipa "
-"kyseessä sitten\n"
-"yrityksesi käyttää Microsoft Outlookia tai Gmailia, kenenkään ei tarvitse "
-"muuttaa tapaa, jolla hän\n"
-"työskentelytapaa, joten kaikki pysyvät tuottavina.\n"
+"Työskentele päivittäin käyttämiesi sähköpostisovellusten kanssa. Käyttääpä\n"
+"yrityksesi Microsoft Outlookia tai Gmailia, kenenkään ei tarvitse muuttaa\n"
+"työskentelytapaansa.\n"
 "\n"
 "Reititä, lajittele ja suodata saapuvat sähköpostit automaattisesti. Odoo CRM "
 "käsittelee saapuvat\n"
-"sähköpostit ja reitittää ne oikeisiin mahdollisuuksiin tai myyntitiimille. "
-"Uudet liidit ovat\n"
-"luodaan lennossa ja kiinnostuneille myyjille ilmoitetaan automaattisesti.\n"
+"sähköpostit ja reitittää ne oikeisiin myyntimahdollisuuksiin tai oikeille "
+"myyntitiimille. Uudet liidit\n"
+"luodaan lennosta ja kiinnostuneille myyjille ilmoitetaan automaattisesti.\n"
 "\n"
 "Yhteistyöhön perustuva asialista\n"
 "--------------------\n"
 "\n"
 "Aikatauluta kokoukset ja puhelut integroidun kalenterin avulla. Voit\n"
-"nähdä oman ja kollegojesi esityslistan yhdessä näkymässä. Esimiehenä on "
-"helppo\n"
-"nähdä, mitä tiimisi on tekemässä.\n"
+"nähdä oman sekä kollegoidesi ohjelman yhdessä näkymässä. Esihenkilönä näet\n"
+"helposti, mitä tiimilläsi on työn alla.\n"
 "\n"
-"Lead-automaatio ja markkinointikampanjat\n"
+"Liidien automaatio ja markkinointikampanjat\n"
 "---------------------------------------\n"
 "\n"
-"Tehosta suorituskykyä automatisoimalla tehtäviä Odoo <a href=\"https://"
-"www.odoo.com/app/crm\">CRM</a>:n avulla.\n"
+"Tehosta suorituskykyä automatisoimalla tehtäviä Odoon <a href=\"https://"
+"www.odoo.com/app/crm\">CRM-järjestelmän</a> avulla.\n"
 "\n"
-"Käytä markkinointikampanjoita automatisoidaksesi liidien hankinnan, "
-"seurannan ja\n"
+"Käytä markkinointikampanjoita automatisoidaksesi liidien hankinta, seuranta "
+"sekä\n"
 "kampanjat. Määritä automaatiosäännöt (esim. pyydä myyjää soittamaan, "
 "lähettämään\n"
-"sähköpostia, ...), jotka perustuvat laukaiseviin tekijöihin (ei toimintaa 20 "
-"päivään, vastattu viestiin, ...)\n"
-"kampanjasähköpostiin jne.)\n"
+"sähköpostia, ...), jotka perustuvat käynnistäviin tekijöihin (ei toimintaa "
+"20 päivään, vastattu viestiin tai\n"
+"kampanjasähköpostiin, jne.)\n"
 "\n"
-"Optimoi kampanjoita liidistä loppuun kaikissa kanavissa. Tee älykkäämpiä "
-"päätöksiä\n"
-"siitä, mihin investoida, ja näytä markkinointitoimiesi vaikutus "
-"markkinointiin\n"
+"Optimoi kampanjoita liidien hankinnasta kaupan klousaamiseen kaikissa "
+"kanavissa. Tee älykkäämpiä päätöksiä\n"
+"investoinneista sekä näytä markkinointitoimiesi vaikutus\n"
 "yrityksen tulokseen.\n"
 "\n"
 "Mukauta myyntisykliäsi\n"
 "--------------------------\n"
 "\n"
 "Mukauta myyntisykliäsi määrittämällä myyntivaiheet, jotka sopivat "
-"täydellisesti sinun\n"
-"myyntitapaan. Hallitse tilastoja tarkkojen ennusteiden saamiseksi, jotta "
-"voit parantaa\n"
-"myyntitulosta asiakassuhteesi jokaisessa vaiheessa.\n"
+"täydellisesti\n"
+"myyntitapaasi. Hallitse tilastoja tarkkojen ennusteiden saamiseksi sekä "
+"myyntituloksesi\n"
+"parantamiseksi asiakassuhteesi jokaisessa vaiheessa.\n"
 "\n"
-"Lisää sitoutumista pelillistämisen avulla\n"
+"Paranna sitoutumista pelillistämisen avulla\n"
 "----------------------------------\n"
 "\n"
 "### Hyödynnä tiimisi luontaista halua kilpailla\n"
 "\n"
-"Vahvista hyviä tapoja ja paranna voittomääriä reaaliaikaisella "
-"tunnustamisella ja\n"
-"[pelimekaniikan] innoittamilla palkinnoilla (http://en.wikipedia.org/wiki/"
-"Gamification).\n"
-"Kohdista myyntitiimit selkeiden liiketoimintatavoitteiden ympärille "
+"Vahvista hyviä työskentelytapoja sekä paranna voittoastetta reaaliaikaisilla "
+"tunnustuksilla ja\n"
+"palkinnoilla (innoittajana on http://en.wikipedia.org/wiki/Gamification).\n"
+"Aseta myyntitiimien liiketoimintatavoitteet järjestykseen selkeiden "
 "haasteiden, henkilökohtaisten\n"
-"tavoitteet ja tiimin johtotaulut.\n"
+"tavoitteiden ja tiimien pistetaulukoiden avulla.\n"
 "\n"
-"### Leaderboardit\n"
+"### Pistetaulukot\n"
 "\n"
-"Edistää johtajia ja kilpailua myyntitiimin keskuudessa "
-"suorituskykysuhteilla.\n"
+"Korosta johtajia ja edistä kilpailua myyntitiimin keskuudessa "
+"suorituskykymittareilla.\n"
 "\n"
 "### Henkilökohtaiset tavoitteet\n"
 "\n"
-"Määritä käyttäjille selkeät tavoitteet, jotta he ovat linjassa yrityksen "
+"Määritä käyttäjille selkeät tavoitteet, jotta ne ovat linjassa yrityksen "
 "tavoitteiden kanssa.\n"
 "\n"
 "### Tiimin tavoitteet\n"
@@ -37135,57 +37149,57 @@ msgid ""
 "interaction history, profiles, and more.\n"
 "\n"
 msgstr ""
-"Odoo Kassa\n"
+"Odoo Kassajärjestelmä\n"
 "-----------------------------\n"
 "\n"
-"Odoon <a href=\"https://www.odoo.com/app/point-of-sale-shop\">kassa</a>\n"
+"Odoon <a href=\"https://www.odoo.com/app/point-of-sale-shop\">"
+"Kassaärjestelmä</a>\n"
 "esittelee erittäin siistin käyttöliittymän, jota ei tarvitse asentaa ja joka "
 "toimii\n"
-"online ja offline nykyaikaisilla laitteistoilla.\n"
+"online- sekä offline-tilassa nykyaikaisilla laitteistoilla.\n"
 "\n"
-"Kassa on täysin integroitu yrityksen varaston ja kirjanpidon kanssa, antaa "
-"sinulle todellisen\n"
-"ajantasaiset tilastot ja konsolidoinnit kaikkien myymälöiden välillä ilman "
-"vaivalloista\n"
-"integroida useita sovelluksia.\n"
+"Kassajärjestelmä on täysin integroitu yrityksen varaston ja kirjanpidon "
+"kanssa, antaa sinulle\n"
+"ajantasaiset tilastot ja yhdistää kaikki myymälät ilman vaivalloista\n"
+"integrointia useiden sovellusten välillä.\n"
 "\n"
-"Työskentely jo olemassa olevan laitteiston kanssa\n"
+"Työskentele jo olemassa olevalla laitteistolla\n"
 "---------------------------------------\n"
 "\n"
-"### Web-selaimessa\n"
+"### Verkkoselaimessa\n"
 "\n"
-"Odoo kassa on verkkosovellus, jota voidaan käyttää millä tahansa laitteella, "
-"joka pystyy näyttämään\n"
-"verkkosivustoja, eikä asennusta tarvita juuri lainkaan.\n"
+"Odoo Kassajärjestelmä -verkkosovellusta voi käyttää millä tahansa "
+"laitteella. Se on yhteensopiva\n"
+"verkkosivujen kanssa, eikä asetuksia tarvitse juuri muokata.\n"
 "\n"
 "### Kosketusnäyttö vai näppäimistö?\n"
 "\n"
-"Kassa toimii täydellisesti millä tahansa kosketusta tukevalla laitteella, "
-"olipa kyseessä sitten\n"
-"iPadin kaltaiset monikosketusnäytölliset tabletit tai näppäimistöttömät "
-"resistiiviset kosketusnäytöt\n"
-"päätelaitteet.\n"
+"Kassajärjestelmä toimii täydellisesti millä tahansa kosketusnäytöllisellä "
+"laitteella, olipa kyseessä sitten\n"
+"iPadin kaltaiset tabletit tai näppäimistöttömät resistiiviset\n"
+"kosketusnäyttöpäätteet.\n"
 "\n"
 "### Vaa'at ja tulostimet\n"
 "\n"
-"Viivakoodiskannerit ja -tulostimet ovat tuettuja ilman asennusta\n"
-"asennusta ei tarvita. Vaakoja, kassakoneita ja muita oheislaitteita voidaan "
-"käyttää välityspalvelimen kanssa\n"
-"API.\n"
+"Viivakoodinlukijat ja -tulostimet ovat tuettuja, eli\n"
+"erityistä asennusta ei tarvita. Vaakoja, kassakoneita ja muita "
+"oheislaitteita voi käyttää välityspalvelimen ja\n"
+"ohjelmointirajapinnan avulla.\n"
 "\n"
-"Online ja offline\n"
+"Online- ja offline-tila\n"
 "------------------\n"
 "\n"
-"### Odoo Kassa pysyy luotettavana, vaikka yhteytesi ei olisikaan\n"
+"### Odoo Kassajärjestelmä on luotettava, vaikka verkkoyhteytesi ei olisi.\n"
 "\n"
-"Ota uudet myymälät käyttöön pelkällä internet-yhteydellä: **ei asennusta, "
-"ei\n"
-"erityistä laitteistoa ei tarvita**. Se toimii millä tahansa **iPadilla, "
-"Tablet PC:llä, kannettavalla tietokoneella** tai\n"
+"Uusia myymälöitä on helppo lisätä, tarvitset vain internet-yhteyden: **ei "
+"tarvita erityistä asennusta\n"
+"tai laitteistoa**. Se toimii millä tahansa **iPadilla, PC-tabletilla, "
+"kannettavalla tietokoneella** tai\n"
 "teollisen kassakoneen kanssa.\n"
 "\n"
-"Vaikka kassan käynnistäminen edellyttää Internet-yhteyttä, se toimii myös\n"
-"pysyy toiminnassa myös sen jälkeen, kun yhteys on kokonaan katkaistu.\n"
+"Vaikka kassajärjetelmän käynnistäminen edellyttää Internet-yhteyttä, se "
+"toimii myös,\n"
+"vaikka yhteys katkeaisi kokonaan.\n"
 "\n"
 "\n"
 "Erittäin siisti käyttöliittymä\n"
@@ -37193,48 +37207,46 @@ msgstr ""
 "\n"
 "### Yksinkertainen ja kaunis\n"
 "\n"
-"Sano hyvästit rumille, vanhentuneille kassaohjelmistoille ja nauti Odoo-"
-"verkkokäyttöliittymästä\n"
-"joka on suunniteltu nykyaikaista vähittäiskauppaa varten.\n"
+"Sano hyvästit rumille, vanhentuneille kassajärjestelmille ja nauti Odoon "
+"verkkokäyttöliittymästä,\n"
+"joka on suunniteltu nykyaikaista kauppaa varten.\n"
 "\n"
-"### Suunniteltu tuottavuutta varten\n"
+"### Suunniteltu tuottavaksi\n"
 "\n"
-"Olipa kyseessä ravintola tai myymälä, voit aktivoida useiden tilausten\n"
-"rinnakkain, jotta asiakkaasi eivät joudu odottamaan.\n"
+"Olipa kyseessä ravintola tai myymälä, voit aktivoida useita tilauksia\n"
+"rinnakkain säästääksesi asiakkaasi odottelulta.\n"
 "\n"
 "### Salamannopea haku\n"
 "\n"
-"Skannaa tuotteita, selaa hierarkkisia luokkia tai hae nopeasti tietoa\n"
-"tuotteista räjähtävän nopealla suodattimella kaikista tuotteistasi.\n"
+"Skannaa tuotteita, selaa hierarkisia luokkia tai hae tietoa\n"
+"tuotteista nopeasti suodattimien avulla.\n"
 "\n"
 "Integroitu varastonhallinta\n"
 "-------------------------------\n"
 "\n"
-"Yhdistä kaikki myyntitiimisi reaaliaikaisesti: myymälät, verkkokauppa, "
-"myynti..\n"
-"tiimit. Saat reaaliaikaisen varastonhallinnan ja tarkat ennusteet hallita\n"
-"hankintoja.\n"
+"Yhdistä kaikki Myyntitiimisi reaaliajassa: myymälät, verkkokauppa,\n"
+"myyntitiimit. Hallitset varastointia reaaliaikaisesti ja saat tarkat "
+"ennusteet\n"
+"hankintojen suunnittelua varten.\n"
 "\n"
-"Täydellinen varastonhallintajärjestelmä käden ulottuvilla: saat tietoa "
-"seuraavista asioista\n"
-"tuotteiden saatavuudesta, laukaise hankintapyynnöt jne.\n"
+"Täydellinen varastonhallintajärjestelmä käden ulottuvilla: saat tietoa\n"
+"tuotteiden saatavuudesta, voit käynnistää hankintapyyntöjä, jne.\n"
 "\n"
 "Tarjoa asiakaspalvelua myymälässä\n"
 "----------------------------------\n"
 "\n"
-"Anna ostoksille vahva kokemus integroimalla myymälän asiakaspalvelun\n"
-"palvelut. Käsittele korjaukset, seuraa takuita, seuraa asiakkaiden "
-"reklamaatioita, suunnittele\n"
-"toimitustilaukset jne.\n"
+"Anna ostajalle toimiva kokemus integroimalla kaikki myymälän\n"
+"asiakaspalvelun osa-alueet. Käsittele korjaukset, seuraa takuita ja "
+"asiakkaiden reklamaatioita, suunnittele\n"
+"toimitustilauksia, jne.\n"
 "\n"
 "Laskutuksen ja kirjanpidon integrointi\n"
 "----------------------------------\n"
 "\n"
-"Tuottaa asiakaslaskuja muutamalla klikkauksella. Valvo myyntiä ja käteistä "
-"reaaliajassa\n"
-"reaaliajassa ja käytä Odoon tehokasta raportointia tehdäksesi älykkäämpiä "
-"päätöksiä, joilla parannat\n"
-"myymäläsi tehokkuutta.\n"
+"Luo asiakaslaskuja muutamalla klikkauksella. Valvo myyntiä ja käteistä\n"
+"reaaliajassa sekä käytä Odoon tehokasta raportointia tehdäksesi myymälän "
+"tehokkuutta tukevia\n"
+"älykkäämpiä päätöksiä.\n"
 "\n"
 "Ei enää vaivalloista ohjelmistojen integrointia: saat kaikki myynti- ja\n"
 "varastotoimet automaattisesti pääkirjanpitoon.\n"
@@ -37242,27 +37254,27 @@ msgstr ""
 "Yhtenäiset tiedot kaikissa myymälöissä\n"
 "------------------------------\n"
 "\n"
-"Saat uudet tuotteet, hinnoittelustrategiat ja kampanjat automaattisesti "
-"sovellettua\n"
-"valittuihin myymälöihin. Työskentele yhtenäisen asiakaskunnan parissa. Ei "
-"monimutkaista käyttöliittymää\n"
-"globaalin strategian pilotointiin kaikissa myymälöissäsi.\n"
+"Voit viedä uudet tuotteet, hinnoittelustrategiat ja kampanjat "
+"automaattisesti\n"
+"valittuihin myymälöihin. Työskentele yhtenäisen asiakaskannan parissa. "
+"Yleisen strategian kokeileminen kaikissa\n"
+"myymälöissäsi ei vaadi monimutkaista käyttöliittymää.\n"
 "\n"
-"Kun sinulla on Odoo taustajärjestelmänä, käytössäsi on järjestelmä, joka "
-"soveltuu todistetusti täydellisesti seuraaviin tarkoituksiin\n"
-"pieniin myymälöihin tai suuriin monikansallisiin yrityksiin.\n"
+"Kun Odoo on taustajärjestelmäsi, käyttämäsi järjestelmä soveltuu "
+"todistetusti niin\n"
+"pieniin myymälöihin kuin suuriin monikansallisiin yrityksiinkin.\n"
 "\n"
-"Tunne asiakkaasi - myymälässä ja myymälän ulkopuolella\n"
+"Tunne asiakkaasi – myymälässä ja myymälän ulkopuolella\n"
 "--------------------------------------\n"
 "\n"
-"Menestyvät tuotemerkit integroivat kaikki asiakassuhteensa kaikkiin "
-"tuotteisiinsa\n"
-"kanaviensa kautta kehittääkseen tarkan asiakasprofiilin ja kommunikoidakseen "
-"ostajien kanssa niin\n"
-"he tekevät ostopäätöksiä kaupassa tai verkossa.\n"
+"Menestyneet tuotemerkit integroivat kaikki asiakassuhteensa jokaiseen "
+"tuotteeseensa kaikkien\n"
+"kanaviensa kautta. Tämä mahdollistaa tarkan asiakasprofiilin kehittämisen "
+"sekä kommunikoinnin asiakkaiden kanssa\n"
+"kaupassa tai verkossa tehtävien ostopäätösten yhteydessä.\n"
 "\n"
-"Odoon avulla saat 360°-asiakasnäkymän, mukaan lukien kanavien välinen "
-"myynti,\n"
+"Odoon avulla saat 360°-asiakasnäkymän, mukaan lukien kanavien välisen "
+"myynnin,\n"
 "vuorovaikutushistorian, profiilit ja paljon muuta.\n"
 "\n"
 
@@ -37562,132 +37574,129 @@ msgid ""
 "Schedule, organize, promote or sell events online; conferences, trainings, "
 "webinars, etc.\n"
 msgstr ""
-"Odoo verkkosivun rakentaja\n"
+"Odoo Verkkosivun rakennustyökalu\n"
 "--------------------\n"
 "\n"
-"Hanki mahtava ja <a href=\"https://www.odoo.com/app/website\">ilmainen "
-"verkkosivusto</a>,\n"
-"helposti muokattavissa Odoo <a href=\"https://www.odoo.com/app/"
-"website\">verkkosivun rakentajan</a> avulla.\n"
+"Hanki upea ja <a href=\"https://www.odoo.com/app/website\">ilmainen "
+"verkkosivu</a>,\n"
+"joka on helposti mukautettavissa Odoon <a href=\"https://www.odoo.com/app/"
+"website\">verkkosivun rakennustyökalun</a> avulla.\n"
 "\n"
-"Luo yritysluokan verkkosivusto superhelpon rakentajamme avulla. Käytä "
-"hienosti\n"
-"suunniteltuja rakennuspalikoita ja muokkaa kaikkea inline.\n"
+"Luo bisnestason verkkosivu superhelpon rakennustyökalumme avulla. Käytä "
+"viimeisimmän päälle\n"
+"suunniteltuja rakennuspalikoita ja muokkaa mitä tahansa suoraan sivulla.\n"
 "\n"
-"Hyödy valmiista liiketoimintaominaisuuksista: sähköinen kaupankäynti, "
-"tapahtumat, blogit, työpaikat..\n"
-"ilmoitukset, asiakasreferenssit, toimintakutsut jne.\n"
+"Hyödynnä valmiita yritysominaisuuksista: verkkokauppa, tapahtumat, blogit,\n"
+"työpaikkailmoitukset, asiakas-suositukset, toimintakehoitteet, jne.\n"
 "\n"
-"Muokkaa mitä tahansa rivissä\n"
+"Muokkaa mitä tahansa suoraan sivulla\n"
 "--------------------\n"
 "\n"
-"Luo kauniita verkkosivustoja ilman teknistä osaamista. Odoon ainutlaatuinen "
-"*'edit\n"
-"inline'* lähestymistapa tekee verkkosivustojen luomisesta yllättävän "
-"helppoa. Ei enää monimutkaisia\n"
-"backendiä; klikkaamalla missä tahansa voit muuttaa mitä tahansa sisältöä.\n"
+"Luo kauniita verkkosivuja ilman teknistä osaamista. Odoon ainutlaatuinen "
+"*'suoramuokkaus'* \n"
+"lähestymistapa tekee verkkosivujen luomisesta yllättävän helppoa. Ei enää "
+"monimutkaisia\n"
+"taustajärjestelmiä; voit muokata mitä tahansa sisältöä yksinkertaisesti "
+"klikkaamalla sitä.\n"
 "\n"
-"\"Haluatko muuttaa tuotteen hintaa? tai laittaa sen lihavoituna? Haluatko "
+"\"Haluatko muuttaa tuotteen hintaa? Haluatko lihavoida sen? Haluatko "
 "muuttaa\n"
-"blogin otsikon?\" Klikkaa vain ja muuta. Saat sen, mitä näet. Todellakin.\n"
+"blogin otsikkoa?\" Klikkaa ja muuta. Saat sen, mitä näet. Ihan oikeasti.\n"
 "\n"
-"Mahtavaa. Hämmästyttävän kaunis.\n"
+"Upea. Hämmästyttävän kaunis.\n"
 "---------------------------------\n"
 "\n"
-"Odoon rakennuspalikat mahdollistavat nykyaikaisten verkkosivustojen "
-"suunnittelun, joka ei ole mahdollista\n"
+"Odoon rakennuspalikat mahdollistavat nykyaikaisten verkkosivujen "
+"suunnittelun, mikä ei ole mahdollista\n"
 "perinteisillä WYSIWYG-sivueditoreilla.\n"
 "\n"
-"Olipa kyse tuotekuvauksista, blogeista tai staattisista sivuista, et "
+"Olipa kyse tuotekuvauksista, blogeista tai staattisista sivuista, sinun ei "
 "tarvitse\n"
-"olla ammattisuunnittelija luodaksesi siistiä sisältöä. Vedä ja pudota vain "
-"ja\n"
-"mukauta ennalta määritettyjä rakennuspalikoita.\n"
+"olla ammattisuunnittelija luodaksesi sisältöä. Sen kuin raahaat ja pudotat "
+"ennalta\n"
+"määritettyjä rakennuspalikoita, ja räätälöit ne haluamallasi tavalla.\n"
 "\n"
-"Yritysvalmis, heti käyttövalmiina\n"
+"Yritysmaailmaan valmisteltu, heti käyttövalmis\n"
 "--------------------------------\n"
 "\n"
-"Aktivoi käyttövalmiit yritysominaisuudet yhdellä napsautuksella; sähköinen "
-"kaupankäynti,\n"
-"call-to-actions, työpaikkailmoitukset, tapahtumat, asiakasreferenssit, "
-"blogit jne.\n"
+"Aktivoi käyttövalmiit yritysominaisuudet yhdellä klikkauksella; "
+"verkkokauppa,\n"
+"toimintakehoitteet, työpaikkailmoitukset, tapahtumat, asiakas-suositukset, "
+"blogit, jne.\n"
 "\n"
-"Perinteiset verkkokauppa- ja CMS-järjestelmät ovat huonosti suunniteltuja, "
-"koska ne eivät ole niiden\n"
-"ydinkohde. Odoo-integraation avulla hyödyt parhaasta hallinnoinnista\n"
-"ohjelmistosta, jolla voit seurata tilauksiasi, työnhakijoitasi, "
-"johtolankojasi jne.\n"
+"Perinteiset verkkokauppa- ja CMS-taustajärjestelmät on suunniteltu kehnosti, "
+"koska ne eivät ole järjestelmän\n"
+"keskiössä. Odoo-integraation avulla saat parhaan\n"
+"hallinto-ohjelmiston, jonka avulla voit seurata tilauksiasi, "
+"työnhakijoitasi, liidejäsi, jne.\n"
 "\n"
 "Loistava mobiilikokemus\n"
 "-------------------------\n"
 "\n"
-"Saat mobiiliystävällisen verkkosivuston responsiivisen suunnittelumme "
-"ansiosta, joka perustuu seuraaviin tekijöihin\n"
-"bootstrapiin. Kaikki sivusi mukautuvat automaattisesti näytön kokoon. "
-"(mobiili\n"
-"puhelimet, tabletit, työpöydät) Sinun ei tarvitse huolehtia "
-"mobiilisisällöstä, se on\n"
-"toimii oletusarvoisesti.\n"
+"Saat mobiiliystävällisen verkkosivun, joka perustuu responsiiviseen "
+"bootstrap-pohjaiseen suunnitteluumme.\n"
+"Kaikki sivusi mukautuvat automaattisesti näytön kokoon (mobiili,\n"
+"tabletti, pöytäkone). Sinun ei tarvitse huolehtia mobiilisisällöstä, se\n"
+"toimii oletuksena.\n"
 "\n"
 "SEO-työkalut käden ulottuvilla\n"
 "-----------------------------\n"
 "\n"
-"*Promote*-työkalu ehdottaa avainsanoja Googlen eniten haettujen termien "
-"mukaan.\n"
-"Hakukoneoptimointityökalut ovat käyttövalmiita, eikä niitä tarvitse "
-"konfiguroida\n"
-"tarvita.\n"
+"*Mainosta*-työkalu ehdottaa avainsanoja Googlen eniten haettujen termien "
+"perusteella.\n"
+"Hakukoneoptimoinnin työkalut ovat käyttövalmiita, eikä niitä tarvitse "
+"määrittää\n"
+"erikseen.\n"
 "\n"
-"Google Analytics seuraa ostoskorin tapahtumia oletusarvoisesti. Sivukartta "
-"ja\n"
+"Google Analytics seuraa ostoskorin tapahtumia oletuksena. Sivukartta ja\n"
 "jäsennelty sisältö luodaan automaattisesti Googlen indeksointia varten.\n"
 "\n"
-"Monikielisyys helppoa\n"
+"Monikielisyys tehty helpoksi\n"
 "-------------------------\n"
 "\n"
-"Saat verkkosivusi käännettyä useille kielille vaivattomasti. Odoo ehdottaa\n"
-"ja levittää käännökset automaattisesti eri sivuille, seuraten mitä muokkaat\n"
+"Saat käännettyä verkkosivusi useille kielille vaivattomasti. Odoo ehdottaa\n"
+"ja lisää käännökset automaattisesti eri sivuille sekä seuraa, mitä muokkaat\n"
 "pääsivulla.\n"
 "\n"
-"Suunnittelijaystävälliset mallit\n"
+"Suunnittelijaystävälliset mallipohjat\n"
 "---------------------------\n"
 "\n"
-"Mallit ovat mahtavia ja helppoja suunnitella. Sinun ei tarvitse kehittää "
-"luoda\n"
+"Mallipohjat ovat hyödyllisiä ja helposti suunniteltavia. Sinun ei tarvitse "
+"kehittää luodaksesi\n"
 "uusia sivuja, teemoja tai rakennuspalikoita. Käytämme puhdasta HTML-"
 "rakennetta,\n"
 "[bootstrap](http://getbootstrap.com/) CSS:ää.\n"
 "\n"
-"Mukauta jokaista sivua lennossa integroidun mallieditorin avulla. Jaa\n"
+"Räätälöi jokaista sivua lennossa integroidun mallipohjaeditorin avulla. Jaa\n"
 "työsi helposti Odoo-moduulina.\n"
 "\n"
 "Fluid Grid -asettelu\n"
 "--------------------\n"
 "\n"
-"Suunnittele täydelliset sivut vetämällä ja pudottamalla rakennuspalikoita. "
+"Suunnittele täydelliset sivut raahaamalla ja pudottamalla rakennuspalikoita. "
 "Siirrä ja skaalaa niitä\n"
-"haluamasi asettelun mukaan.\n"
+"haluamallasi tavalla.\n"
 "\n"
-"Rakennuspalikat perustuvat responsiiviseen, mobiiliystävälliseen "
-"nestemäiseen ruudukkojärjestelmään\n"
-"joka skaalautuu 12 sarakkeeseen laitteen tai näkymän koon mukaan\n"
-"kasvaa.\n"
+"Rakennuspalikat perustuvat responsiiviseen, mobiiliystävälliseen ja "
+"mukautuvaan ruudukkojärjestelmään,\n"
+"joka skaalautuu 12 sarakkeeseen laitteen tai näkymän koon\n"
+"perusteella.\n"
 "\n"
 "Ammattimaiset teemat\n"
 "-------------------\n"
 "\n"
 "Suunnittele oma teema tai käytä uudelleen valmiita teemoja muokataksesi "
-"ulkoasua ja sisältöä\n"
-"sivuston ulkoasua.\n"
+"ulkoasua ja\n"
+"sivuston tunnelmaa.\n"
 "\n"
-"Testaa uutta värimaailmaa helposti; voit vaihtaa teemaa milloin tahansa vain "
+"Testaa uutta värimaailmaa helposti; voit vaihtaa teemaa koska tahansa vain "
 "yhdellä\n"
-"napsautuksella.\n"
+"klikkauksella.\n"
 "\n"
 "Integroitu Odoo-sovellusten kanssa\n"
 "-------------------------\n"
 "\n"
-"### e-Commerce\n"
+"### Verkkokauppa\n"
 "\n"
 "Mainosta tuotteita, myy verkossa, optimoi kävijöiden ostokokemus.\n"
 "\n"
@@ -37697,10 +37706,10 @@ msgstr ""
 "Kirjoita uutisia, houkuttele uusia kävijöitä, rakenna asiakasuskollisuutta.\n"
 "\n"
 "\n"
-"### Online-tapahtumat\n"
+"### Verkkotapahtumat\n"
 "\n"
 "Aikatauluta, järjestä, mainosta tai myy tapahtumia verkossa; konferensseja, "
-"koulutuksia, webinaareja jne.\n"
+"koulutuksia, webinaareja, jne.\n"
 
 #. module: base
 #: model:ir.module.module,description:base.module_website_sale
@@ -38086,8 +38095,8 @@ msgstr ""
 #: model_terms:ir.actions.act_window,help:base.action_partner_form
 msgid "Odoo helps you track all activities related to your contacts."
 msgstr ""
-"Odoo auttaa sinua seuraamaan helposti kaikkia yhteystietoosi liittyviä "
-"toimia."
+"Odoo auttaa sinua seuraamaan kaikkia yhteystietoihisi liittyviä "
+"toimenpiteitä."
 
 #. module: base
 #. odoo-python
@@ -38220,7 +38229,7 @@ msgstr "Verkkotapaaminen"
 #. module: base
 #: model:ir.module.module,shortdesc:base.module_account_online_synchronization
 msgid "Online Bank Statement Synchronization"
-msgstr "Online-pankin tiliotteen synkronointi"
+msgstr "Verkkopankin tiliotteiden synkronointi"
 
 #. module: base
 #: model:ir.module.module,shortdesc:base.module_website_event_booth_sale
@@ -39965,7 +39974,7 @@ msgstr "Maksujen integrointi verkkosivuston kanssa"
 #: model:ir.module.category,name:base.module_category_human_resources_payroll
 #: model:ir.module.module,shortdesc:base.module_hr_payroll
 msgid "Payroll"
-msgstr "Palkkahallinto"
+msgstr "Palkanlaskenta"
 
 #. module: base
 #: model:ir.module.module,shortdesc:base.module_hr_payroll_attendance
@@ -41170,7 +41179,7 @@ msgstr "Tarjoaa push-ilmoituksen ja uudelleenohjauksen mobiilisovellukseen."
 #. module: base
 #: model:ir.module.module,shortdesc:base.module_account_edi_proxy_client
 msgid "Proxy features for account_edi"
-msgstr "Account_edi:n välityspalvelimen ominaisuudet"
+msgstr "Account_edi -välityspalvelinominaisuudet"
 
 #. module: base
 #: model:res.groups,name:base.group_public
@@ -41501,7 +41510,7 @@ msgstr "Qweb-kentän viivakoodi"
 #. module: base
 #: model:ir.model,name:base.model_ir_qweb_field_contact
 msgid "Qweb Field Contact"
-msgstr "Qweb kentän kontakti"
+msgstr "Qweb-kentän yhteystieto"
 
 #. module: base
 #: model:ir.model,name:base.model_ir_qweb_field_date
@@ -42245,7 +42254,7 @@ msgstr "Estä"
 #: model:ir.module.category,name:base.module_category_retail
 #: model:ir.module.category,name:base.module_category_theme_retail
 msgid "Retail"
-msgstr "Jälleenmyynti"
+msgstr "Vähittäiskauppa"
 
 #. module: base
 #: model_terms:ir.ui.view,arch_db:base.res_device_view_kanban
@@ -44055,7 +44064,7 @@ msgstr "Taitojen verkko-oppiminen"
 #. module: base
 #: model_terms:ir.ui.view,arch_db:base.base_partner_merge_automatic_wizard_form
 msgid "Skip these contacts"
-msgstr "Ohita nämä kontaktit"
+msgstr "Ohita nämä yhteystiedot"
 
 #. module: base
 #. odoo-python
@@ -45442,7 +45451,7 @@ msgstr "Teknologia, IT, Tietokoneet, Myymälät, Virtuaalitodellisuus"
 #. module: base
 #: model:ir.model.fields,field_description:base.field_ir_actions_report__report_name
 msgid "Template Name"
-msgstr "Mallin nimi"
+msgstr "Mallipohjan nimi"
 
 #. module: base
 #. odoo-python
@@ -45462,7 +45471,7 @@ msgstr "Tenge"
 #: model_terms:res.company,sign_terms_html:base.demo_company_be
 #: model_terms:res.company,sign_terms_html:base.main_company
 msgid "Terms &amp; Conditions"
-msgstr "Toimitusehdot"
+msgstr "Käyttöehdot"
 
 #. module: base
 #: model:ir.module.module,shortdesc:base.module_test_base_automation
@@ -45508,7 +45517,7 @@ msgstr "Testaa Belgian palkanlaskenta"
 #. module: base
 #: model_terms:ir.ui.view,arch_db:base.ir_mail_server_form
 msgid "Test Connection"
-msgstr "Testaa yhteyttä"
+msgstr "Yhteyden testaus"
 
 #. module: base
 #: model:ir.module.module,shortdesc:base.module_test_data_cleaning
@@ -45921,10 +45930,10 @@ msgid ""
 "Odoo. They are launched during the installation of new modules, but you can "
 "choose to restart some wizards manually from this menu."
 msgstr ""
-"Automaattisia toimintoja käytetään auttamaan uuden Odoo-instanssin "
-"konfiguroinnissa.  Ne käynnistetään uusien moduulien asennuksen aikana, "
-"mutta voit uudelleen käynnistää joitakin automaattisia toimintoja "
-"manuaalisesti tästä valikosta."
+"Ohjattuja määritystoimintoja käytetään uuden Odoo-instanssin konfiguroinnin "
+"apuna. Ne käynnistetään uusien moduulien asennuksen aikana, mutta voit "
+"uudelleenkäynnistää joitakin ohjattuja toimintoja manuaalisesti tästä "
+"valikosta."
 
 #. module: base
 #: model:ir.model.fields,help:base.field_ir_model_fields__related
@@ -47371,9 +47380,9 @@ msgid ""
 "every\n"
 "    theme on one website."
 msgstr ""
-"Tämä moduuli auttaa sinua testaamaan kaikki Odoo\n"
-"     teemat nopeasti ilman, että sinun täytyy vaihtaa yhdestä teemasta "
-"toiseen verkkosivullasi.\n"
+"Tämä moduuli auttaa sinua testaamaan kaikki Odoon\n"
+"     teemat nopeasti ilman, että sinun täytyy vaihtaa verkkosivuasi yhdestä "
+"teemasta toiseen.\n"
 "     Moduuli luo yksinkertaisesti uuden verkkosivun jokaiselle Odoo-teemalle "
 "ja asentaa\n"
 "     teeman per verkkosivu."
@@ -47616,7 +47625,7 @@ msgstr "Tehtävälista"
 #. module: base
 #: model_terms:ir.ui.view,arch_db:base.ir_actions_todo_tree
 msgid "Todo"
-msgstr "Tehtävät"
+msgstr "Tehtävälista"
 
 #. module: base
 #: model:res.currency,currency_subunit_label:base.PGK
@@ -48653,7 +48662,7 @@ msgstr "Käytä tekstiviestimuistutuksia tapaamisissa"
 #. module: base
 #: model:ir.model.fields,help:base.field_res_partner__barcode
 msgid "Use a barcode to identify this contact."
-msgstr "Käytä viivakoodia kontaktin tunnistamiseen."
+msgstr "Käytä viivakoodia yhteystiedon tunnistamiseksi."
 
 #. module: base
 #: model:ir.module.module,summary:base.module_stock_barcode
@@ -48851,7 +48860,7 @@ msgstr "Käyttäjäasetukset"
 #. module: base
 #: model_terms:ir.ui.view,arch_db:base.user_groups_view
 msgid "User Type"
-msgstr "Käyttäjäprofiili"
+msgstr "Käyttäjätyyppi"
 
 #. module: base
 #: model:ir.module.category,description:base.module_category_productivity_dashboard
@@ -50129,7 +50138,7 @@ msgstr "Yrität poistaa asennetun tai asennettavan moduulin."
 #. module: base
 #: model_terms:ir.ui.view,arch_db:base.view_users_form
 msgid "You can archive the contact"
-msgstr "Voit arkistoida kontaktin"
+msgstr "Voit arkistoida yhteystiedon"
 
 #. module: base
 #: model:ir.model.fields,help:base.field_ir_attachment__type
@@ -50458,7 +50467,7 @@ msgstr "Koita jotain muuta hakuehtoa."
 #. module: base
 #: model_terms:res.company,invoice_terms_html:base.main_company
 msgid "You should update this document to reflect your T&amp;C."
-msgstr "Sinun on päivitettävä tämä asiakirja vastaamaan T&amp;C:täsi."
+msgstr "Sinun tulisi päivittää tämä asiakirja vastaamaan käyttöehtojasi."
 
 #. module: base
 #. odoo-python
@@ -50651,7 +50660,7 @@ msgstr "binääri"
 #. module: base
 #: model:ir.model.fields.selection,name:base.selection__ir_model_fields__ttype__boolean
 msgid "boolean"
-msgstr "boolean"
+msgstr "boolen"
 
 #. module: base
 #: model:ir.module.module,shortdesc:base.module_delivery_bpost

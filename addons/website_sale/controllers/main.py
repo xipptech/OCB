@@ -1292,8 +1292,11 @@ class WebsiteSale(payment_portal.PaymentPortal):
             partner_sudo = request.env['res.partner'].sudo().with_context(
                 create_context
             ).create(address_values)
-        elif not self._are_same_addresses(address_values, partner_sudo):
-            partner_sudo.write(address_values)  # Keep the same partner if nothing changed.
+        elif not self._are_same_addresses(address_values, partner_sudo):  # Keep the same partner if nothing changed.
+            write_values = address_values.copy()
+            if partner_sudo.parent_id:
+                write_values.pop('company_name', None)  # Avoid hiding parent link in partner form UI.
+            partner_sudo.write(write_values)
 
         partner_fnames = set()
         if is_main_address:  # Main address updated.
@@ -1793,6 +1796,10 @@ class WebsiteSale(payment_portal.PaymentPortal):
 
         order_sudo._recompute_taxes()
         order_sudo._recompute_prices()
+        if order_sudo.carrier_id:
+            order_sudo.with_context(
+                keep_pickup_location=True,
+            )._set_delivery_method(order_sudo.carrier_id)
         extra_step = request.website.viewref('website_sale.extra_info')
         if extra_step.active:
             return request.redirect("/shop/extra_info")
@@ -2059,6 +2066,18 @@ class WebsiteSale(payment_portal.PaymentPortal):
         # Check that public orders are allowed.
         if request.env.user._is_public() and request.website.account_on_checkout == 'mandatory':
             return request.redirect('/web/login?redirect=/shop/checkout')
+
+        # Check that the cart does not contain products priced at 0 while the
+        # website forbids the sale of zero-priced products
+        if zero_priced_lines := order_sudo._get_zero_priced_lines():
+            zero_priced_lines.shop_warning = request.env._(
+                "This product is not available for purchase in your country."
+            )
+            order_sudo.shop_warning = request.env._(
+                "Some products in your cart are not available for purchase in your"
+                " country. Please remove them or contact us."
+            )
+            return request.redirect('/shop/cart')
 
     def _check_addresses(self, order_sudo):
         """ Check whether the cart's addresses are complete and valid.

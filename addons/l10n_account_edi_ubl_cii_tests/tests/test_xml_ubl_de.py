@@ -80,6 +80,10 @@ class TestUBLDE(TestUBLCommon):
     ####################################################
 
     def test_export_import_invoice(self):
+        company = self.company_data['company']
+        if "predict_bill_product" in company._fields:
+            company.predict_bill_product = True
+
         self.env['ir.config_parameter'].sudo().set_param('account_edi_ubl_cii.use_new_dict_to_xml_helpers', True)
         invoice = self._generate_move(
             self.partner_1,
@@ -119,6 +123,10 @@ class TestUBLDE(TestUBLCommon):
         self._assert_imported_invoice_from_etree(invoice, attachment)
 
     def test_export_import_invoice_xrechnung(self):
+        company = self.company_data['company']
+        if "predict_bill_product" in company._fields:
+            company.predict_bill_product = True
+
         self.partner_2.write({
             'peppol_eas': '0204',
             'peppol_endpoint': '123456789',
@@ -182,6 +190,10 @@ class TestUBLDE(TestUBLCommon):
         self._assert_imported_invoice_from_etree(invoice, attachment)
 
     def test_export_import_invoice_without_vat_and_peppol_endpoint(self):
+        company = self.company_data['company']
+        if "predict_bill_product" in company._fields:
+            company.predict_bill_product = True
+
         self.partner_2.write({
             'vat': False,
             'peppol_endpoint': False,
@@ -212,6 +224,10 @@ class TestUBLDE(TestUBLCommon):
         self.test_export_import_invoice_without_vat_and_peppol_endpoint()
 
     def test_export_import_refund(self):
+        company = self.company_data['company']
+        if "predict_bill_product" in company._fields:
+            company.predict_bill_product = True
+
         refund = self._generate_move(
             self.partner_1,
             self.partner_2,
@@ -250,6 +266,10 @@ class TestUBLDE(TestUBLCommon):
         self._assert_imported_invoice_from_etree(refund, attachment)
 
     def test_export_import_refund_xrehnung(self):
+        company = self.company_data['company']
+        if "predict_bill_product" in company._fields:
+            company.predict_bill_product = True
+
         self.partner_2.write({
             'peppol_eas': '0204',
             'peppol_endpoint': '123456789',

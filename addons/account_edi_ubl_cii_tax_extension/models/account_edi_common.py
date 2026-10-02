@@ -1,5 +1,4 @@
 from odoo import models, _
-from odoo.exceptions import UserError
 
 TAX_EXEMPTION_MAPPING = {
     'VATEX-EU-79-C': 'Exempt based on article 79, point c of Council Directive 2006/112/EC',
@@ -90,6 +89,9 @@ TAX_EXEMPTION_MAPPING = {
     'VATEX-FR-298SEXDECIESA': 'Exempt based on article 298 sexdecies A of the Code Général des Impôts (CGI ; General tax code)',
     'VATEX-FR-CGI295': 'Exempt based on article 295 of the Code Général des Impôts (CGI ; General tax code)',
     'VATEX-FR-AE': 'Exempt based on 2 of article 283 of the Code Général des Impôts (CGI ; General tax code)',
+    'VATEX-FR-F': 'VATEX-FR-F - Second-hand sales',
+    'VATEX-FR-I': 'VATEX-FR-I - Sales of works of art',
+    'VATEX-FR-J': 'VATEX-FR-J - Sales of antiques',
 }
 
 # Some codes were added with _ instead of -, this is a fix for stable version to add them correctly in XML files.
@@ -111,14 +113,11 @@ class AccountEdiCommon(models.AbstractModel):
     _inherit = "account.edi.common"
 
     def _get_tax_unece_codes(self, customer, supplier, tax):
-        if tax.ubl_cii_tax_category_code:
+        if tax and tax.ubl_cii_tax_category_code:
             reason_code = tax.ubl_cii_tax_exemption_reason_code
             reason_code = FIX_WRONG_CODES_MAPPING.get(reason_code, reason_code)
 
-            cocontractant_note = self._get_belgian_cocontractant_note(customer, supplier)
-            if cocontractant_note:
-                if not self._is_valid_cocontracant_tax_extension(tax):
-                    raise UserError(_("Invalid Tax Setup for Co-Contractor fiscal position. Please apply the standard co-contractor tax, or ensure your custom tax uses Reason Code 'AE' and Exemption Reason Code 'VATEX-EU-AE' "))
+            if cocontractant_note := not tax.amount and tax.ubl_cii_tax_category_code == 'AE' and self._get_belgian_cocontractant_note(customer, supplier):
                 tax_exemption_reason = TAX_EXEMPTION_MAPPING.get(reason_code)
                 tax_exemption_reason = f"{tax_exemption_reason} - {cocontractant_note}" if tax_exemption_reason else cocontractant_note
             else:
@@ -131,4 +130,5 @@ class AccountEdiCommon(models.AbstractModel):
         return super()._get_tax_unece_codes(customer, supplier, tax)
 
     def _is_valid_cocontracant_tax_extension(self, tax):
+        # Deprecated
         return not tax.amount and tax.ubl_cii_tax_category_code == "AE" and tax.ubl_cii_tax_exemption_reason_code == "VATEX_EU_AE"

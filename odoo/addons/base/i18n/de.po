@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 18.0+e\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-02-16 16:38+0000\n"
-"PO-Revision-Date: 2026-06-24 08:24+0000\n"
+"PO-Revision-Date: 2026-09-23 08:33+0000\n"
 "Last-Translator: \"Larissa Manderfeld (lman)\" <lman@odoo.com>\n"
 "Language-Team: German <https://translate.odoo.com/projects/odoo-18/base/de/>"
 "\n"
@@ -24,7 +24,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2026.6.1\n"
+"X-Generator: Weblate 2026.8.1\n"
 
 #. module: base
 #: model:ir.module.module,description:base.module_l10n_at_reports
@@ -16236,8 +16236,8 @@ msgid ""
 "<span class=\"o_form_label\" colspan=\"2\">Click on Update below to start "
 "the process...</span>"
 msgstr ""
-"<span class=\"o_form_label\" colspan=\"2\">Klicken Sie unten auf "
-"Aktualisieren, um den Prozess zu starten ...</span>"
+"<span class=\"o_form_label\" colspan=\"2\">Klicken Sie unten auf „"
+"Aktualisieren“, um den Prozess zu starten.</span>"
 
 #. module: base
 #: model_terms:ir.ui.view,arch_db:base.ir_mail_server_form
@@ -21917,7 +21917,7 @@ msgstr "Rechnung an Ihr UPS-Konto"
 #. module: base
 #: model:ir.module.module,shortdesc:base.module_billboard_rental
 msgid "Billboard Rental"
-msgstr "Plakatwandvermietung"
+msgstr "Vermietung von Werbetafeln"
 
 #. module: base
 #: model:ir.model.fields,field_description:base.field_ir_actions_act_url__binding_model_id
@@ -23085,7 +23085,7 @@ msgstr ""
 #. module: base
 #: model:ir.module.module,summary:base.module_account_check_printing
 msgid "Check printing basic features"
-msgstr "Prüfen der Grundfunktionen des Druckens"
+msgstr "Basisfunktionen für Scheckdruck"
 
 #. module: base
 #: model:ir.model.fields,help:base.field_res_partner__employee
@@ -33890,7 +33890,7 @@ msgstr "Malawi"
 #. module: base
 #: model:res.country,name:base.my
 msgid "Malaysia"
-msgstr "Malaysien"
+msgstr "Malaysia"
 
 #. module: base
 #: model:ir.module.module,shortdesc:base.module_l10n_my
@@ -40358,7 +40358,7 @@ msgstr "Peppol"
 #. module: base
 #: model:ir.module.module,shortdesc:base.module_account_peppol_selfbilling
 msgid "Peppol Self Billing"
-msgstr "Peppol-Selbstfakturierung"
+msgstr "Peppol-Gutschriftsverfahren"
 
 #. module: base
 #: model:ir.module.category,name:base.module_category_theme_personal
@@ -44808,7 +44808,7 @@ msgstr "Sponsoren, Beiträge, Programm, Veranstaltungsnews"
 #. module: base
 #: model:ir.module.module,shortdesc:base.module_sports_club
 msgid "Sports Club"
-msgstr "Sportklub"
+msgstr "Sportverein"
 
 #. module: base
 #: model:ir.module.module,description:base.module_spreadsheet

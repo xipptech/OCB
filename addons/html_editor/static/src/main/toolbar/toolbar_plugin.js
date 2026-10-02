@@ -99,7 +99,7 @@ import { closestElement } from "@html_editor/utils/dom_traversal";
  */
 
 /** Delay in ms for toolbar open after keyup, double click or triple click. */
-const DELAY_TOOLBAR_OPEN = 300;
+export const DELAY_TOOLBAR_OPEN = 300;
 
 /**
  * @typedef { Object } ToolbarShared
@@ -153,7 +153,12 @@ export class ToolbarPlugin extends Plugin {
         this.updateSelection = null;
 
         this.onSelectionChangeActive = true;
-        this.debouncedUpdateToolbar = debounce(this.updateToolbar, DELAY_TOOLBAR_OPEN);
+        // Re-enable selection tracking only after the debounced update finishes,
+        // so async selectionchange events don't open the toolbar early.
+        this.debouncedUpdateToolbar = debounce(() => {
+            this.updateToolbar();
+            this.onSelectionChangeActive = true;
+        }, DELAY_TOOLBAR_OPEN);
 
         if (!this.isMobileToolbar) {
             // Mouse interaction behavior:
@@ -166,8 +171,7 @@ export class ToolbarPlugin extends Plugin {
             this.addDomListener(this.document, "mouseup", (ev) => {
                 if (ev.detail >= 2) {
                     // Delayed open, waiting for a possible triple click.
-                    this.onSelectionChangeActive = true;
-                    this.debouncedUpdateToolbar();
+                    this.triggerDebouncedUpdateToolbar();
                 } else {
                     // Fast open, just wait for a possible selection change due
                     // to mouseup.
@@ -196,16 +200,14 @@ export class ToolbarPlugin extends Plugin {
             this.addDomListener(this.editable, "keyup", (ev) => {
                 if (ev.key?.startsWith("Arrow")) {
                     this.pendingArrowKey = false;
-                    this.onSelectionChangeActive = true;
-                    this.debouncedUpdateToolbar();
+                    this.triggerDebouncedUpdateToolbar();
                 }
             });
             if (isMacOS()) {
                 this.addDomListener(this.document, "selectionchange", () => {
                     if (this.pendingArrowKey && !this.isMouseDown) {
                         this.pendingArrowKey = false;
-                        this.onSelectionChangeActive = true;
-                        this.debouncedUpdateToolbar();
+                        this.triggerDebouncedUpdateToolbar();
                     }
                 });
                 this.addDomListener(this.editable, "mousedown", () => (this.isMouseDown = true));
@@ -218,6 +220,13 @@ export class ToolbarPlugin extends Plugin {
         this.debouncedUpdateToolbar.cancel();
         this.overlay.close();
         super.destroy();
+    }
+
+    /**
+     * Schedules a debounced toolbar update.
+     */
+    triggerDebouncedUpdateToolbar() {
+        this.debouncedUpdateToolbar();
     }
 
     /**

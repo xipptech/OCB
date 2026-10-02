@@ -11,7 +11,7 @@ from psycopg2 import errors as pgerrors
 from odoo import api, fields, models, _
 from odoo.osv import expression
 from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT, mute_logger
-from odoo.exceptions import ValidationError, UserError
+from odoo.exceptions import AccessError, ValidationError, UserError
 from odoo.tools import SQL, unique
 
 from odoo.addons.account.models.account_move import BYPASS_LOCK_CHECK
@@ -30,7 +30,7 @@ _ref_company_registry = {
 class AccountFiscalPosition(models.Model):
     _name = 'account.fiscal.position'
     _description = 'Fiscal Position'
-    _order = 'sequence'
+    _order = 'sequence, id'
     _check_company_auto = True
     _check_company_domain = models.check_company_domain_parent_of
 
@@ -200,7 +200,7 @@ class AccountFiscalPosition(models.Model):
 
     def _get_vat_valid(self, delivery, company=None):
         """ Hook for determining VAT validity with more complex VAT requirements """
-        return bool(delivery.vat)
+        return bool(delivery.vat and delivery.vat != '/')
 
     def _get_fpos_ranking_functions(self, partner):
         """Get comparison functions to rank fiscal positions.
@@ -289,6 +289,8 @@ class AccountFiscalPosition(models.Model):
         )[0]
 
     def action_create_foreign_taxes(self):
+        if not (self.env.is_admin() or self.env.user.has_group('account.group_account_manager')):
+            raise AccessError(_("Only Accounting managers can create foreign taxes."))
         self.ensure_one()
         template_code = self.env['account.chart.template']._guess_chart_template(self.country_id)
         template = self.env['account.chart.template']._get_chart_template_mapping()[template_code]
@@ -923,6 +925,9 @@ class ResPartner(models.Model):
         country_prefix = re.match('^[a-zA-Z]{2}|^', vat).group()
 
         criteria = [{'domain': [('vat', 'in', (normalized_vat, vat))]}]
+        extra_vat_values = self._get_country_specific_vat_variants(normalized_vat, country_prefix)
+        if extra_vat_values:
+            criteria.append({'domain': [('vat', 'in', extra_vat_values)]})
         if country_prefix:
             criteria.append({
                 'domain': [
@@ -970,6 +975,11 @@ class ResPartner(models.Model):
         return {
             'criteria': criteria,
         }
+
+    @api.model
+    def _get_country_specific_vat_variants(self, normalized_vat, country_prefix):
+        """Return additional formatted VAT values to consider during EDI partner matching."""
+        return []
 
     @api.model
     def _import_retrieve_customer_from_bank_account_number(self, customer_values):

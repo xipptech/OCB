@@ -5,9 +5,17 @@ SUPPORTED_CURRENCIES = [
     'IDR',
     'MYR',
     'PHP',
+    'SGD',
     'THB',
+    'USD',
     'VND',
 ]
+
+# Tokens created through the v3 Payment Tokens API are prefixed this way. Tokens saved before the
+# migration to that API (and the Payment Sessions API) don't have this prefix; there is no
+# documented way to migrate them, so they must still be charged through the legacy (v2)
+# `credit_card_charges` endpoint.
+V3_TOKEN_ID_PREFIX = 'pt-'
 
 # To correctly allow lowest decimal place rounding
 # https://docs.xendit.co/payment-link/payment-channels
@@ -15,7 +23,9 @@ CURRENCY_DECIMALS = {
     'IDR': 0,
     'MYR': 0,
     'PHP': 0,
+    'SGD': 0,
     'THB': 0,
+    'USD': 0,
     'VND': 0,
 }
 
@@ -37,11 +47,15 @@ DEFAULT_PAYMENT_METHOD_CODES = {
     # VN
     'appota',
     'zalopay',
-    'vnptwallet'
+    'vnptwallet',
+    # SG
+    'paynow',
 
     # Brand payment methods.
     'visa',
     'mastercard',
+    'jcb',
+    'amex',
 }
 
 # FPX is an online payment method in Malaysia that allows customers to make payments directly from their bank accounts.
@@ -96,21 +110,22 @@ PAYMENT_METHODS_MAPPING = {
     'bank_bca': 'BCA',
     'bank_permata': 'PERMATA',
     'bpi': 'DD_BPI',
-    'card': 'CREDIT_CARD',
+    'card': 'CARDS',
     'maya': 'PAYMAYA',
     'wechat_pay': 'WECHATPAY',
     'scb': 'DD_SCB_MB',
     'krungthai_bank': 'DD_KTB_MB',
     'bangkok_bank': 'DD_BBL_MB',
     'touch_n_go': 'TOUCHNGO',
+    'paynow': 'SGQR',
     **{method: 'fpx' for method in FPX_METHODS}
 }
 
 # Mapping of transaction states to Xendit payment statuses.
 PAYMENT_STATUS_MAPPING = {
     'draft': (),
-    'pending': ('PENDING'),
-    'done': ('SUCCEEDED', 'PAID', 'CAPTURED'),
-    'cancel': ('CANCELLED', 'EXPIRED'),
+    'pending': ('PENDING', 'ACTIVE', 'REQUIRES_ACTION'),
+    'done': ('SUCCEEDED', 'PAID', 'CAPTURED', 'COMPLETED'),
+    'cancel': ('CANCELLED', 'EXPIRED', 'CANCELED'),
     'error': ('FAILED',)
 }

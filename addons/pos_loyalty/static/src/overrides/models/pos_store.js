@@ -443,23 +443,21 @@ patch(PosStore.prototype, {
             selectedProgram = linkedPrograms[0];
         }
 
-        const orderTotal = this.get_order().get_total_with_tax();
-        if (
-            selectedProgram &&
-            ["gift_card", "ewallet"].includes(selectedProgram.program_type) &&
-            orderTotal < 0
-        ) {
-            opt.price_unit = -orderTotal;
-        }
-        if (selectedProgram && selectedProgram.program_type == "gift_card") {
-            const shouldProceed = await this._setupGiftCardOptions(selectedProgram, opt);
-            if (!shouldProceed) {
-                return;
+        if (selectedProgram) {
+            const orderTotal = this.get_order().get_total_with_tax();
+            if (["gift_card", "ewallet"].includes(selectedProgram.program_type) && orderTotal < 0) {
+                opt.price_unit = -orderTotal;
             }
-        } else if (selectedProgram && selectedProgram.program_type == "ewallet") {
-            const shouldProceed = await this.setupEWalletOptions(selectedProgram, opt);
-            if (!shouldProceed) {
-                return;
+            if (selectedProgram.program_type == "gift_card") {
+                const shouldProceed = await this._setupGiftCardOptions(selectedProgram, opt);
+                if (!shouldProceed) {
+                    return;
+                }
+            } else if (selectedProgram.program_type == "ewallet") {
+                const shouldProceed = await this.setupEWalletOptions(selectedProgram, opt);
+                if (!shouldProceed) {
+                    return;
+                }
             }
         }
         const potentialRewards = this.getPotentialFreeProductRewards();
@@ -753,9 +751,12 @@ patch(PosStore.prototype, {
     getLoyaltyCards(partner) {
         const loyaltyCards = [];
         if (this.partnerId2CouponIds[partner.id]) {
-            this.partnerId2CouponIds[partner.id].forEach((couponId) =>
-                loyaltyCards.push(this.models["loyalty.card"].get(couponId))
-            );
+            this.partnerId2CouponIds[partner.id].forEach((couponId) => {
+                const loyaltyCard = this.models["loyalty.card"].get(couponId);
+                if (loyaltyCard) {
+                    loyaltyCards.push(loyaltyCard);
+                }
+            });
         }
         return loyaltyCards;
     },

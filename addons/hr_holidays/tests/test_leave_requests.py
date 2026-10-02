@@ -1251,8 +1251,8 @@ class TestLeaveRequests(TestHrHolidaysCommon):
             'request_date_to': '2024-01-27',
         })
         holiday_status = self.holidays_type_4.with_user(self.user_employee_id)
-        self._check_holidays_status(holiday_status, employee, 20.0, 0.0, 20.0, 15.0)
-        self.assertEqual(leave.duration_display, '5 days')
+        self._check_holidays_status(holiday_status, employee, 20.0, 0.0, 20.0, 16.0)
+        self.assertEqual(leave.duration_display, '4 days')
 
     def test_default_request_date_timezone(self):
         """
@@ -1754,3 +1754,22 @@ class TestLeaveRequests(TestHrHolidaysCommon):
         self.assertEqual(len(request.message_partner_ids), 2)
         self.assertIn(self.employee_emp.user_id.partner_id, message_partner_ids)
         self.assertIn(user_admin.partner_id, message_partner_ids)
+
+    @freeze_time('2026-04-01')
+    def test_timeoff_duration_employee_without_calendar(self):
+        """ Test time off duration for employees without resource_calendar_id. """
+        employee_no_calendar = self.env['hr.employee'].create({
+            'name': 'Employee Without Calendar',
+        })
+        employee_no_calendar.resource_calendar_id = False
+        leave = self.env['hr.leave'].create({
+            'name': 'Time Off Request',
+            'employee_id': employee_no_calendar.id,
+            'holiday_status_id': self.holidays_type_1.id,
+            'request_date_from': date(2026, 4, 6),
+            'request_date_to': date(2026, 4, 10),
+        })
+
+        self.assertEqual(leave.number_of_days, 5)
+        # This field should be False because the calculated days match the requested days
+        self.assertFalse(leave.leave_type_increases_duration)

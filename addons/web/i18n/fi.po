@@ -48,7 +48,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 18.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-06-19 17:38+0000\n"
-"PO-Revision-Date: 2026-06-24 16:03+0000\n"
+"PO-Revision-Date: 2026-09-15 13:32+0000\n"
 "Last-Translator: Saara Hakanen <sahak@odoo.com>\n"
 "Language-Team: Finnish <https://translate.odoo.com/projects/odoo-18/web/fi/>"
 "\n"
@@ -57,7 +57,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2026.6.1\n"
+"X-Generator: Weblate 2026.8.1\n"
 
 #. module: web
 #. odoo-javascript
@@ -604,25 +604,25 @@ msgstr "Aktivoi testitila"
 #. odoo-javascript
 #: code:addons/web/static/src/core/debug/debug_providers.js:0
 msgid "Activate debug mode (with assets)"
-msgstr "Aktivoi debug-tila (resurssien kanssa)"
+msgstr "Aktivoi kehittäjätila (resursseilla)"
 
 #. module: web
 #. odoo-javascript
 #: code:addons/web/static/src/webclient/settings_form_view/widgets/res_config_dev_tool.xml:0
 msgid "Activate the developer mode"
-msgstr "Käynnistä kehitystila"
+msgstr "Aktivoi kehittäjätila"
 
 #. module: web
 #. odoo-javascript
 #: code:addons/web/static/src/webclient/settings_form_view/widgets/res_config_dev_tool.xml:0
 msgid "Activate the developer mode (with assets)"
-msgstr "Aktivoi kehittäjän tila (resursseilla)"
+msgstr "Aktivoi kehittäjätila (resursseilla)"
 
 #. module: web
 #. odoo-javascript
 #: code:addons/web/static/src/webclient/settings_form_view/widgets/res_config_dev_tool.xml:0
 msgid "Activate the developer mode (with tests assets)"
-msgstr "Aktivoi kehittäjätila (asseteilla)"
+msgstr "Aktivoi kehittäjätila (testiresursseilla)"
 
 #. module: web
 #. odoo-javascript
@@ -1430,7 +1430,7 @@ msgstr "Valitse tiedosto"
 #. odoo-javascript
 #: code:addons/web/static/src/core/debug/debug_menu.js:0
 msgid "Choose a debug command..."
-msgstr "Valitse debug-komento..."
+msgstr "Valitse kehittäjätilan komento..."
 
 #. module: web
 #. odoo-javascript
@@ -2036,7 +2036,7 @@ msgstr "Päivää"
 #. odoo-javascript
 #: code:addons/web/static/src/core/debug/debug_providers.js:0
 msgid "Deactivate debug mode"
-msgstr "Aktivoi kehittäjätila"
+msgstr "Poista kehittäjätila käytöstä"
 
 #. module: web
 #. odoo-javascript
@@ -2048,7 +2048,7 @@ msgstr "Poista kehittäjätila käytöstä"
 #. odoo-javascript
 #: code:addons/web/static/src/core/debug/debug_menu.js:0
 msgid "Debug tools..."
-msgstr "Työkalut..."
+msgstr "Viankorjaustyökalut..."
 
 #. module: web
 #. odoo-javascript
@@ -2322,7 +2322,7 @@ msgstr "Halutko todella poistaa tämän vientipohjan?"
 #. module: web
 #: model:ir.model.fields,field_description:web.field_base_document_layout__external_report_layout_id
 msgid "Document Template"
-msgstr "Dokumenttipohja"
+msgstr "Asiakirjapohja"
 
 #. module: web
 #. odoo-javascript
@@ -2634,7 +2634,7 @@ msgstr "Ilmaisu on virheellinen. Korjaa se"
 #: code:addons/web/controllers/export.py:0
 #: code:addons/web/static/src/views/list/list_controller.js:0
 msgid "External ID"
-msgstr "Ulkoinen ID"
+msgstr "Ulkoinen tunnus"
 
 #. module: web
 #. odoo-javascript
@@ -2775,7 +2775,7 @@ msgstr "Tiedosto"
 #: code:addons/web/static/src/search/search_bar_menu/search_bar_menu.xml:0
 #: code:addons/web/static/src/webclient/actions/debug_items.js:0
 msgid "Filters"
-msgstr "Suotimet"
+msgstr "Suodattimet"
 
 #. module: web
 #. odoo-javascript
@@ -3724,7 +3724,7 @@ msgstr "Asettelun tausta"
 #. odoo-javascript
 #: code:addons/web/static/src/core/debug/debug_menu_items.js:0
 msgid "Leave Debug Mode"
-msgstr "Poistu debug-tilasta"
+msgstr "Poistu kehittäjätilasta"
 
 #. module: web
 #. odoo-javascript
@@ -3797,7 +3797,7 @@ msgstr "Ladataan"
 #: code:addons/web/static/src/views/calendar/filter_panel/calendar_filter_panel.js:0
 #: code:addons/web/static/src/views/fields/relational_utils.js:0
 msgid "Loading..."
-msgstr "Lataa..."
+msgstr "Ladataan..."
 
 #. module: web
 #: model_terms:ir.ui.view,arch_db:web.login
@@ -4441,7 +4441,7 @@ msgstr "Ei vietäviä tietoja"
 #. odoo-javascript
 #: code:addons/web/static/src/core/debug/debug_menu.js:0
 msgid "No debug command found"
-msgstr "Debug-komentoa ei löytynyt"
+msgstr "Kehittäjätilan komentoa ei löytynyt"
 
 #. module: web
 #. odoo-javascript
@@ -5198,7 +5198,7 @@ msgstr "Prioriteetti"
 #. odoo-javascript
 #: code:addons/web/static/src/core/file_upload/file_upload_progress_record.js:0
 msgid "Processing..."
-msgstr "Prosessoidaan..."
+msgstr "Käsitellään..."
 
 #. module: web
 #. odoo-javascript
@@ -5694,7 +5694,7 @@ msgstr "Tallenna manuaalisesti"
 #. odoo-javascript
 #: code:addons/web/static/src/views/fields/translation_button.js:0
 msgid "Save this record and its parent to translate"
-msgstr ""
+msgstr "Tallenna tämä tietue ja sen päätietue käännettäväksi"
 
 #. module: web
 #. odoo-javascript
@@ -11802,7 +11802,7 @@ msgstr "tohtori"
 #. odoo-javascript
 #: code:addons/web/static/src/core/emoji_picker/emoji_data.js:0
 msgid "document"
-msgstr "dokumentti"
+msgstr "asiakirja"
 
 #. module: web
 #. odoo-javascript
@@ -14531,7 +14531,7 @@ msgstr "riippuliuku"
 #. odoo-javascript
 #: code:addons/web/static/src/core/emoji_picker/emoji_data.js:0
 msgid "happy"
-msgstr "onnellinen"
+msgstr "tyytyväinen"
 
 #. module: web
 #. odoo-javascript
@@ -17213,7 +17213,7 @@ msgstr "mies: valkoiset hiukset"
 #. odoo-javascript
 #: code:addons/web/static/src/core/emoji_picker/emoji_data.js:0
 msgid "manager"
-msgstr "esimies"
+msgstr "esihenkilö"
 
 #. module: web
 #. odoo-javascript
@@ -25890,25 +25890,25 @@ msgstr "naisopiskelija"
 #. odoo-javascript
 #: code:addons/web/static/src/core/emoji_picker/emoji_data.js:0
 msgid "woman superhero"
-msgstr "nainen supersankari"
+msgstr "naissupersankari"
 
 #. module: web
 #. odoo-javascript
 #: code:addons/web/static/src/core/emoji_picker/emoji_data.js:0
 msgid "woman supervillain"
-msgstr "nainen superroisto"
+msgstr "naispuolinen superpahis"
 
 #. module: web
 #. odoo-javascript
 #: code:addons/web/static/src/core/emoji_picker/emoji_data.js:0
 msgid "woman surfing"
-msgstr "nainen surffaus"
+msgstr "surffaava nainen"
 
 #. module: web
 #. odoo-javascript
 #: code:addons/web/static/src/core/emoji_picker/emoji_data.js:0
 msgid "woman swimming"
-msgstr "nainen uinti"
+msgstr "nainen uimassa"
 
 #. module: web
 #. odoo-javascript

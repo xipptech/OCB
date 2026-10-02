@@ -448,7 +448,9 @@ function classToStyle($editable, cssRules) {
         // Flexbox
         for (const styleName of node.style) {
             if (styleName.includes('flex') || `${node.style[styleName]}`.includes('flex')) {
-                writes.push(() => { node.style[styleName] = ''; });
+                // inline-flex falls back to inline-block so inline elements (e.g. buttons) keep their box
+                const fallback = styleName === 'display' && node.style[styleName] === 'inline-flex' ? 'inline-block' : '';
+                writes.push(() => { node.style[styleName] = fallback; });
             }
         }
 
@@ -679,8 +681,10 @@ function enforceImagesResponsivity(editable) {
     // Remove the height attribute in card images so they can resize
     // responsively, but leave it for Outlook.
     for (const image of editable.querySelectorAll('img[width="100%"][height]')) {
-        image.before(_createMso(image.outerHTML));
-        image.classList.add('mso-hide');
+        if (!image.classList.contains("mso-hide")) {
+            image.before(_createMso(image.outerHTML));
+            image.classList.add('mso-hide');
+        }
         image.removeAttribute('height');
     }
 }
@@ -748,7 +752,7 @@ export async function toInline($editable, options) {
         clone.style.setProperty('width', width + 'px');
         clone.style.removeProperty('max-width');
         image.before(_createMso(clone.outerHTML));
-        _hideForOutlook(image);
+        image.classList.add("mso-hide");
     }
 
     classToStyle($editable, cssRules);
@@ -1316,17 +1320,22 @@ function equalizeCardHeights(editable) {
             continue;
         }
         const cardBodies = cards.map((card) => card.querySelector("td.card-body"));
-        const heights = cardBodies.map((body) => body.offsetHeight);
-        const maxHeight = Math.max(...heights);
+        const headerHeights = cards.map((card) => {
+            const img = card.querySelector(".card-img-top");
+            return img ? img.offsetHeight : 0;
+        });
+
+        const bodyContentHeights = cardBodies.map((body) => body.scrollHeight);
+        const maxTotalHeight = Math.max(
+            ...cards.map((_, i) => headerHeights[i] + bodyContentHeights[i])
+        );
+
         for (let i = 0; i < cardBodies.length; i++) {
             const body = cardBodies[i];
-            if (!body.hasAttribute("height")) {
-                // Set fixed height attribute + valign directly on card-body td
-                // To make the height work for Outlook 2019
-                body.setAttribute("height", maxHeight);
-                body.setAttribute("valign", "top");
-                body.style.setProperty("height", maxHeight + "px");
-            }
+            const newHeight = maxTotalHeight - headerHeights[i];
+            body.setAttribute("height", newHeight);
+            body.setAttribute("valign", "top");
+            body.style.setProperty("height", newHeight + "px");
         }
     }
 }
@@ -1338,7 +1347,7 @@ function applyVmlToButtons(editable) {
         return Math.round((radius / heightPx) * 100);
     }
 
-    editable.querySelectorAll("a.btn").forEach((btn) => {
+    editable.querySelectorAll("a.btn:not(.btn-link)").forEach((btn) => {
         const s = btn.style;
         const rawBg = s.backgroundColor || s.background;
         if (!rawBg) return;
@@ -1760,7 +1769,12 @@ function _getMatchedCSSRules(node, cssRules, checkBlacklisted = false) {
     // flexboxes are not supported in Windows Outlook
     for (const styleName in processedStyle) {
         if (styleName.includes('flex') || `${processedStyle[styleName]}`.includes('flex')) {
-            delete processedStyle[styleName];
+            if (styleName === 'display' && processedStyle[styleName] === 'inline-flex') {
+                // inline-flex falls back to inline-block so inline elements (e.g. buttons) keep their box
+                processedStyle[styleName] = 'inline-block';
+            } else {
+                delete processedStyle[styleName];
+            }
         }
     }
 

@@ -11,19 +11,19 @@ from stdnum.util import clean
 from stdnum import luhn
 
 from odoo import api, models, fields, _, tools, modules
-from odoo.tools import LazyTranslate, hash_sign
+from odoo.tools import LazyTranslate, frozendict, hash_sign
 from odoo.exceptions import ValidationError, UserError
 
 _lt = LazyTranslate(__name__)
 _logger = logging.getLogger(__name__)
 
-_eu_country_vat = {
+_eu_country_vat = frozendict({
     'GR': 'EL'
-}
+})
 
-_eu_country_vat_inverse = {v: k for k, v in _eu_country_vat.items()}
+_eu_country_vat_inverse = frozendict({v: k for k, v in _eu_country_vat.items()})
 
-_ref_vat = {
+_ref_vat = frozendict({
     'al': 'ALJ91402501L',
     'ar': _lt('AR200-5536168-2 or 20055361682'),
     'at': 'ATU12345675',
@@ -85,12 +85,12 @@ _ref_vat = {
     'xi': 'XI123456782',
     'sa': _lt('310175397400003 [Fifteen digits, first and last digits should be "3"]'),
     'jp': 'T7000012050002',
-}
+})
 
-_region_specific_vat_codes = {
+_region_specific_vat_codes = frozenset({
     'xi',
     't',
-}
+})
 
 
 class ResPartner(models.Model):
@@ -127,9 +127,7 @@ class ResPartner(models.Model):
         if not country_code.encode().isalpha():
             return False
 
-        country_code = _eu_country_vat_inverse.get(country_code.upper(), country_code).lower()
-        check_func_name = 'check_vat_' + country_code
-        check_func = getattr(self, check_func_name, None) or getattr(stdnum.util.get_cc_module(country_code, 'vat'), 'is_valid', None)
+        check_func = self._get_vat_validation_method(country_code)
         if not check_func:
             # No VAT validation available, default to check that the country code exists
             return bool(self.env['res.country'].search([('code', '=ilike', country_code)]))
@@ -155,6 +153,26 @@ class ResPartner(models.Model):
                 country_code in eu_country_codes or
                 country_code.lower() in _region_specific_vat_codes
             ) and self._fix_vat_number(vat_prefix + number, partner.country_id.id) or ''
+
+    @api.model
+    def _get_country_specific_vat_variants(self, normalized_vat, country_prefix):
+        """
+        Return additional formatted VAT values to consider during EDI partner matching.
+        Should stay consistent with `_check_customer_vat_match` to ensure
+        correct partner matching when importing EDI documents.
+        """
+        vat_variants = super()._get_country_specific_vat_variants(normalized_vat, country_prefix)
+        if country_prefix.upper() == 'CH':
+            normalized_vat = normalized_vat.replace('-', '')
+            country = self.env.ref('base.ch')
+            if (
+                (vat_formatted := self._fix_vat_number(normalized_vat, country.id))
+                # Incorrect VAT must not match to raise an error
+                and self.simple_vat_check(country.code, vat_formatted[2:])
+            ):
+                vat_base = re.sub(r"\s*(TVA|IVA|MWST)?$", "", vat_formatted.upper())
+                vat_variants.extend([f'{vat_base} {suffix}' for suffix in ('TVA', 'IVA', 'MWST')])
+        return vat_variants
 
     @api.depends_context('company')
     @api.depends('vies_vat_to_check')
@@ -199,11 +217,29 @@ class ResPartner(models.Model):
             # A partner for which they didn't input VAT, and the one not subject to VAT
             if not partner.vat or len(partner.vat) == 1:
                 continue
-            country = partner.commercial_partner_id.country_id
-            if self._run_vat_test(partner.vat, country, partner.is_company) is False:
-                partner_label = _("partner [%s]", partner.name)
-                msg = partner._build_vat_error_message(country and country.code.lower() or None, partner.vat, partner_label)
-                raise ValidationError(msg)
+
+            partner_country = partner.commercial_partner_id.country_id
+            company_country = self.env.company.country_id
+
+            if self._run_vat_test(partner.vat, partner_country, partner.is_company) is not False:
+                continue
+
+            if company_country and company_country != partner_country:
+                if self._get_vat_validation_method(company_country.code):
+                    if self._run_vat_test(partner.vat, company_country, partner.is_company) is not False:
+                        continue
+
+            partner_label = _("partner [%s]", partner.name)
+            msg = partner._build_vat_error_message(partner_country and partner_country.code.lower() or None, partner.vat, partner_label)
+            raise ValidationError(msg)
+
+    @api.model
+    def _get_vat_validation_method(self, country_code):
+        country_code = _eu_country_vat_inverse.get(country_code.upper(), country_code).lower()
+        check_func_name = 'check_vat_' + country_code
+        stdnum_vat_module = stdnum.util.get_cc_module(country_code, 'vat')
+
+        return getattr(self, check_func_name, None) or getattr(stdnum_vat_module, 'is_valid', None)
 
     @api.depends('vies_vat_to_check')
     def _compute_vies_valid(self):
@@ -212,7 +248,7 @@ class ResPartner(models.Model):
             self.vies_valid = False
             return
 
-        for partner in self:
+        for partner in self.sorted('parent_id'):
             if not partner.vies_vat_to_check:
                 partner.vies_valid = False
                 continue
@@ -447,10 +483,12 @@ class ResPartner(models.Model):
 
     def check_vat_gr(self, vat):
         """ Allows some custom test VAT number to be valid to allow testing Greece EDI. """
+        gr_vat = stdnum.util.get_cc_module('gr', 'vat')
+        vat = gr_vat.compact(vat)
         greece_test_vats = ('047747270', '047747210', '047747220', '117747270', '127747270')
         if vat in greece_test_vats:
             return True
-        return stdnum.util.get_cc_module('gr', 'vat').is_valid(vat)
+        return gr_vat.is_valid(vat)
 
     # Our EDI provider Infile has designated this range of testing VATs for our customers.
     __check_vat_gt_testing_infile = re.compile(r'98[0-9]{10}K')
@@ -487,7 +525,7 @@ class ResPartner(models.Model):
         # Check the vat number
         return stdnum.util.get_cc_module('hu', 'vat').is_valid(vat)
 
-    __check_vat_ch_re = re.compile(r'E([0-9]{9}|-[0-9]{3}\.[0-9]{3}\.[0-9]{3})(MWST|TVA|IVA)$')
+    __check_vat_ch_re = re.compile(r'E([0-9]{9}|-[0-9]{3}\.[0-9]{3}\.[0-9]{3})( )?(MWST|TVA|IVA)$')
 
     def check_vat_ch(self, vat):
         '''
@@ -932,7 +970,7 @@ class ResPartner(models.Model):
                 values['vat'] = self._fix_vat_number(values['vat'], country_id)
         res = super().create(vals_list)
         if self.env.context.get('import_file'):
-            res.env.remove_to_compute(self._fields['vies_valid'], res)
+            self.env.remove_to_compute(self._fields['vies_valid'], self)
         return res
 
     def write(self, values):

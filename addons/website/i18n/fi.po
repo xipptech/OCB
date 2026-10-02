@@ -50,8 +50,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 18.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-24 17:38+0000\n"
-"PO-Revision-Date: 2026-06-24 16:04+0000\n"
+"POT-Creation-Date: 2026-07-31 17:39+0000\n"
+"PO-Revision-Date: 2026-09-15 11:32+0000\n"
 "Last-Translator: Saara Hakanen <sahak@odoo.com>\n"
 "Language-Team: Finnish <https://translate.odoo.com/projects/odoo-18/website/"
 "fi/>\n"
@@ -60,7 +60,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2026.6.1\n"
+"X-Generator: Weblate 2026.8.1\n"
 
 #. module: website
 #. odoo-javascript
@@ -102,8 +102,8 @@ msgid ""
 "\" Write a quote here from one of your customers. Quotes are a great way to "
 "build confidence in your products or services. \""
 msgstr ""
-"\"Kirjoita asiakkaasi siteeraus tähän. Sitaatit ja lainaukset ovat mainio "
-"tapa rakentaa luottamusta palveluihin ja tuotteisiin.\""
+"\"Kirjoita tähän sitaatti asiakkaaltasi. Asiakaspalaute on hyvä tapa lisätä "
+"luottamusta tuotteisiisi tai palveluihisi.\""
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.bs_debug_view
@@ -1945,7 +1945,7 @@ msgstr ""
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_website_form
 msgid "<span class=\"s_website_form_label_content\">Your Company</span>"
-msgstr "<span class=\"s_website_form_label_content\">Yritys</span>"
+msgstr "<span class=\"s_website_form_label_content\">Yrityksesi</span>"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_website_form
@@ -1953,7 +1953,7 @@ msgid ""
 "<span class=\"s_website_form_label_content\">Your Email</span>\n"
 "                                <span class=\"s_website_form_mark\"> *</span>"
 msgstr ""
-"<span class=\"s_website_form_label_content\">Sähköpostiosoitteesi</span>\n"
+"<span class=\"s_website_form_label_content\">Sähköpostisi</span>\n"
 "                                <span class=\"s_website_form_mark\"> *</span>"
 
 #. module: website
@@ -3773,7 +3773,7 @@ msgstr "CDN perus-URL"
 #: model:ir.model.fields,field_description:website.field_res_config_settings__cdn_filters
 #: model:ir.model.fields,field_description:website.field_website__cdn_filters
 msgid "CDN Filters"
-msgstr "CDN suotimet"
+msgstr "CDN-suodattimet"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.snippets
@@ -5212,7 +5212,7 @@ msgstr "Päivää"
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.snippets
 msgid "Debug"
-msgstr "Virheenkorjaus"
+msgstr "Viankorjaus"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_website_form_options
@@ -5546,7 +5546,7 @@ msgstr "Hylkää"
 #: model_terms:ir.ui.view,arch_db:website.s_quadrant
 #: model_terms:ir.ui.view,arch_db:website.s_striped_top
 msgid "Discover"
-msgstr "Löydä"
+msgstr "Tutustu"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_image_text
@@ -6575,7 +6575,7 @@ msgstr "Lisäosan näkymä"
 #: model:ir.model.fields,field_description:website.field_website_controller_page__xml_id
 #: model:ir.model.fields,field_description:website.field_website_page__xml_id
 msgid "External ID"
-msgstr "Ulkoinen ID"
+msgstr "Ulkoinen tunnus"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_popup_options
@@ -7415,6 +7415,14 @@ msgstr "Google kartta"
 #: model:ir.model.fields,field_description:website.field_website__google_maps_api_key
 msgid "Google Maps API Key"
 msgstr "Google Maps API Key"
+
+#. module: website
+#. odoo-javascript
+#: code:addons/website/static/src/js/editor/snippets.editor.js:0
+msgid ""
+"Google Maps configuration has changed. Please reload the page for changes to "
+"take effect."
+msgstr ""
 
 #. module: website
 #: model:ir.model.fields,field_description:website.field_res_config_settings__has_google_search_console
@@ -9527,7 +9535,7 @@ msgstr "Ohjattu livechat-toiminto"
 #: code:addons/website/static/src/xml/web_editor.xml:0
 #: code:addons/website/static/src/xml/website.background.video.xml:0
 msgid "Loading..."
-msgstr "Lataa..."
+msgstr "Ladataan..."
 
 #. module: website
 #. odoo-javascript
@@ -9933,7 +9941,7 @@ msgstr "Keskellä"
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_timeline_list_options
 msgid "Milestones"
-msgstr "Virstanpylväät"
+msgstr "Välitavoitteet"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_chart_options
@@ -10375,10 +10383,10 @@ msgid ""
 "will help you configure essential settings such as language, time zone, and "
 "notifications."
 msgstr ""
-"Seuraavaksi tutustut <b>asennuksen helppokäyttötoimintoon</b>, joka on "
-"suunniteltu opastamaan sinua alustan peruskonfiguraatiossa. "
-"Helppokäyttötoiminta auttaa sinua määrittämään olennaiset asetukset, kuten "
-"kielen, aikavyöhykkeen ja ilmoitukset."
+"Seuraavaksi tutustut <b>ohjattuun käyttöönottotoimintoon</b>, joka on "
+"suunniteltu opastamaan sinua alustan perusasetusten kanssa. Ohjattu toiminto "
+"auttaa sinua määrittämään olennaiset asetukset, kuten kielen, aikavyöhykkeen "
+"ja ilmoitukset."
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.step_wizard
@@ -11554,13 +11562,13 @@ msgstr "Pinterest"
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_website_form_options
 msgid "Placeholder"
-msgstr "Paikanpitäjä"
+msgstr "Paikkamerkki"
 
 #. module: website
 #. odoo-javascript
 #: code:addons/website/static/src/xml/website.editor.xml:0
-msgid "Places API"
-msgstr "Places API"
+msgid "Places API (NEW)"
+msgstr ""
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_countdown_options
@@ -11596,7 +11604,7 @@ msgstr "Plausible tunnistusavain"
 #. odoo-javascript
 #: code:addons/website/static/src/snippets/s_website_form/000.js:0
 msgid "Please fill in the form correctly."
-msgstr "Täytä lomakkeen vaaditut kentät."
+msgstr "Ole hyvä ja täytä lomake oikein."
 
 #. module: website
 #. odoo-javascript
@@ -12019,7 +12027,7 @@ msgstr "Qweb"
 #. module: website
 #: model:ir.model,name:website.model_ir_qweb_field_contact
 msgid "Qweb Field Contact"
-msgstr "Qweb kentän kontakti"
+msgstr "Qweb-kentän yhteystieto"
 
 #. module: website
 #: model:ir.model,name:website.model_ir_qweb_field_html
@@ -13849,13 +13857,13 @@ msgstr "Televisiot"
 #: model_terms:ir.ui.view,arch_db:website.s_masonry_block_options
 #: model_terms:ir.ui.view,arch_db:website.snippet_options
 msgid "Template"
-msgstr "Malli"
+msgstr "Mallipohja"
 
 #. module: website
 #. odoo-javascript
 #: code:addons/website/static/src/components/resource_editor/resource_editor.js:0
 msgid "Template ID: %s"
-msgstr "Mallipohjan ID: %s"
+msgstr "Mallipohjan tunnus: %s"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.qweb_500
@@ -14411,9 +14419,9 @@ msgid ""
 "This is a simple hero unit, a simple jumbotron-style component for calling "
 "extra attention to featured content or information."
 msgstr ""
-"Tämä on yksinkertainen sankariyksikkö. Yksinkertainen jumbotron-tyylinen "
-"komponentti, jolla kiinnitetään erityistä huomiota esillä olevaan sisältöön "
-"tai tietoon."
+"Tämä on yksinkertainen hero-yksikkö. Yksinkertainen jumbotron-tyylinen "
+"komponentti, jolla kiinnitetään huomiota esillä olevaan sisältöön tai "
+"tietoon."
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_key_images
@@ -14708,9 +14716,9 @@ msgid ""
 "list view and click on 'Portal Access Management' option in the dropdown "
 "menu *Action*."
 msgstr ""
-"Lähettääksesi kutsuja B2B-tilassa, avaa kontakti tai valitse useita "
-"listanäkymässä, ja klikkaa \"Portaalin käyttöoikeuksien hallinta\" "
-"\"Toiminto\"-pudotusvalikosta."
+"Lähetä kutsuja B2B-tilassa avaamalla yhteystieto tai valitsemalla useita "
+"listanäkymässä. Klikkaa pudotusvalikossa \"Portaalin käyttöoikeuksien "
+"hallinta\"."
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.bs_debug_view
@@ -17143,7 +17151,7 @@ msgstr "kehittää brändiä"
 #. odoo-javascript
 #: code:addons/website/static/src/components/website_loader/website_loader.js:0
 msgid "e-learning platform"
-msgstr "verkko-oppimisalusta"
+msgstr "verkko-oppimisen alusta"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_countdown_options
@@ -17440,7 +17448,7 @@ msgid ""
 "history, story, events, milestones, chronology, sequence, progression, "
 "achievements"
 msgstr ""
-"historia, tarina, tapahtumat, virstanpylväät, kronologia, järjestys, "
+"historia, tarina, tapahtumat, välitavoitteet, kronologia, sekvenssi, "
 "eteneminen, saavutukset"
 
 #. module: website
@@ -17449,9 +17457,9 @@ msgid ""
 "history, story, events, milestones, chronology, sequence, progression, "
 "achievements, changelog, updates, announcements, recent, latest"
 msgstr ""
-"historia, tarina, tapahtumat, virstanpylväät, kronologia, järjestys, "
-"eteneminen, saavutukset, muutospäiväkirja, päivitykset, ilmoitukset, "
-"viimeisimmät, uusimmat, viimeisimmät"
+"historia, tarina, tapahtumat, välitavoitteet, kronologia, sekvenssi, "
+"eteneminen, saavutukset, muutosloki, päivitykset, ilmoitukset, viimeisimmät, "
+"uusimmat"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.res_config_settings_view_form
@@ -17577,7 +17585,7 @@ msgstr "odoo.official"
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.step_wizard
 msgid "of"
-msgstr "of"
+msgstr " "
 
 #. module: website
 #. odoo-javascript
@@ -17652,7 +17660,7 @@ msgstr ""
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.color_combinations_debug_view
 msgid "placeholder"
-msgstr "paikanvaraaja"
+msgstr "paikkamerkki"
 
 #. module: website
 #. odoo-javascript
@@ -17819,9 +17827,9 @@ msgid ""
 "skills, achievements, benchmarks, milestones, indicators, data, "
 "measurements, reports, trends, results"
 msgstr ""
-"tilastot, tilastot, KPI, mittarit, kojelauta, analytiikka, kohokohdat, "
-"luvut, taidot, saavutukset, vertailuarvot, virstanpylväät, indikaattorit, "
-"tiedot, mittaukset, raportit, trendit, tulokset"
+"statistiikka, tilastot, suorituskykymittarit, KPI, mittarit, koontinäyttö, "
+"analytiikka, kohokohdat, luvut, taidot, saavutukset, vertailuarvot, "
+"välitavoitteet, indikaattorit, data, mittaukset, raportit, trendit, tulokset"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.snippets
@@ -17831,10 +17839,10 @@ msgid ""
 "measurements, reports, trends, results, analytics, cta, call to action, "
 "button"
 msgstr ""
-"tilastot, tilastot, KPI, mittarit, kojelauta, analytiikka, kohokohdat, "
-"luvut, taidot, saavutukset, vertailuarvot, virstanpylväät, indikaattorit, "
-"tiedot, mittaukset, raportit, trendit, tulokset, analytiikka, cta, "
-"toimintakutsu, painike, painike"
+"statistiikka, tilastot, suorituskykymittarit, KPI, mittarit, koontinäyttö, "
+"analytiikka, kohokohdat, luvut, taidot, saavutukset, vertailuarvot, "
+"välitavoitteet, indikaattorit, data, mittaukset, raportit, trendit, "
+"tulokset, analytiikka, cta, toimintakehote, painike"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.snippets
@@ -17843,10 +17851,10 @@ msgid ""
 "skills, achievements, benchmarks, milestones, indicators, data, "
 "measurements, reports, trends, results, analytics, summaries, summary"
 msgstr ""
-"tilastot, tilastot, KPI, mittarit, kojelauta, analytiikka, kohokohdat, "
-"luvut, taidot, saavutukset, vertailuarvot, virstanpylväät, indikaattorit, "
-"tiedot, mittaukset, raportit, trendit, tulokset, analytiikka, yhteenvedot, "
-"yhteenveto, yhteenveto"
+"statistiikka, tilastot, suorituskykymittarit, KPI, mittarit, koontinäyttö, "
+"analytiikka, kohokohdat, luvut, taidot, saavutukset, vertailuarvot, "
+"välitavoitteet, indikaattorit, data, mittaukset, raportit, trendit, "
+"tulokset, analytiikka, yhteenvedot, yhteenveto"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.snippets
@@ -17856,10 +17864,11 @@ msgid ""
 "measurements, reports, trends, results, analytics, summaries, summary, large-"
 "figures, prominent, standout"
 msgstr ""
-"tilastot, tilastot, KPI, mittarit, kojelauta, analytiikka, kohokohdat, "
-"luvut, taidot, saavutukset, vertailuarvot, virstanpylväät, indikaattorit, "
-"tiedot, mittaukset, raportit, trendit, tulokset, analytiikka, yhteenvedot, "
-"yhteenveto, yhteenveto, suuret luvut, näkyvä, erottuva, erottuva"
+"statistiikka, tilastot, suorituskykymittarit, KPI, mittarit, koontinäyttö, "
+"analytiikka, kohokohdat, luvut, taidot, saavutukset, vertailuarvot, "
+"välitavoitteet, indikaattorit, data, mittaukset, raportit, trendit, "
+"tulokset, analytiikka, yhteenvedot, yhteenveto, suuret luvut, merkittävä, "
+"erottuva"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.color_combinations_debug_view
@@ -17940,6 +17949,9 @@ msgstr "✽ Pizzat"
 #: model_terms:ir.ui.view,arch_db:website.s_key_benefits
 msgid "✽  What We Offer"
 msgstr "✽ Mitä tarjoamme"
+
+#~ msgid "Places API"
+#~ msgstr "Places API"
 
 #~ msgid "<u>Wednesday</u><br/>8.00am-12.00am"
 #~ msgstr "<u>Keskiviikko</u><br/>8.00-12.00"

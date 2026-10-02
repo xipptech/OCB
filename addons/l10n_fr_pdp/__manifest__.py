@@ -4,7 +4,7 @@
     'website': "https://www.odoo.com/documentation/18.0/applications/finance/fiscal_localizations/france.html#PDP",
     'description': """
         - Support for the mandatory electronic invoicing in France
-        - Send and receive documents via the Odoo approved platform
+        - Send and receive documents via the Odoo Approved Platform
 """,
     'depends': [
         'l10n_fr_account',
@@ -13,7 +13,7 @@
         'auth_totp_mail_enforce',
         'iap',
     ],
-    'auto_install': ['l10n_fr_account', 'auth_totp_mail_enforce'],
+    'auto_install': False, 
     'data': [
         'data/ir_cron.xml',
         'security/ir.model.access.csv',

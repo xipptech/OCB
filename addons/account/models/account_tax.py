@@ -203,6 +203,22 @@ class AccountTax(models.Model):
     # Technical field depicting if the tax has at least one repartition line with a percentage below 0.
     # Used for the taxes computation to manage the reverse charge taxes having a repartition +100 -100.
     has_negative_factor = fields.Boolean(compute='_compute_has_negative_factor')
+    account_move_line_ids = fields.Many2many(
+        comodel_name='account.move.line',
+        relation='account_move_line_account_tax_rel',
+        column1='account_tax_id',
+        column2='account_move_line_id',
+        copy=False,
+        readonly=True,
+    )
+    account_reconcile_model_line_ids = fields.Many2many(
+        comodel_name='account.reconcile.model.line',
+        relation='account_reconcile_model_line_account_tax_rel',
+        column1='account_tax_id',
+        column2='account_reconcile_model_line_id',
+        copy=False,
+        readonly=True,
+    )
 
     @api.constrains('company_id', 'name', 'type_tax_use', 'tax_scope', 'country_id')
     def _constrains_name(self):
@@ -279,54 +295,31 @@ class AccountTax(models.Model):
 
     def _hook_compute_is_used(self, tax_to_compute):
         '''
+            -- TO BE REMOVED IN MASTER --
+
             Override to compute the ids of taxes used in other modules. It takes
             as parameter a set of tax ids. It should return a set containing the
             ids of the taxes from that input set that are used in transactions.
         '''
         return set()
 
+    @api.depends('account_move_line_ids', 'account_reconcile_model_line_ids')
     def _compute_is_used(self):
-        used_taxes = set()
-
-        # Fetch for taxes used in account moves
-        self.env['account.move.line'].flush_model(['tax_ids'])
-        self.env.cr.execute("""
-            SELECT id
-            FROM account_tax
-            WHERE EXISTS(
-                SELECT 1
-                FROM account_move_line_account_tax_rel AS line
-                WHERE account_tax_id IN %s
-                AND account_tax.id = line.account_tax_id
-            )
-        """, [tuple(self.ids)])
-        used_taxes.update([tax[0] for tax in self.env.cr.fetchall()])
+        used_taxes = set(self.sudo().search([
+            '|',
+            ('account_move_line_ids', '!=', False),
+            ('account_reconcile_model_line_ids', '!=', False),
+        ]).ids)
         taxes_to_compute = set(self.ids) - used_taxes
 
-        # Fetch for taxes used in reconciliation
-        if taxes_to_compute:
-            self.env['account.reconcile.model.line'].flush_model(['tax_ids'])
-            self.env.cr.execute("""
-                SELECT id
-                FROM account_tax
-                WHERE EXISTS(
-                    SELECT 1
-                    FROM account_reconcile_model_line_account_tax_rel AS reco
-                    WHERE account_tax_id IN %s
-                    AND account_tax.id = reco.account_tax_id
-                )
-            """, [tuple(taxes_to_compute)])
-            used_taxes.update([tax[0] for tax in self.env.cr.fetchall()])
-            taxes_to_compute -= used_taxes
-
-        # Fetch for tax used in other modules
+        # Fetch for tax used in custom modules. To be removed in master.
         if taxes_to_compute:
             used_taxes.update(self._hook_compute_is_used(taxes_to_compute))
 
         for tax in self:
             tax.is_used = tax.id in used_taxes
 
-    @api.depends('repartition_line_ids.account_id', 'repartition_line_ids.sequence', 'repartition_line_ids.factor_percent', 'repartition_line_ids.use_in_tax_closing', 'repartition_line_ids.tag_ids')
+    @api.depends('is_used', 'repartition_line_ids.account_id', 'repartition_line_ids.sequence', 'repartition_line_ids.factor_percent', 'repartition_line_ids.use_in_tax_closing', 'repartition_line_ids.tag_ids')
     def _compute_repartition_lines_str(self):
         for tax in self:
             repartition_lines_str = tax.repartition_lines_str or ""
@@ -2589,6 +2582,7 @@ class AccountTax(models.Model):
         tax_details = base_line['tax_details']
         taxes_data = tax_details['taxes_data']
         manual_tax_amounts = base_line['manual_tax_amounts']
+        tax_amount_to_propagate = defaultdict(lambda: defaultdict(float))
 
         # If there are no taxes, we pass None to the grouping function.
         for tax_data in (taxes_data or [None]):
@@ -2612,6 +2606,9 @@ class AccountTax(models.Model):
                     excluded_manual_field = f'manual_{excluded_rounded_field}'
                     excluded_rounded_amount = tax_details[excluded_rounded_field] + tax_details[excluded_delta_field]
                     excluded_raw_amount = tax_details[excluded_raw_field]
+                    if tax_data:
+                        excluded_rounded_amount += tax_amount_to_propagate[tax_data['tax']][excluded_rounded_field]
+                        excluded_raw_amount += tax_amount_to_propagate[tax_data['tax']][excluded_raw_field]
                     values[excluded_rounded_field] = excluded_rounded_amount
                     values[excluded_raw_field] = excluded_raw_amount
                     if base_line[excluded_manual_field] is not None:
@@ -2648,6 +2645,13 @@ class AccountTax(models.Model):
 
             # Tax amount.
             if tax_data:
+                # Compute the amount that should be propagated by tax
+                for tax in tax_data['taxes']:
+                    tax_amount_to_propagate[tax]['raw_total_excluded'] += tax_data['raw_tax_amount']
+                    tax_amount_to_propagate[tax]['raw_total_excluded_currency'] += tax_data['raw_tax_amount_currency']
+                    tax_amount_to_propagate[tax]['total_excluded'] += tax_data['tax_amount']
+                    tax_amount_to_propagate[tax]['total_excluded_currency'] += tax_data['tax_amount_currency']
+
                 reverse_charge_sign = -1 if tax_data['is_reverse_charge'] else 1
                 values = values_per_grouping_key[grouping_key]
                 for suffix in ('_currency', ''):
@@ -4452,6 +4456,18 @@ class AccountTax(models.Model):
         return html2plaintext(self.description)
 
     @api.model
+    def _import_retrieve_tax_from_account_default_tax(self, tax_values):
+        account = tax_values.get('account')
+        if not account or not account.tax_ids:
+            return
+
+        return {
+            'criteria': [{
+                'domain': [('id', 'in', account.tax_ids.ids)],
+            }],
+        }
+
+    @api.model
     def _import_retrieve_tax_from_invoice_predictive(self, tax_values):
         # Check if 'account_accountant' is installed.
         if 'payment_state_before_switch' not in self.env['account.move']._fields:
@@ -4502,6 +4518,53 @@ class AccountTax(models.Model):
             criteria.append({'domain': [('price_include', '=', True)]})
 
         return {'criteria': criteria}
+
+    @api.model
+    def _import_retrieve_tax_from_fixed_allowance_charge(self, tax_values):
+        if tax_values.get('amount_type') != 'fixed':
+            return
+
+        invoice = tax_values.get('invoice_predictive', {}).get('invoice')
+        company_id = invoice.company_id.id if invoice else False
+        calculated_amount = tax_values.get('amount', 0.0)
+        reason = (tax_values.get('name') or '').strip().lower()
+        type_tax_use = tax_values.get('type_tax_use')
+
+        # ignore values param as it has a flawed static_domain, but we have to use it in the function signature
+        def search_fixed_tax_fuzzy(values):
+            candidate_taxes = self.search([
+                ('company_id', 'in', [company_id, False]),
+                ('amount_type', '=', 'fixed'),
+                ('type_tax_use', '=', type_tax_use),
+                ('amount', '>=', calculated_amount - 0.01),
+                ('amount', '<=', calculated_amount + 0.01),
+            ])
+
+            if not candidate_taxes:
+                return self
+
+            if len(candidate_taxes) == 1:
+                return candidate_taxes[0]
+
+            for tax in candidate_taxes:
+                tax_name = tax.name.strip().lower()
+                if reason in tax_name or tax_name in reason:
+                    return tax
+            return self
+
+        cache_key = (
+            company_id,
+            type_tax_use,
+            calculated_amount,
+            reason,
+        )
+
+        return {
+            'criteria': [{
+                'search_method': search_fixed_tax_fuzzy,
+                'cache_key': cache_key,
+            }],
+        }
 
     @api.model
     def _import_retrieve_tax(self, search_plan, company, tax_values_list):

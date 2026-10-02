@@ -462,11 +462,12 @@ class HolidaysRequest(models.Model):
                 elif leave.leave_type_request_unit == 'day' and check_leave_type:
                     # list of tuples (day, hours)
                     work_time_per_day_list = work_time_per_day_mapped[leave.date_from, leave.date_to, leave.holiday_status_id.include_public_holidays_in_duration, calendar][leave.employee_id.id]
-                    days = len(work_time_per_day_list)
                     hours = sum(map(lambda t: t[1], work_time_per_day_list))
+                    days = hours / 24 if leave.employee_id.is_fully_flexible else len(work_time_per_day_list)
                 else:
                     work_days_data = work_days_data_mapped[leave.date_from, leave.date_to, leave.holiday_status_id.include_public_holidays_in_duration, calendar][leave.employee_id.id]
-                    hours, days = work_days_data['hours'], work_days_data['days']
+                    hours = work_days_data['hours']
+                    days = ceil(hours / 24) if leave.employee_id.is_fully_flexible else work_days_data['days']
             else:
                 today_hours = calendar.get_work_hours_count(
                     datetime.combine(leave.date_from.date(), time.min),
@@ -776,6 +777,9 @@ Attempting to double-book your time off won't magically make your vacation 2x be
         if any(not vals.get('employee_id') for vals in vals_list):
             raise UserError(_("There is no employee set on the time off. Please make sure you're logged in the correct company."))
         holidays = super(HolidaysRequest, self.with_context(mail_create_nosubscribe=True)).create(vals_list)
+        # A base.automation during create can flush duration before dates are set (storing 0);
+        # recompute now that create returned and date_from/date_to are correct.
+        holidays._compute_duration()
         holidays._check_validity()
 
         for holiday in holidays:
@@ -973,7 +977,7 @@ Attempting to double-book your time off won't magically make your vacation 2x be
 
             meeting_values = {
                 'name': meeting_name,
-                'duration': holiday.number_of_days * (holiday.resource_calendar_id.hours_per_day or HOURS_PER_DAY),
+                'duration': self.env['calendar.event']._get_duration(start_value, stop_value),
                 'description': holiday.notes,
                 'user_id': user.id,
                 'start': start_value,
@@ -1483,6 +1487,8 @@ Attempting to double-book your time off won't magically make your vacation 2x be
             ('calendar_id', '=', self.resource_calendar_id.id),
             ('display_type', '=', False),
             ('day_period', '!=', 'lunch'),
+            '|', ('date_from', '=', False), ('date_from', '<=', request_date_to),
+            '|', ('date_to', '=', False), ('date_to', '>=', request_date_from),
         ]
         # In the case of flexible hours, we resort to centering the holiday hours around 12pm
         if self.resource_calendar_id.flexible_hours:

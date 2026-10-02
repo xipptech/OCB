@@ -355,6 +355,47 @@ class MrpSubcontractingPurchaseTest(TestMrpSubcontractingCommon):
 
         self.assertEqual(po.order_line.qty_received, 7.0)
 
+    def test_purchase_and_exchange(self):
+        """
+        The user buys 10 x a subcontracted product P. He receives the 10
+        products and then does a return for exchange with 3 x P. The test
+        ensures that the final received quantity is correctly computed.
+        """
+        po = self.env['purchase.order'].create({
+            'partner_id': self.subcontractor_partner1.id,
+            'order_line': [Command.create({
+                'product_id': self.finished2.id,
+                'product_uom_qty': 10,
+            })],
+        })
+        po.button_confirm()
+
+        receipt = po.picking_ids
+        receipt.move_ids.quantity = 10
+        receipt.move_ids.picked = True
+        receipt.button_validate()
+
+        return_form = Form(self.env['stock.return.picking'].with_context(active_id=receipt.id, active_model='stock.picking'))
+        return_wizard = return_form.save()
+        return_wizard.product_return_moves.quantity = 3
+        action = return_wizard.action_create_exchanges()
+
+        return_picking = self.env['stock.picking'].browse(action['res_id'])
+        return_picking.move_ids.quantity = 3
+        return_picking.move_ids.picked = True
+        return_picking.button_validate()
+        self.assertEqual(po.order_line.qty_received, 7.0)
+
+        exchange_picking = self.env['stock.picking'].search([('return_id', '=', return_picking.id)])
+        exchange_picking.move_ids.quantity = 3
+        exchange_picking.move_ids.picked = True
+        exchange_picking.button_validate()
+        self.assertEqual(po.order_line.qty_received, 10.0)
+
+        subcontract_location = self.env.company.subcontracting_location_id
+        self.assertEqual(self.env['stock.quant']._get_available_quantity(self.finished2, self.warehouse.lot_stock_id), 10.0)
+        self.assertEqual(self.env['stock.quant']._get_available_quantity(self.finished2, subcontract_location), 0.0)
+
     def test_subcontracting_resupply_price_diff(self):
         """Test that the price difference is correctly computed when a subcontracted
         product is resupplied.
@@ -1162,3 +1203,66 @@ class MrpSubcontractingPurchaseTest(TestMrpSubcontractingCommon):
         with Form(mo) as production_form:
             production_form.date_start = original_mo_start_date
         self.assertEqual(mo.date_start, original_mo_start_date)
+
+    def test_subcontract_add_comp_no_product_price_change(self):
+        """ Create a PO for subcontracted product, modify the component quantity
+            on the receipt then validate it, confirm the bill.
+            Check that no correction svl was created
+        """
+        product_category_all = self.env.ref('product.product_category_all')
+        product_category_all.property_cost_method = 'average'
+        product_category_all.property_valuation = 'real_time'
+        resupply_sub_on_order_route = self.env['stock.route'].search([('name', '=', 'Resupply Subcontractor on Order')])
+        self.finished.bom_ids.consumption = 'flexible'
+        self.comp1.write({'route_ids': [Command.link(resupply_sub_on_order_route.id)]})
+
+        purchase_comps = self.env['purchase.order'].create({
+            'partner_id': self.subcontractor_partner1.id,
+            'order_line': [
+                Command.create({
+                    'name': self.comp1.name,
+                    'product_id': self.comp1.id,
+                    'product_uom_qty': 1,
+                    'product_uom': self.finished.uom_id.id,
+                    'price_unit': 10,
+                }),
+            ],
+        })
+        # recieving comp products will set their invetory valuation (creates SVLs)
+        purchase_comps.button_confirm()
+        purchase_comps.picking_ids.move_ids.picked = True
+        purchase_comps.picking_ids.button_validate()
+
+        purchase = self.env['purchase.order'].create({
+            'partner_id': self.subcontractor_partner1.id,
+            'order_line': [Command.create({
+                'name': self.finished.name,
+                'product_id': self.finished.id,
+                'product_uom_qty': 1,
+                'product_uom': self.finished.uom_id.id,
+                'price_unit': 100,
+            })],
+        })
+        # validate subcontractor resupply
+        purchase.button_confirm()
+        resupply_picks = purchase._get_subcontracting_resupplies()
+        resupply_picks.move_ids.picked = True
+        resupply_picks.button_validate()
+
+        # receive subcontracted product and record more quantity
+        receipt = purchase.picking_ids
+        action = receipt.action_record_components()
+        mo = self.env['mrp.production'].browse(action['res_id'])
+        mo_form = Form(mo.with_context(**action['context']), view=action['view_id'])
+        mo_form.qty_producing = 2
+        mo_form.save().subcontracting_record_component()
+        receipt.button_validate()
+
+        # create bill
+        purchase.action_create_invoice()
+        prev_svl = self.env['stock.valuation.layer'].search([])
+        bill = purchase.invoice_ids
+        bill.invoice_date = Date.today()
+        bill.action_post()
+        new_svl = self.env['stock.valuation.layer'].search([]) - prev_svl
+        self.assertEqual(len(new_svl), 0)

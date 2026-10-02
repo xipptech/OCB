@@ -101,7 +101,7 @@ class StockQuant(models.Model):
     inventory_quantity_auto_apply = fields.Float(
         'Inventoried Quantity', digits='Product Unit of Measure',
         compute='_compute_inventory_quantity_auto_apply',
-        inverse='_set_inventory_quantity', groups='stock.group_stock_manager'
+        inverse='_set_inventory_quantity', groups='stock.group_stock_user'
     )
     inventory_diff_quantity = fields.Float(
         'Difference', compute='_compute_inventory_diff_quantity', store=True,
@@ -1327,7 +1327,11 @@ class StockQuant(models.Model):
         ctx = dict(self.env.context or {})
         if not domain:
             domain = []
-        domain += [('product_id.company_id', 'in', ctx.get('allowed_company_ids', []) + [False])]
+        domain += [
+            '|',
+            ('product_id.company_id', 'parent_of', ctx.get('allowed_company_ids', [])),
+            ('product_id.company_id', '=', False)
+        ]
         ctx['inventory_report_mode'] = True
         ctx.pop('group_by', None)
         action = {
@@ -1349,7 +1353,7 @@ class StockQuant(models.Model):
             action['id'] = target_action.id
 
         form_view = self.env.ref('stock.view_stock_quant_form_editable').id
-        if self.env.context.get('inventory_mode') and self.env.user.has_group('stock.group_stock_manager'):
+        if self.env.context.get('inventory_mode') and self.env.user.has_group('stock.group_stock_user'):
             action['view_id'] = self.env.ref('stock.view_stock_quant_tree_editable').id
         else:
             action['view_id'] = self.env.ref('stock.view_stock_quant_tree').id

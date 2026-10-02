@@ -1201,20 +1201,20 @@ class MailThread(models.AbstractModel):
             user_id = self._mail_find_user_for_gateway(email_from, alias=dest_aliases).id or self._uid
             route = self._routing_check_route(
                 message, message_dict,
-                (reply_model, reply_thread_id, custom_values, user_id, dest_aliases),
+                (reply_model, reply_thread_id, None, user_id, dest_aliases),
                 raise_exception=False)
             if route:
                 _logger.info(
                     'Routing mail from %s to %s with Message-Id %s: direct reply to msg: model: %s, thread_id: %s, custom_values: %s, uid: %s',
-                    email_from, message_dict['to'], message_id, reply_model, reply_thread_id, custom_values, self._uid)
+                    email_from, message_dict['to'], message_id, reply_model, reply_thread_id, None, self._uid)
                 return [route]
             if route is False:
                 return []
 
         # 2. Handle new incoming email by checking aliases and applying their settings
         # prefetch catchall aliases as they are used several times
-        catchall_aliases = self.env['mail.alias.domain'].search([]).mapped('catchall_email')
-        self = self.with_context(mail_catchall_aliases=catchall_aliases)
+        all_aliases = self.env['mail.alias.domain'].search([])
+        self = self.with_context(mail_catchall_aliases=all_aliases.mapped('catchall_email'))
         if rcpt_tos_list:
             # no route found for a matching reference (or reply), so parent is invalid
             message_dict.pop('parent_id', None)
@@ -1223,14 +1223,23 @@ class MailThread(models.AbstractModel):
             if self._detect_write_to_catchall(message_dict):
                 _logger.info('Routing mail from %s to %s with Message-Id %s: direct write to catchall, bounce',
                              email_from, message_dict['to'], message_id)
+
+                # TODO master: merge the logic with _detect_write_to_catchall.
+                recipient_company = self.env.company
+                email_to_list = [email_normalize(e) or e for e in email_split(message_dict['to'])]
+                for alias in all_aliases:
+                    if alias.catchall_email in email_to_list and alias.company_ids and recipient_company not in alias.company_ids:
+                        recipient_company = alias.company_ids[:1]
+
                 body = self.env['ir.qweb']._render('mail.mail_bounce_catchall', {
                     'message': message,
+                    'res_company': recipient_company,
                 })
-                self._routing_create_bounce_email(
+                self.with_company(recipient_company)._routing_create_bounce_email(
                     email_from, body, message,
                     # add a reference with a tag, to be able to ignore response to this email
                     references=f'{message_id} {generate_tracking_message_id("loop-detection-bounce-email")}',
-                    reply_to=self.env.company.email)
+                    reply_to=recipient_company.email)
                 return []
 
             dest_aliases = self.env['mail.alias'].search([
@@ -1308,7 +1317,11 @@ class MailThread(models.AbstractModel):
 
             # disabled subscriptions during message_new/update to avoid having the system user running the
             # email gateway become a follower of all inbound messages
-            ModelCtx = Model.with_user(related_user).sudo()
+            ModelCtx = Model
+            if alias:
+                if self.env.is_system():
+                    ModelCtx = Model.with_user(related_user)
+                ModelCtx = ModelCtx.sudo()
             if thread_id and hasattr(ModelCtx, 'message_update'):
                 thread = ModelCtx.browse(thread_id)
                 thread.message_update(message_dict)
@@ -2072,11 +2085,13 @@ class MailThread(models.AbstractModel):
         done_partners += [partner for partner in partners]
 
         # prioritize current user if exists in list, and partners with matching company ids
+        emails_set = set(emails)
         if company_fname := records and records._mail_get_company_field():
             def sort_key(p):
                 return (
                     self.env.user.partner_id == p,           # prioritize user
                     p.company_id in records[company_fname],  # then partner associated w/ records
+                    p.email_formatted in emails_set,         # prioritize exact mail match
                     not p.company_id,                        # else pick partner w/out company_id
                     -p.id,                                   # finally use a deterministic id ASC tie-breaker
                 )
@@ -2084,6 +2099,7 @@ class MailThread(models.AbstractModel):
             def sort_key(p):
                 return (
                     self.env.user.partner_id == p,          # prioritize user
+                    p.email_formatted in emails_set,        # prioritize exact mail match
                     not p.company_id,                       # else pick partner w/out company_id
                     -p.id,                                  # finally use a deterministic id ASC tie-breaker
                 )

@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 18.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-06-19 17:37+0000\n"
-"PO-Revision-Date: 2026-06-26 05:36+0000\n"
+"POT-Creation-Date: 2026-08-07 17:38+0000\n"
+"PO-Revision-Date: 2026-08-14 07:22+0000\n"
 "Last-Translator: Bone NI <bounkirdni@gmail.com>\n"
 "Language-Team: Lao <https://translate.odoo.com/projects/odoo-18/"
 "account_edi_ubl_cii/lo/>\n"
@@ -368,11 +368,6 @@ msgid "EU Standard (Peppol Bis 3.0)"
 msgstr "ມາດຕະຖານ EU (Peppol Bis 3.0)"
 
 #. module: account_edi_ubl_cii
-#: model_terms:ir.ui.view,arch_db:account_edi_ubl_cii.account_invoice_pdfa_3_facturx_metadata
-msgid "EXTENDED"
-msgstr "EXTENDED"
-
-#. module: account_edi_ubl_cii
 #. odoo-python
 #: code:addons/account_edi_ubl_cii/models/account_edi_ubl_cen_en16931.py:0
 #: code:addons/account_edi_ubl_cii/models/account_edi_xml_ubl_bis3.py:0
@@ -591,16 +586,6 @@ msgstr "ຕິດຕັ້ງ Chorus Pro"
 #: code:addons/account_edi_ubl_cii/models/account_edi_common.py:0
 msgid "Intra-Community supply"
 msgstr "ການສະໜອງພາຍໃນກຸ່ມປະເທດ"
-
-#. module: account_edi_ubl_cii
-#. odoo-python
-#: code:addons/account_edi_ubl_cii/models/account_edi_common.py:0
-msgid ""
-"Invalid Tax Setup for Co-Contractor. Please apply the standard co-contractor "
-"tax, or ensure your custom tax uses a tax amount of 0"
-msgstr ""
-"ການຕັ້ງຄ່າພາສີສຳລັບຜູ້ຮັບເໝົາຮ່ວມບໍ່ຖືກຕ້ອງ. ກະລຸນານຳໃຊ້ພາສີຜູ້ຮັບເໝົາຮ່ວມແບບມາດຕະຖານ, ຫຼື "
-"ໃຫ້ແນ່ໃຈວ່າພາສີທີ່ທ່ານກຳນົດເອງນັ້ນມີມູນຄ່າພາສີເປັນ 0"
 
 #. module: account_edi_ubl_cii
 #: model_terms:ir.ui.view,arch_db:account_edi_ubl_cii.account_invoice_pdfa_3_facturx_metadata
@@ -992,8 +977,8 @@ msgid ""
 "it does not match the product's UoM category (%(product_category)s). The UoM "
 "was left empty."
 msgstr ""
-"ຫົວໜ່ວຍວັດແທກ '%(uom)s' (ຈາກລະຫັດຫົວໜ່ວຍ '%(code)s', ໝວດ %(xml_category)s) ຖືກລະເລີຍໃ"
-"ນແຖວຂອງສິນຄ້າ '%(product)s' ເພາະວ່າມັນບໍ່ກົງກັບໝວດຫົວໜ່ວຍວັດແທກຂອງສິນຄ້າ (%"
+"ຫົວໜ່ວຍວັດແທກ '%(uom)s' (ຈາກລະຫັດຫົວໜ່ວຍ '%(code)s', ໝວດ %(xml_category)s) "
+"ຖືກລະເລີຍໃນແຖວຂອງສິນຄ້າ '%(product)s' ເພາະວ່າມັນບໍ່ກົງກັບໝວດຫົວໜ່ວຍວັດແທກຂອງສິນຄ້າ (%"
 "(product_category)s). ຫົວໜ່ວຍວັດແທກຖືກປະໄວ້ໃຫ້ຫວ່າງ."
 
 #. module: account_edi_ubl_cii
@@ -1162,7 +1147,7 @@ msgstr "ບໍ່ຮູ້ຈັກຄູ່ຄ້າ"
 #. module: account_edi_ubl_cii
 #. odoo-python
 #: code:addons/account_edi_ubl_cii/wizard/account_move_send_wizard.py:0
-msgid "Unspported file type via %s"
+msgid "Unsupported file type via %s"
 msgstr "ປະເພດໄຟລ໌ທີ່ບໍ່ຮອງຮັບຜ່ານ %s"
 
 #. module: account_edi_ubl_cii
@@ -1246,6 +1231,19 @@ msgstr "fx"
 #: model_terms:ir.ui.view,arch_db:account_edi_ubl_cii.account_invoice_pdfa_3_facturx_metadata
 msgid "urn:factur-x:pdfa:CrossIndustryDocument:invoice:1p0#"
 msgstr "urn:factur-x:pdfa:CrossIndustryDocument:invoice:1p0#"
+
+#~ msgid "EXTENDED"
+#~ msgstr "EXTENDED"
+
+#~ msgid ""
+#~ "Invalid Tax Setup for Co-Contractor. Please apply the standard co-"
+#~ "contractor tax, or ensure your custom tax uses a tax amount of 0"
+#~ msgstr ""
+#~ "ການຕັ້ງຄ່າພາສີສຳລັບຜູ້ຮັບເໝົາຮ່ວມບໍ່ຖືກຕ້ອງ. ກະລຸນານຳໃຊ້ພາສີຜູ້ຮັບເໝົາຮ່ວມແບບມາດຕະຖານ, ຫຼື "
+#~ "ໃຫ້ແນ່ໃຈວ່າພາສີທີ່ທ່ານກຳນົດເອງນັ້ນມີມູນຄ່າພາສີເປັນ 0"
+
+#~ msgid "Unspported file type via %s"
+#~ msgstr "ປະເພດໄຟລ໌ທີ່ບໍ່ຮອງຮັບຜ່ານ %s"
 
 #~ msgid "<span class=\"text-muted\">FROM</span>"
 #~ msgstr "<span class=\"text-muted\">ຈາກ</span>"

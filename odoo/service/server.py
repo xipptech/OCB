@@ -151,7 +151,8 @@ class RequestHandler(werkzeug.serving.WSGIRequestHandler):
     def send_header(self, keyword, value):
         # Prevent `WSGIRequestHandler` from sending the connection close header (compatibility with werkzeug >= 2.1.1 )
         # since it is incompatible with websocket.
-        if self.headers.get('Upgrade') == 'websocket' and keyword == 'Connection' and value == 'close':
+        headers = self.__dict__.get('headers')
+        if headers and self.headers.get('Upgrade') == 'websocket' and keyword == 'Connection' and value == 'close':
             # Do not keep processing requests.
             self.close_connection = True
             return
@@ -190,7 +191,8 @@ class RequestHandler(werkzeug.serving.WSGIRequestHandler):
         # data. In the case of WebSocket connections, data should not be discarded. Replace the
         # rfile/wfile of this handler to prevent any further action (compatibility with werkzeug >= 2.3.x).
         # See: https://github.com/pallets/werkzeug/blob/2.3.x/src/werkzeug/serving.py#L334
-        if self.headers.get('Upgrade') == 'websocket':
+        headers = self.__dict__.get('headers')
+        if headers and self.headers.get('Upgrade') == 'websocket':
             self.rfile = BytesIO()
             self.wfile = BytesIO()
 
@@ -415,6 +417,11 @@ class ThreadedServer(CommonServer):
         # Variable keeping track of the number of calls to the signal handler defined
         # below. This variable is monitored by ``quit_on_signals()``.
         self.quit_signals_received = 0
+        # True only while run()'s signal wait-loop is active. A SIGHUP that
+        # arrives before the loop (start/preload/cron_spawn) or during teardown
+        # must not raise KeyboardInterrupt: that would escape run() and kill the
+        # process (130/129) instead of restarting cleanly.
+        self.running = False
 
         #self.socket = None
         self.httpd = None
@@ -436,10 +443,22 @@ class ThreadedServer(CommonServer):
             sys.stderr.flush()
             os._exit(0)
         elif sig == signal.SIGHUP:
+            if self.quit_signals_received:
+                # A shutdown or phoenix restart is already pending. One file
+                # change can emit several FS events, so a duplicate SIGHUP may
+                # land during the teardown/_reexec path, which runs outside the
+                # wait-loop's try/except; raising there would escape run(). The
+                # pending restart reloads fresh code anyway.
+                return
             # restart on kill -HUP
             global server_phoenix  # noqa: PLW0603
             server_phoenix = True
             self.quit_signals_received += 1
+            if not self.running:
+                # SIGHUP during the startup section, before the wait-loop: don't
+                # raise (it would escape run()). quit_signals_received is now set,
+                # so the loop exits at once when reached and the restart proceeds.
+                return
             # interrupt run() to start shutdown
             raise KeyboardInterrupt()
 
@@ -644,6 +663,10 @@ class ThreadedServer(CommonServer):
         # Wait for a first signal to be handled. (time.sleep will be interrupted
         # by the signal handler)
         try:
+            # Arm the SIGHUP-raises-KeyboardInterrupt path only now, from inside
+            # the try that catches it; setting it before the try would leave a
+            # one-statement window where the raise escapes run().
+            self.running = True
             while self.quit_signals_received == 0:
                 self.process_limit()
                 if self.limit_reached_time:
@@ -671,6 +694,8 @@ class ThreadedServer(CommonServer):
                     time.sleep(SLEEP_INTERVAL)
         except KeyboardInterrupt:
             pass
+        finally:
+            self.running = False
 
         self.stop()
 
@@ -904,7 +929,7 @@ class PreforkServer(CommonServer):
 
     def process_zombie(self):
         # reap dead workers
-        while 1:
+        while True:
             try:
                 wpid, status = os.waitpid(-1, os.WNOHANG)
                 if not wpid:
@@ -1021,7 +1046,7 @@ class PreforkServer(CommonServer):
         odoo.sql_db.close_all()
 
         _logger.debug("Multiprocess starting")
-        while 1:
+        while True:
             try:
                 #_logger.debug("Multiprocess beat (%s)",time.time())
                 self.process_signals()
@@ -1332,6 +1357,13 @@ def _reexec(updated_modules=None):
         args += ["-u", ','.join(updated_modules)]
     if not args or args[0] != exe:
         args.insert(0, exe)
+    if os.name == 'posix':
+        # execve resets caught signal handlers to their default disposition
+        # (SIGHUP terminates -> exit 129) but preserves SIG_IGN, so a SIGHUP that
+        # lands before the re-exec'd process reinstalls its handler would kill it.
+        # The reload loads fresh code, so dropping SIGHUPs across the gap is safe.
+        # Guard on posix: signal.SIGHUP is a shim (-1) on nt and would raise here.
+        signal.signal(signal.SIGHUP, signal.SIG_IGN)
     # We should keep the LISTEN_* environment variabled in order to support socket activation on reexec
     os.execve(sys.executable, args, os.environ)
 

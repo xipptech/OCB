@@ -1185,13 +1185,14 @@
                                                 <div t-attf-class="ps-0 pe-0 {{ record.display_type.raw_value ? 'o_is_' + record.display_type.raw_value : '' }}">
                                                     <t t-if="!['line_note', 'line_section'].includes(record.display_type.raw_value)">
                                                         <div class="row g-0">
-                                                            <div class="col-2 pe-3">
+                                                            <div t-if="record.product_id.raw_value" class="col-2 pe-3">
                                                                 <field name="product_id" widget="image" options="{'preview_image': 'image_128'}" class="w-100"/>
                                                             </div>
-                                                            <div class="col-10">
+                                                            <div t-att-class="{'col-10': record.product_id.raw_value}">
                                                                 <div class="row">
                                                                     <div class="col">
-                                                                        <field class="fw-bold" name="product_id"/>
+                                                                        <field t-if="record.product_id.raw_value" class="fw-bold" name="product_id"/>
+                                                                        <field t-else="" class="fw-bold" name="name"/>
                                                                     </div>
                                                                     <div class="col-auto fw-bold float-end text-end">
                                                                         <field name="price_subtotal"
@@ -2069,7 +2070,7 @@ if records:
         <record id="action_move_export_zip" model="ir.actions.server">
             <field name="name">Export ZIP</field>
             <field name="model_id" ref="account.model_account_move"/>
-            <field name="binding_model_id" ref="account.model_account_move"/>
+            <field name="binding_model_id" eval="False"/>
             <field name="binding_view_types">list,form</field>
             <field name="state">code</field>
             <field name="sequence">7</field>

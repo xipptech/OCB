@@ -1,4 +1,5 @@
 import { Component, useRef, useState } from "@odoo/owl";
+import { downloadFile } from "@web/core/network/download";
 import { useAutofocus, useService } from "@web/core/utils/hooks";
 
 /**
@@ -63,8 +64,7 @@ export class FileViewer extends Component {
     }
 
     onIframeLoaded(ev) {
-        const iFrameEl = ev.target;
-        iFrameEl.contentWindow.requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
             this.state.isIframeLoaded = true;
         });
     }
@@ -240,5 +240,9 @@ export class FileViewer extends Component {
         image.setAttribute("onerror", "window.print(); setTimeout(window.close, 10)");
         image.src = this.state.file.defaultSource;
         printWindow.document.body.appendChild(image);
+    }
+
+    onClickDownload() {
+        downloadFile(this.state.file.downloadUrl);
     }
 }

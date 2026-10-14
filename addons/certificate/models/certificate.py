@@ -269,6 +269,17 @@ class Certificate(models.Model):
                     if not constant_time.bytes_eq(pkey_public_key_bytes, cert_public_key_bytes):
                         raise ValidationError(_("The certificate and public key are not compatible."))
 
+    # Backport of the helper added by odoo/odoo@cb27fb63bada47a4c774580f38b0ed5f049a3158
+    # (18.0, 2026-07-01), used by OCA l10n_br_fiscal_certificate 18.0.2.x.
+    @api.model
+    def _get_common_name(self, cert, issuer=False):
+        """ Helper to safely extract the common name from a certificate's subject (or issuer). """
+        try:
+            x509_name = cert.issuer if issuer else cert.subject
+            return x509_name.get_attributes_for_oid(x509.NameOID.COMMON_NAME)[0].value
+        except (ValueError, IndexError):
+            return None
+
     # -------------------------------------------------------
     #                   Business Methods                    #
     # -------------------------------------------------------

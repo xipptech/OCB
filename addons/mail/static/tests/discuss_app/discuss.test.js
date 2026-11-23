@@ -34,7 +34,7 @@ import {
 
 import { OutOfFocusService } from "@mail/core/common/out_of_focus_service";
 import { rpc } from "@web/core/network/rpc";
-import { press } from "@odoo/hoot-dom";
+import { animationFrame, press, queryOne } from "@odoo/hoot-dom";
 
 describe.current.tags("desktop");
 defineMailModels();
@@ -1344,6 +1344,48 @@ test("out-of-focus notif takes new inbox messages into account", async () => {
     expect(titleService.current).toBe("(1) Inbox");
 });
 
+test("out-of-focus notif respects push subscription eligibility", async () => {
+    const pyEnv = await startServer();
+    pyEnv["res.users"].write(serverState.userId, { notification_type: "inbox" });
+    const partnerId = pyEnv["res.partner"].create({ name: "Hagrid" });
+    const userId = pyEnv["res.users"].create({ partner_id: partnerId });
+    patchWithCleanup(OutOfFocusService.prototype, {
+        async notify() {
+            expect.step("notification handled");
+            await super.notify(...arguments);
+        },
+        async hasServiceWorkInstalledAndPushSubscriptionActive() {
+            return true;
+        },
+        sendNotification() {
+            expect.step("send_notification");
+        },
+    });
+    onRpcBefore("/mail/data", async (args) => {
+        if (args.init_messaging) {
+            expect.step("init_messaging");
+        }
+    });
+    await start();
+    await openDiscuss();
+    await expect.waitForSteps(["init_messaging"]);
+    const adminId = serverState.partnerId;
+    const post = (author, message_type) =>
+        withUser(author, () =>
+            rpc("/mail/message/post", {
+                post_data: { body: "hello", partner_ids: [adminId], message_type },
+                thread_id: partnerId,
+                thread_model: "res.partner",
+            })
+        );
+    await post(userId, "comment");
+    await expect.waitForSteps(["notification handled"]);
+    await post(userId, "auto_comment");
+    await expect.waitForSteps(["notification handled", "send_notification"]);
+    await post(serverState.userId, "comment");
+    await expect.waitForSteps(["notification handled", "send_notification"]);
+});
+
 test("out-of-focus notif on needaction message in group chat contributes only once", async () => {
     const pyEnv = await startServer();
     pyEnv["res.users"].write(serverState.userId, { notification_type: "inbox" });
@@ -2145,6 +2187,52 @@ test("Escape key should focus the composer if it's not focused", async () => {
     await click("button[title='Pinned Messages']");
     triggerHotkey("escape");
     await contains(".o-mail-Composer-input:focus");
+});
+
+test("header fits a narrow content area", async () => {
+    const pyEnv = await startServer();
+    const channelId = pyEnv["discuss.channel"].create({ name: "General" });
+    await start();
+    await openDiscuss(channelId);
+    await contains(".o-discuss-ChannelMemberList"); // wait for auto-open of this panel
+    await patchUiSize({ width: 800 });
+    await animationFrame();
+    const content = queryOne(".o-mail-Discuss-content");
+    expect(content.scrollWidth).toBe(content.clientWidth);
+    const description = queryOne(".o-mail-Discuss-threadDescription");
+    const actions = queryOne(".o-mail-Discuss-headerActions");
+    expect(description.getBoundingClientRect().right).toBeLessThan(
+        actions.getBoundingClientRect().left
+    );
+});
+
+test("long description does not truncate the parent channel name", async () => {
+    const pyEnv = await startServer();
+    const parentId = pyEnv["discuss.channel"].create({ name: "General" });
+    const subChannelId = pyEnv["discuss.channel"].create({
+        name: "Troubleshooting",
+        parent_channel_id: parentId,
+        description: "A description too long for the header. ".repeat(5),
+    });
+    await start();
+    await openDiscuss(subChannelId);
+    await contains(".o-discuss-ChannelMemberList"); // wait for auto-open of this panel
+    await patchUiSize({ width: 1400 });
+    await animationFrame();
+    const parentName = queryOne(".o-mail-Discuss-header span[title='General']");
+    expect(parentName.scrollWidth).toBe(parentName.clientWidth);
+});
+
+test("short description keeps the width of its text", async () => {
+    const pyEnv = await startServer();
+    const channelId = pyEnv["discuss.channel"].create({ name: "General", description: "Short" });
+    await start();
+    await openDiscuss(channelId);
+    await contains(".o-discuss-ChannelMemberList"); // wait for auto-open of this panel
+    await patchUiSize({ width: 1400 });
+    await animationFrame();
+    const description = queryOne(".o-mail-Discuss-threadDescription");
+    expect(description.offsetWidth).toBe(parseFloat(description.style.width));
 });
 
 test("Notification settings: basic rendering", async () => {

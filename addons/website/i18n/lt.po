@@ -39,7 +39,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 18.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-07-31 17:39+0000\n"
-"PO-Revision-Date: 2026-10-11 17:37+0000\n"
+"PO-Revision-Date: 2026-11-11 18:33+0000\n"
 "Last-Translator: Weblate <noreply-mt-weblate@weblate.org>\n"
 "Language-Team: Lithuanian <https://translate.odoo.com/projects/odoo-18/"
 "website/lt/>\n"
@@ -502,8 +502,7 @@ msgstr ""
 #. odoo-javascript
 #: code:addons/website/static/src/js/tours/tour_utils.js:0
 msgid "<b>Click on a snippet</b> to access its options menu."
-msgstr ""
-"<b>Paspauskite ant fragmento</b>, kad patektumėte į jo parinkčių meniu."
+msgstr "<b>Paspauskite ant fragmento</b>, kad patektumėte į jo parinkčių meniu."
 
 #. module: website
 #. odoo-javascript
@@ -3641,7 +3640,7 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:website.s_quotes_carousel
 #: model_terms:ir.ui.view,arch_db:website.s_quotes_carousel_minimal
 msgid "Carousel indicator"
-msgstr ""
+msgstr "Karuselės indikatorius"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_product_catalog
@@ -6560,7 +6559,7 @@ msgstr "Šrifto pavadinimas jau naudojamas"
 #: model:ir.model.fields,field_description:website.field_theme_website_page__footer_visible
 #: model:ir.model.fields,field_description:website.field_website_page__footer_visible
 msgid "Footer Visible"
-msgstr ""
+msgstr "Matomas apačios antraštė"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.bs_debug_view
@@ -7164,7 +7163,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:website.field_theme_website_page__header_visible
 #: model:ir.model.fields,field_description:website.field_website_page__header_visible
 msgid "Header Visible"
-msgstr ""
+msgstr "Matomas antraštės tekstas"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.snippet_options
@@ -10214,8 +10213,8 @@ msgid ""
 "(<xpath/>) are applied, and the result is used as if it were this view's\n"
 "actual arch.\n"
 msgstr ""
-"Galioja tik jei šis rodinys paveldimas iš kito (inherit_id nėra False/"
-"Null).\n"
+"Galioja tik jei šis rodinys paveldimas iš kito (inherit_id nėra False/Null)"
+".\n"
 "\n"
 "* Jei plėtinys (standartiškai), jei šis rodinys yra užklausiamas, tikrinamas "
 "artimiausias\n"
@@ -10783,8 +10782,8 @@ msgid ""
 "Paragraph with <strong>bold</strong>, <span class=\"text-muted\">muted</"
 "span> and <em>italic</em> texts"
 msgstr ""
-"Pastraipa su <strong>pastorintu</strong>, <span class=\"text-"
-"muted\">išblukusiu</span> ir <em>pasviru</em> tekstais"
+"Pastraipa su <strong>pastorintu</strong>, <span class=\"text-muted\">"
+"išblukusiu</span> ir <em>pasviru</em> tekstais"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.color_combinations_debug_view
@@ -14910,7 +14909,7 @@ msgstr ""
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_progress_bar
 msgid "We are almost done!"
-msgstr ""
+msgstr "Beveik baigėme!"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_faq_horizontal
@@ -15627,7 +15626,7 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:website.template_footer_headline
 #: model_terms:ir.ui.view,arch_db:website.template_footer_links
 msgid "X"
-msgstr ""
+msgstr "X"
 
 #. module: website
 #: model:ir.model.fields,field_description:website.field_website__social_twitter
@@ -16259,7 +16258,7 @@ msgstr "eMokymas"
 #. odoo-python
 #: code:addons/website/controllers/form.py:0
 msgid "email"
-msgstr ""
+msgstr "el. paštas"
 
 #. module: website
 #. odoo-javascript

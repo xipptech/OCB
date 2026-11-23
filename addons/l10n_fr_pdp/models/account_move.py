@@ -9,7 +9,7 @@ from odoo.exceptions import UserError, ValidationError
 from odoo.tools import frozendict, html2plaintext
 
 from odoo.addons.l10n_fr_pdp.models.account_edi_proxy_user import STATUS_TO_PROCESS_CONDITION_CODE_PDP
-from odoo.addons.l10n_fr_pdp.models.account_edi_xml_ubl_21_fr import PDP_CUSTOMIZATION_ID, CPRO_CUSTOMIZATION_ID
+from odoo.addons.l10n_fr_pdp.models.account_edi_xml_ubl_21_fr import CPRO_CUSTOMIZATION_ID, EN16931_CUSTOMIZATION_ID
 from odoo.addons.l10n_fr_pdp.models.account_peppol_response import NEW_STATUSES
 from odoo.addons.l10n_fr_pdp.models.pdp_flow import FLOW_OPEN_STATES_SELECTION, FLOW_SENT_STATES, FLOW_SENT_STATES_SELECTION
 from odoo.addons.l10n_fr_pdp.utils import drom_com_territories
@@ -121,6 +121,15 @@ class AccountMove(models.Model):
         copy=False,
     )
 
+    @api.depends('pdp_is_sent')
+    def _compute_show_reset_to_draft_button(self):
+        # EXTEND 'account' to hide the reset to draft button for sent PDP invoices
+        super()._compute_show_reset_to_draft_button()
+        relevant_moves = self.filtered(
+            lambda move: move.pdp_is_sent and move.is_sale_document(include_receipts=True)
+        )
+        relevant_moves.show_reset_to_draft_button = False
+
     # TODO: remove in master
     @api.model
     def fields_get(self, allfields=None, attributes=None):
@@ -211,14 +220,22 @@ class AccountMove(models.Model):
 
     def _pdp_get_paid_lifecycle_total_amount(self):
         self.ensure_one()
+        collected_amounts = self._pdp_get_paid_lifecycle_amounts()
+        return -self.direction_sign * sum(amount for _percent, amount in collected_amounts.items())
+
+    def _pdp_get_paid_lifecycle_amounts(self):
+        self.ensure_one()
         paid_responses = self.peppol_response_ids.filtered(
             lambda r: r.response_code == 'PD' and r.pdp_flow_number == '2' and r.pdp_ppf_state != 'error'
         )
-        payment_infos = [
-            payment_info for response in paid_responses for payment_info in (response.pdp_payment_info or [])
-            if payment_info.get('type_code') in PAID_CODES and payment_info.get('currency', '').upper() == 'EUR'
-        ]
-        return sum(float(info.get('amount', '0')) for info in payment_infos)
+        collected_amounts = {}
+        for response in paid_responses:
+            for payment_info in (response.pdp_payment_info or []):
+                percent_string = payment_info.get('tax_percent')
+                if percent_string and payment_info.get('type_code') in PAID_CODES and payment_info.get('currency', '').upper() == 'EUR':
+                    percent = float(percent_string)
+                    collected_amounts[percent] = float(collected_amounts.get(percent, 0)) + float(payment_info.get('amount', 0))
+        return collected_amounts
 
     def _pdp_get_response_status(self):
         """Return the PDP response status of the message"""
@@ -271,24 +288,27 @@ class AccountMove(models.Model):
         if not self.company_id._peppol_is_french_company():
             return {}
         payment_term = self.invoice_payment_term_id
-        return {
+        notes = {
             'PMT': self.env._("In the event of late payment, a flat-rate fee of €40 for collection costs will be charged (Articles L.441-10 and D.441-5 of the Code de commerce)."),
             'PMD': self.env._("Late payment penalties at an annual rate of 10% are applied if the payment is made after the due date."),
             'AAB': html2plaintext(payment_term.note) if payment_term.early_discount else self.env._("No discount for early payment."),
         }
+        # [BR-FR-CO-14] Add MEMBRE_ASSUJETTI_UNIQUE note for Single Taxpayer Groups
+        if self.env['account.edi.common']._l10n_fr_pdp_get_company_tax_unit(self.company_id):
+            notes['TXD'] = 'MEMBRE_ASSUJETTI_UNIQUE'
+        return notes
 
     @api.model
     def _get_ubl_cii_builder_from_xml_tree(self, tree):
         # Extends account_edi_ubl_cii
         customization_id = tree.findtext('{*}CustomizationID')
-        # Note: The CustomizationID alone is not enough because e.g. SuperPDP just sends `urn:cen.eu:en16931:2017`
-        #       but still expects the full French validation.
         if customization_id == CPRO_CUSTOMIZATION_ID:
             return self.env['account.edi.xml.ubl_21_fr']
-        if customization_id == PDP_CUSTOMIZATION_ID:
-            receiver_endpoint_node = tree.find('./{*}AccountingCustomerParty/{*}Party/{*}EndpointID')
-            if receiver_endpoint_node is not None and receiver_endpoint_node.get('schemeID') == '0225':
-                return self.env['account.edi.xml.ubl_21_fr']
+        # Note: The CustomizationID alone is not enough because e.g. SuperPDP just sends `urn:cen.eu:en16931:2017`
+        #       but still expects the full French validation.
+        company = self.company_id or self.env.company
+        if customization_id == EN16931_CUSTOMIZATION_ID and company._get_peppol_proxy_type() == 'pdp':
+            return self.env['account.edi.xml.ubl_21_fr']
         return super()._get_ubl_cii_builder_from_xml_tree(tree)
 
     def action_pdp_open_response_wizard(self, **wizard_kwargs):
@@ -373,7 +393,9 @@ class AccountMove(models.Model):
                 + Markup('</span><ul>') + error_lines + Markup('</ul></li>')
             )
         body += Markup('</ul>')
-        self._message_log(body=body)
+        # Avoid logging a message with a "random" user
+        author_id = self.env.ref('base.partner_root').id if self.env.user.share else None
+        self._message_log(body=body, author_id=author_id)
 
     def button_cancel(self):
         res = super().button_cancel()
@@ -417,7 +439,10 @@ class AccountMove(models.Model):
                 order='id desc',
                 limit=1,
             )
-            if not last_flow or (last_flow.state in FLOW_SENT_STATES and not move.l10n_fr_pdp_sent_in_flow_ids):
+            if not last_flow or (
+                last_flow.state in FLOW_SENT_STATES
+                and any(not scope_move.l10n_fr_pdp_sent_in_flow_ids for scope_move in moves)
+            ):
                 last_flow = Flow._get_open_flow_and_create_if_needed(moves[0])
             moves.l10n_fr_pdp_last_flow_id = last_flow
 
@@ -502,7 +527,7 @@ class AccountMove(models.Model):
     )
     def _compute_l10n_fr_pdp_flow_10_report_type(self):
         for move in self:
-            if move.pdp_is_sent:
+            if move.state != 'draft' and move.pdp_is_sent:
                 if move.l10n_fr_pdp_sent_in_flow_ids and move.l10n_fr_pdp_flow_10_report_type:
                     # The previous e-report must be rectified before clearing its scope.
                     self.env['l10n.fr.pdp.reports.flow']._get_open_flow_and_create_if_needed(move)
@@ -514,6 +539,7 @@ class AccountMove(models.Model):
                 or not move.company_id._pdp_get_flow_10_start_date()
                 or move.date < move.company_id._pdp_get_flow_10_start_date()
                 or not move._l10n_fr_pdp_get_transaction_type()  # is b2bi or b2c
+                or move._l10n_fr_pdp_is_exempt_from_reporting()
             ):
                 move.l10n_fr_pdp_flow_10_report_type = None
                 continue
@@ -566,6 +592,22 @@ class AccountMove(models.Model):
         self.ensure_one()
         return self.is_purchase_document(include_receipts=False)  # Purchase receipts are not in Flow10 scope as they do not have VAT to report.
 
+    def _l10n_fr_pdp_is_exempt_from_reporting(self):
+        # CGI art. 290 I: operations exempt under art. 261 to 261 E are not reported.
+        self.ensure_one()
+        lines = self.invoice_line_ids.filtered(lambda line: line.display_type == 'product')
+        return bool(lines) and all(
+            line.tax_ids and all(
+                tax.country_code == 'FR'
+                and tax.ubl_cii_tax_category_code == 'E'
+                and (tax.ubl_cii_tax_exemption_reason_code or '').startswith(
+                    ('VATEX-FR-CGI261', 'VATEX-EU-132', 'VATEX-EU-135')
+                )
+                for tax in line.tax_ids.flatten_taxes_hierarchy()
+            )
+            for line in lines
+        )
+
     def _get_l10n_fr_pdp_errors(self, lazy=False):
         """Return the list of validation errors for this move in the context of PDP reporting."""
         self.ensure_one()
@@ -589,7 +631,7 @@ class AccountMove(models.Model):
                     yield self.env._("Invalid partner VAT (%(vat)s).", vat=self.commercial_partner_id.vat)
                 # G2.19 limits Flow 10 VAT identifiers to 18 characters.
                 for partner in (self.company_id.partner_id, self.commercial_partner_id):
-                    if len(partner.vat or '') > 18:
+                    if len(partner._l10n_fr_pdp_get_flow_10_vat()) > 18:
                         yield self.env._(
                             "VAT number for %s must not exceed 18 characters.",
                             partner.display_name,
@@ -604,22 +646,23 @@ class AccountMove(models.Model):
                 for tax in move.invoice_line_ids.tax_ids.flatten_taxes_hierarchy():
                     if tax.amount_type == 'fixed' and tax.amount >= 0 and not tax.price_include:
                         continue  # An additional fixed charge is an amount, not a VAT percentage.
-                    is_valid_oss_rate = (
-                        tax._l10n_fr_pdp_is_oss()
-                        and tax.amount_type == 'percent'
+                    is_valid_foreign_rate = (
+                        tax.amount_type == 'percent'
                         and 0 <= tax.amount <= 100
+                        and (
+                            tax._l10n_fr_pdp_is_oss()
+                            or move._l10n_fr_pdp_uses_foreign_vat()
+                        )
                     )
                     # Reject other fixed taxes even if their amount matches an allowed VAT rate.
-                    if tax.amount_type == 'fixed' or (tax.amount not in VALID_PDP_TAX_RATES and not is_valid_oss_rate):
+                    if tax.amount_type == 'fixed' or (tax.amount not in VALID_PDP_TAX_RATES and not is_valid_foreign_rate):
                         yield self.env._(
                             "Tax %(tax)s is not supported by French e-reporting%(ref_move)s.",
                             tax=tax.display_name,
                             ref_move=ref_move,
                         )
                 if transaction_type == 'b2bi':
-                    partner_country_code = drom_com_territories.map_country_code_for_ppf(
-                        move.commercial_partner_id.country_id.code
-                    )
+                    partner_country_code = move.commercial_partner_id.country_id.code
                     if not partner_country_code or len(partner_country_code) != 2 or not partner_country_code.isalpha():
                         yield self.env._("Partner country code must contain two letters%s.", ref_move)
 
@@ -634,9 +677,7 @@ class AccountMove(models.Model):
                     if not move.partner_shipping_id.country_id:
                         yield self.env._("Missing address country%s.", ref_move)
                     else:
-                        country_code = drom_com_territories.map_country_code_for_ppf(
-                            move.partner_shipping_id.country_id.code
-                        )
+                        country_code = move.partner_shipping_id.country_id.code
                         if not country_code or len(country_code) != 2 or not country_code.isalpha():
                             yield self.env._("Address country code must contain two letters%s.", ref_move)
 
@@ -652,6 +693,15 @@ class AccountMove(models.Model):
         if 'debit_origin_id' in self._fields:
             referenced += self.debit_origin_id
         return referenced
+
+    def _l10n_fr_pdp_uses_foreign_vat(self):
+        """Return whether this move uses the company's foreign tax registration."""
+        self.ensure_one()
+        return (
+            self._l10n_fr_pdp_is_sale()
+            and bool(self.fiscal_position_id.foreign_vat)
+            and self.tax_country_id != self.company_id.account_fiscal_country_id
+        )
 
     def _l10n_fr_pdp_get_transaction_type(self):
         """Classify invoice for PDP reporting: b2c, b2bi, or False (domestic B2B)."""
@@ -715,12 +765,19 @@ class AccountMove(models.Model):
                 and move.state == 'posted'
                 and move.l10n_fr_pdp_last_flow_id.state != 'error'
             ):
+                # Ensure the RE flow exists for the move period. This must happen before clearing
+                # l10n_fr_pdp_sent_in_flow_ids: a move that left the Flow 10 scope gets its RE scope
+                # from the last flow it was sent in.
+                self.env['l10n.fr.pdp.reports.flow']._get_open_flow_and_create_if_needed(move)
+                # A move out of the Flow 10 scope won't be part of the RE, even if posted again.
+                # Keep it in the sent moves of the previous flow, so the RE differs from it and
+                # its removal is transmitted.
+                if not move.l10n_fr_pdp_flow_10_report_type:
+                    continue
                 # When a flow is sent it compares the moves it sends vs the moves of the previous
                 # flow to avoid sending the data twice if it's strictly the same.
                 # Setting "l10n_fr_pdp_sent_in_flow_ids" to None will ensure the move is not already
                 # considered as sent in previous flow, and allow the current flow to be sent even if
                 # it's the only diffrence between the 2 flows.
                 move.l10n_fr_pdp_sent_in_flow_ids = False
-                # Ensure RE flow exist for current move period.
-                self.env['l10n.fr.pdp.reports.flow']._get_open_flow_and_create_if_needed(move)
         return super().button_draft()

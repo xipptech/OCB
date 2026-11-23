@@ -13,7 +13,7 @@
 # Larisa Pop, 2025
 # Wil Odoo, 2025
 # Larisa_nexterp, 2025
-# Fekete Mihai <feketemihai@nexterp.ro>, 2025.
+# Fekete Mihai <feketemihai@nexterp.ro>, 2025, 2026.
 # Weblate <noreply-mt-weblate@weblate.org>, 2025, 2026.
 # Alexandru Vajda <vajdasanyi2002@gmail.com>, 2026.
 msgid ""
@@ -21,8 +21,8 @@ msgstr ""
 "Project-Id-Version: Odoo Server 18.0+e\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-02-16 16:38+0000\n"
-"PO-Revision-Date: 2026-07-03 10:31+0000\n"
-"Last-Translator: Alexandru Vajda <vajdasanyi2002@gmail.com>\n"
+"PO-Revision-Date: 2026-11-19 19:36+0000\n"
+"Last-Translator: Dorin Hongu <dhongu@gmail.com>\n"
 "Language-Team: Romanian <https://translate.odoo.com/projects/odoo-18/base/"
 "ro/>\n"
 "Language: ro\n"
@@ -31,7 +31,7 @@ msgstr ""
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=3; plural=n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < "
 "20)) ? 1 : 2;\n"
-"X-Generator: Weblate 2026.6.1\n"
+"X-Generator: Weblate 2026.11.2\n"
 
 #. module: base
 #: model:ir.module.module,description:base.module_l10n_at_reports
@@ -192,7 +192,8 @@ msgstr ""
 "SSL/TLS criptată.\n"
 "Aceasta poate fi folosită pentru a crea cu ușurință fluxuri de lucru bazate "
 "pe email pentru multe documente Odoo cu suport email, precum:\n"
-"----------------------------------------------------------------------------------------------------------\n"
+"----------------------------------------------------------------------------------------------------------"
+"\n"
 "    * Oportunități CRM\n"
 "    * Reclamații CRM\n"
 "    * Probleme de proiect\n"
@@ -789,8 +790,8 @@ msgid ""
 "- Send and receive documents via Nemhandel network in OIOUBL 2.1 format\n"
 msgstr ""
 "\n"
-"- Trimiteți și primiți documente prin rețeaua Nemhandel în format OIOUBL 2."
-"1\n"
+"- Trimiteți și primiți documente prin rețeaua Nemhandel în format OIOUBL "
+"2.1\n"
 
 #. module: base
 #: model:ir.module.module,description:base.module_auth_totp_mail
@@ -1229,7 +1230,8 @@ msgstr ""
 "\n"
 "Acest modul se bazează pe un modul nesuportat pentru Franța. Vă rugăm să "
 "rețineți că nu vom oferi suport pentru acest modul.\n"
-"--------------------------------------------------------------------------------------------------------\n"
+"--------------------------------------------------------------------------------------------------------"
+"\n"
 
 #. module: base
 #: model:ir.module.module,description:base.module_l10n_hk_hr_payroll_account
@@ -1691,8 +1693,8 @@ msgstr ""
 "acestuia către DGFiP, OGA sau un expert contabil.\n"
 "\n"
 "Adaugă un nou buton \"EDI TVA\" pe raportul TVA francez și un nou meniu "
-"\"Exporturi EDI\" (sub \"Raportare\", în secțiunea \"Rapoarte de "
-"situație\").\n"
+"\"Exporturi EDI\" (sub \"Raportare\", în secțiunea \"Rapoarte de situație\")"
+".\n"
 
 #. module: base
 #: model:ir.module.module,description:base.module_l10n_de_reports
@@ -1970,8 +1972,8 @@ msgstr ""
 "Rapoarte contabile pentru Singapore\n"
 "================================\n"
 "Acest modul permite generarea fișierului de audit IRAS.\n"
-" - Pentru a genera fișierul IRAS Audit, accesați Contabilitate -> Raportare "
-"-> IRAS Audit File\n"
+" - Pentru a genera fișierul IRAS Audit, accesați Contabilitate -> "
+"Raportare -> IRAS Audit File\n"
 
 #. module: base
 #: model:ir.module.module,description:base.module_l10n_es_reports
@@ -3359,8 +3361,8 @@ msgstr ""
 "distanță la ONSS (.pem). Pe un sistem UNIX, puteți folosi următoarele "
 "comenzi:\n"
 "\n"
-"  - PFX -> CRT: openssl pkcs12 -in my_cert.pfx -out my_cert.crt -nokeys "
-"-clcerts\n"
+"  - PFX -> CRT: openssl pkcs12 -in my_cert.pfx -out my_cert.crt -nokeys -"
+"clcerts\n"
 "\n"
 "  - CRT -> CER: openssl x509 -inform pem -in my_cert.crt -outform der -out "
 "my_cert.cer\n"
@@ -3389,8 +3391,8 @@ msgstr ""
 "helpcentre/rest/documents/pdf/webservices_ajouter_le_canal_FR.pdf\n"
 "\n"
 "  - La finalul procedurii, ar trebui să primiți un \"Număr Expeditor ONSS\", "
-"pe care îl puteți introduce în setările de salarizare, împreună cu "
-"fișierul .pem și parola aferentă, dacă este cazul.\n"
+"pe care îl puteți introduce în setările de salarizare, împreună cu fișierul "
+".pem și parola aferentă, dacă este cazul.\n"
 "\n"
 
 #. module: base
@@ -3795,8 +3797,8 @@ msgstr ""
 "distanță la ONSS (.pem). Pe un sistem UNIX, puteți folosi următoarele "
 "comenzi:\n"
 "\n"
-"  - PFX -> CRT: openssl pkcs12 -in my_cert.pfx -out my_cert.crt -nokeys "
-"-clcerts\n"
+"  - PFX -> CRT: openssl pkcs12 -in my_cert.pfx -out my_cert.crt -nokeys -"
+"clcerts\n"
 "\n"
 "  - CRT -> CER: openssl x509 -inform pem -in my_cert.crt -outform der -out "
 "my_cert.cer\n"
@@ -3808,8 +3810,8 @@ msgstr ""
 "- Înainte de a putea folosi serviciul REST de securitate socială, trebuie să "
 "creați un cont pentru dvs. sau pentru clientul dvs. și să configurați "
 "securitatea. (Întreaga procedură este disponibilă la https://"
-"www.socialsecurity.be/site_fr/general/helpcentre/batch/sftp/"
-"previewstep.htm)\n"
+"www.socialsecurity.be/site_fr/general/helpcentre/batch/sftp/previewstep.htm)"
+"\n"
 "\n"
 "  - Creați un utilizator tehnic + activați un canal SFTP: Clientul dvs. "
 "trebuie să creeze acum un utilizator tehnic în serviciul online de "
@@ -3821,8 +3823,8 @@ msgstr ""
 "helpcentre/batch/document/pdf/step6_sftp_F.pdf\n"
 "\n"
 "  - La finalul procedurii, ar trebui să primiți un \"Număr Expeditor ONSS\", "
-"pe care îl puteți introduce în setările de salarizare, împreună cu "
-"fișierul .pem și parola aferentă, dacă este cazul.\n"
+"pe care îl puteți introduce în setările de salarizare, împreună cu fișierul "
+".pem și parola aferentă, dacă este cazul.\n"
 
 #. module: base
 #: model:ir.module.module,description:base.module_pos_blackbox_be
@@ -6798,8 +6800,8 @@ msgstr ""
 "paginile prin campanii de marketing.\n"
 "Aceste trackere pot fi folosite în Google Analytics pentru a urmări click-"
 "urile și vizitatorii sau în rapoartele Odoo pentru a analiza eficiența "
-"campaniilor în generarea de lead-uri, venituri asociate (comenzi de "
-"vânzare), recrutare etc.\n"
+"campaniilor în generarea de lead-uri, venituri asociate (comenzi de vânzare)"
+", recrutare etc.\n"
 
 #. module: base
 #: model:ir.module.module,description:base.module_website_project
@@ -7209,9 +7211,9 @@ msgstr ""
 "\n"
 "Date despre provincii/省份数据\n"
 "\n"
-"    Tipuri de cont\\Șabloane de plan de conturi\\TVA\\Categorii de "
-"analiză\\Registru de documente contabile de management\\Registru de "
-"documente contabile financiare\n"
+"    Tipuri de cont\\Șabloane de plan de conturi\\TVA\\Categorii de analiză\\R"
+"egistru de documente contabile de management\\Registru de documente "
+"contabile financiare\n"
 "\n"
 "    Adăugare date despre provincii chineze\n"
 "\n"
@@ -8745,7 +8747,8 @@ msgstr ""
 "    Configurare / Urmărire / Niveluri de urmărire\n"
 "\n"
 "Odată definite, poți tipări automat notificări zilnic, apăsând pe meniul:\n"
-"------------------------------------------------------------------------------------------------------\n"
+"------------------------------------------------------------------------------------------------------"
+"\n"
 "    Urmărire plăți / Trimite emailuri și scrisori\n"
 "\n"
 "Se va genera un PDF / se vor trimite emailuri / se vor seta activități "
@@ -10487,9 +10490,9 @@ msgstr ""
 "\n"
 "Localizare Elveția\n"
 "==================\n"
-"Acest modul definește un plan de conturi pentru Elveția (Swiss PME/KMU "
-"2015), taxe și permite generarea unei facturi QR atunci când tipărești o "
-"factură sau o trimiți prin email.\n"
+"Acest modul definește un plan de conturi pentru Elveția (Swiss PME/KMU 2015)"
+", taxe și permite generarea unei facturi QR atunci când tipărești o factură "
+"sau o trimiți prin email.\n"
 "Factura QR este atașată facturii și ușurează plata acesteia.\n"
 "\n"
 "O factură QR va fi generată dacă:\n"
@@ -10555,8 +10558,8 @@ msgstr ""
 "\n"
 "Taiwan - Facturare electronică\n"
 "=====================\n"
-"Acest modul permite utilizatorului să trimită facturile către sistemul Ecpay."
-"\n"
+"Acest modul permite utilizatorului să trimită facturile către sistemul "
+"Ecpay.\n"
 
 #. module: base
 #: model:ir.module.module,description:base.module_appointment_hr
@@ -10570,7 +10573,8 @@ msgstr ""
 "\n"
 "Ține cont de programul de lucru (concedii medicale, part time etc.) al "
 "angajaților la programarea întâlnirilor\n"
-"--------------------------------------------------------------------------------------------------------------\n"
+"--------------------------------------------------------------------------------------------------------------"
+"\n"
 
 #. module: base
 #: model:ir.module.module,description:base.module_l10n_tz_account
@@ -10902,7 +10906,8 @@ msgstr ""
 "CGI art. 286, I. 3° bis, care stipulează anumite criterii privind "
 "inalterabilitatea, securitatea, stocarea și arhivarea datelor legate de "
 "vânzările către persoane fizice (B2C).\n"
-"-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------\n"
+"-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------"
+"\n"
 "\n"
 "Instalează-l dacă folosești aplicația Point of Sale pentru a vinde către "
 "persoane fizice.\n"
@@ -12114,8 +12119,8 @@ msgstr ""
 "clientului.\n"
 "\n"
 "În final, modulul vine cu o opțiune de afișare a unui tabel sumar de "
-"atribute pe paginile web ale produselor (disponibil în meniul "
-"Personalizare).\n"
+"atribute pe paginile web ale produselor (disponibil în meniul Personalizare)"
+".\n"
 
 #. module: base
 #: model:ir.module.module,description:base.module_website_sale_dashboard
@@ -12327,8 +12332,8 @@ msgstr ""
 "popis_struktury_detail.faces?zkratka=DPHSHV\n"
 "\n"
 "3. Raport fiscal (export XML). Pentru mai multe informații, vezi https://"
-"adisspr.mfcr.cz/dpr/adis/idpr_pub/epo2_info/popis_struktury_detail.faces?"
-"zkratka=DPHDP3\n"
+"adisspr.mfcr.cz/dpr/adis/idpr_pub/epo2_info/"
+"popis_struktury_detail.faces?zkratka=DPHDP3\n"
 
 #. module: base
 #: model:ir.module.module,description:base.module_approvals_purchase
@@ -13058,8 +13063,8 @@ msgid ""
 "can be verified to make sure the code has not been tampered with.\n"
 msgstr ""
 "\n"
-"Acest modul certifică punctul de vânzare cu LNE "
-"(Laboratoire national de métrologie et d'essais),\n"
+"Acest modul certifică punctul de vânzare cu LNE (Laboratoire national de "
+"métrologie et d'essais),\n"
 "o cerință legală în anumite țări din UE. Acesta impune anumite setări și "
 "furnizează o sumă de control care\n"
 "poate fi verificată pentru a se asigura că codul nu a fost modificat.\n"
@@ -13215,8 +13220,8 @@ msgstr ""
 "\n"
 "Pentru a fi eligibil pentru această metodă de plată, clientul trebuie să fi "
 "returnat mai întâi un mandat către companie, oferindu-și consimțământul "
-"pentru debitare directă. Acest consimțământ trebuie să fie înregistrat ca "
-"„mandat client” în Odoo.\n"
+"pentru debitare directă. Acest consimțământ trebuie să fie înregistrat ca „"
+"mandat client” în Odoo.\n"
 "\n"
 "De asemenea, trebuie să îndeplinești următoarele cerințe pentru a genera "
 "corect un fișier SDD:\n"
@@ -13231,8 +13236,8 @@ msgstr ""
 "Odoo te va anunța dacă vreuna dintre aceste cerințe nu este îndeplinită.\n"
 "\n"
 "Pentru a înregistra o plată pentru facturi deschise, poți folosi opțiunea "
-"dedicată „SEPA Direct Debit” selectând un cont bancar în asistentul "
-"„Înregistrează plată”. Va apărea un mesaj de eroare dacă nu există un mandat "
+"dedicată „SEPA Direct Debit” selectând un cont bancar în asistentul „"
+"Înregistrează plată”. Va apărea un mesaj de eroare dacă nu există un mandat "
 "valid pentru generarea plății pe factura selectată.\n"
 
 #. module: base
@@ -13853,9 +13858,9 @@ msgstr ""
 "fiscal, codul principal sau de sucursală DGI, toate câmpurile legate de "
 "adresă.\n"
 "4. Mergeți la Facturi și validați-le. Apoi folosiți Trimite și Tipărește "
-"pentru a trimite către guvern și a genera un CFE. Veți vedea un câmp nou "
-"„Stare CFE” care va arăta starea documentului electronic: inițial va fi "
-"„Așteaptă răspuns DGI”, iar după un timp va fi actualizat automat la Aprobat/"
+"pentru a trimite către guvern și a genera un CFE. Veți vedea un câmp nou „"
+"Stare CFE” care va arăta starea documentului electronic: inițial va fi „"
+"Așteaptă răspuns DGI”, iar după un timp va fi actualizat automat la Aprobat/"
 "Respins. Veți primi și fișierele PDF și XML legale aferente CFE ca "
 "atașamente la document.\n"
 "\n"
@@ -14496,8 +14501,8 @@ msgstr ""
 "===================================\n"
 "Permite utilizatorilor să configureze autentificarea cu doi factori pe "
 "contul lor de utilizator\n"
-"pentru securitate suplimentară, folosind parole unice bazate pe timp "
-"(TOTP).\n"
+"pentru securitate suplimentară, folosind parole unice bazate pe timp (TOTP)"
+".\n"
 "\n"
 "Odată activată, utilizatorul va trebui să introducă un cod de 6 cifre "
 "furnizat\n"
@@ -14577,8 +14582,8 @@ msgstr ""
 "\n"
 "Raport de impozit pe profit pentru Emiratele Arabe Unite\n"
 "=======================================================\n"
-"Adaugă raportul de impozit pe profit, accesibil din Contabilitate > Rapoarte "
-"> Raport impozit pe profit\n"
+"Adaugă raportul de impozit pe profit, accesibil din Contabilitate > "
+"Rapoarte > Raport impozit pe profit\n"
 
 #. module: base
 #: model:ir.module.module,description:base.module_l10n_ae_hr_payroll
@@ -15164,7 +15169,7 @@ msgid ""
 msgstr ""
 "%(previous_message)s\n"
 "\n"
-"Accesat implicit prin '%(document_kind)s' (%(document_model)s)."
+"Accesat implicit prin „%(document_kind)s” (%(document_model)s)."
 
 #. module: base
 #. odoo-python
@@ -15422,8 +15427,8 @@ msgid ""
 "- Only a root company can be set on “%(record)s”. Currently set to “%"
 "(company)s”"
 msgstr ""
-"- Doar o companie rădăcină poate fi setată pe “%(record)s”. În prezent este "
-"setată “%(company)s”"
+"- Pe „%(record)s” se poate seta doar o companie rădăcină. În prezent este "
+"setată „%(company)s”"
 
 #. module: base
 #. odoo-python
@@ -15445,8 +15450,8 @@ msgstr "- domeniu ="
 #: code:addons/base/models/ir_ui_view.py:0
 msgid "- element “%(node)s” is shown in the view for groups: %(groups)s"
 msgstr ""
-"- elementul “%(node)s” este afișat în vizualizare pentru grupurile: %"
-"(groups)s"
+"- elementul “%(node)s” este afișat în vizualizare pentru grupurile: %(groups)"
+"s"
 
 #. module: base
 #: model_terms:ir.ui.view,arch_db:base.report_irmodeloverview
@@ -15717,8 +15722,8 @@ msgid ""
 "<code>time</code>, <code>datetime</code>, <code>dateutil</code>, "
 "<code>timezone</code>: useful Python libraries"
 msgstr ""
-"<code>time</code>, <code>datetime</code>, <code>dateutil</code>, "
-"<code>timezone</code>: biblioteci Python utile"
+"<code>time</code>, <code>datetime</code>, <code>dateutil</code>, <code>"
+"timezone</code>: biblioteci Python utile"
 
 #. module: base
 #: model_terms:ir.ui.view,arch_db:base.view_res_company_kanban
@@ -15741,8 +15746,7 @@ msgstr ""
 #. module: base
 #: model_terms:ir.ui.view,arch_db:base.view_res_users_kanban
 msgid "<i class=\"fa fa-circle\" role=\"img\" aria-label=\"Ok\" title=\"Ok\"/>"
-msgstr ""
-"<i class=\"fa fa-circle\" role=\"img\" aria-label=\"Ok\" title=\"Ok\"/>"
+msgstr "<i class=\"fa fa-circle\" role=\"img\" aria-label=\"Ok\" title=\"Ok\"/>"
 
 #. module: base
 #: model_terms:ir.ui.view,arch_db:base.view_res_users_kanban
@@ -15874,8 +15878,8 @@ msgid ""
 "(0:Monday): %(weekday)s</span>"
 msgstr ""
 "<span colspan=\"2\">Ziua din an: %(doy)s</span>\n"
-"                                <span colspan=\"2\">Săptămâna din an: %"
-"(woy)s</span>\n"
+"                                <span colspan=\"2\">Săptămâna din an: %(woy)"
+"s</span>\n"
 "                                <span colspan=\"2\">Ziua din săptămână "
 "(0:Luni): %(weekday)s</span>"
 
@@ -16006,8 +16010,8 @@ msgid ""
 "company (e.g. CEO, CFO, ...).</span>"
 msgstr ""
 "<span>Folosiți această opțiune pentru a organiza datele de contact ale "
-"angajaților unei anumite companii (ex: Director General, Director "
-"Financiar, ...).</span>"
+"angajaților unei anumite companii (ex: Director General, Director Financiar, "
+"...).</span>"
 
 #. module: base
 #: model_terms:ir.ui.view,arch_db:base.report_irmodulereference
@@ -16497,9 +16501,11 @@ msgid ""
 "and\n"
 "                    turbomachinery and propulsion)."
 msgstr ""
-"O organizație internațională educațională și științifică non-profit, care "
-"găzduiește trei departamente (aeronautică și aerospațială, mediu și dinamica "
-"fluidelor aplicate, și turbomașini și propulsie)."
+"O organizație internațională educațională și științifică\n"
+"                    non-profit, care găzduiește trei departamente "
+"(aeronautică și\n"
+"                    spațiu aerian, dinamica fluidelor aplicată și de mediu,\n"
+"                    turbomașini și propulsie)."
 
 #. module: base
 #: model:res.partner,website_short_description:base.res_partner_3
@@ -16509,8 +16515,8 @@ msgid ""
 "fluid dynamics, and turbomachinery and propulsion)."
 msgstr ""
 "O organizație internațională educațională și științifică non-profit, care "
-"găzduiește trei departamente (aeronautică și aerospațială, mediu și dinamica "
-"fluidelor aplicate, și turbomașini și propulsie)."
+"găzduiește trei departamente (aeronautică și spațiu aerian, dinamica "
+"fluidelor aplicată și de mediu, turbomașini și propulsie)."
 
 #. module: base
 #: model_terms:ir.ui.view,arch_db:base.view_partner_form
@@ -16781,7 +16787,7 @@ msgstr "Acces la funcția de export"
 #. odoo-python
 #: code:addons/api.py:0
 msgid "Access to unauthorized or invalid companies."
-msgstr "Acces la companii neautorizate sau invalide."
+msgstr "Acces la companii neautorizate sau nevalide."
 
 #. module: base
 #: model:ir.module.module,shortdesc:base.module_account_update_tax_tags
@@ -16984,6 +16990,11 @@ msgid ""
 "productive,\n"
 "                responsive and profitable."
 msgstr ""
+"Acme Corporation proiectează, dezvoltă, integrează și susține procese de "
+"resurse umane și\n"
+"                lanț de aprovizionare, pentru ca clienții noștri să fie mai "
+"productivi,\n"
+"                mai receptivi și mai profitabili."
 
 #. module: base
 #: model:res.partner,website_short_description:base.res_partner_2
@@ -16993,6 +17004,9 @@ msgid ""
 "Chain processes in order to make our customers more productive, responsive "
 "and profitable."
 msgstr ""
+"Acme Corporation proiectează, dezvoltă, integrează și susține procese de "
+"resurse umane și lanț de aprovizionare, pentru ca clienții noștri să fie mai "
+"productivi, mai receptivi și mai profitabili."
 
 #. module: base
 #: model_terms:res.partner,website_description:base.res_partner_2
@@ -17002,6 +17016,11 @@ msgid ""
 "                with Open Sources software to manage their businesses. Our\n"
 "                consultants are experts in the following areas:"
 msgstr ""
+"Acme Corporation integrează ERP pentru companii globale și susține IMM-"
+"urile\n"
+"                cu software open source pentru gestionarea afacerilor. "
+"Consultanții\n"
+"                noștri sunt experți în următoarele domenii:"
 
 #. module: base
 #: model:ir.model.fields,field_description:base.field_ir_actions_act_window_view__act_window_id
@@ -17398,8 +17417,7 @@ msgstr "Adaugă suport pentru modulul de impozitare la sursă în PoS."
 #. module: base
 #: model:ir.module.module,summary:base.module_stock_barcode_picking_batch
 msgid "Add the support of batch transfers into the barcode view"
-msgstr ""
-"Adaugă suport pentru transferuri în lot în vizualizarea codului de bare"
+msgstr "Adaugă suport pentru transferuri în lot în vizualizarea codului de bare"
 
 #. module: base
 #: model:ir.module.module,summary:base.module_sale_product_matrix
@@ -17426,6 +17444,7 @@ msgstr "Adăugare"
 #: model:res.partner,website_short_description:base.res_partner_address_31
 msgid "Addison Olson is a mighty sales representative at Acme Corporation."
 msgstr ""
+"Addison Olson este un reprezentant de vânzări redutabil la Acme Corporation."
 
 #. module: base
 #: model_terms:res.partner,website_description:base.res_partner_address_31
@@ -17434,10 +17453,10 @@ msgid ""
 "    notably for selling mouse traps. With that trick he cut\n"
 "    IT budget by almost half within the last 2 years."
 msgstr ""
-"Addison Olson lucrează în sectorul IT <b>de peste 10 ani</b>. Este cunoscut\n"
+"Addison Olson lucrează în sectorul IT <b>de 10 ani</b>. Este cunoscut\n"
 "    mai ales pentru vânzarea de capcane pentru șoareci. Cu acest truc a "
 "redus\n"
-"    bugetul IT aproape la jumătate în ultimii 2 ani."
+"    bugetul IT cu aproape jumătate în ultimii 2 ani."
 
 #. module: base
 #: model:ir.module.module,summary:base.module_l10n_ro_efactura_synchronize
@@ -18188,9 +18207,7 @@ msgstr ""
 msgid ""
 "All our contractual relations will be governed exclusively by United States "
 "law."
-msgstr ""
-"Toate relațiile noastre contractuale vor fi guvernate exclusiv de legea "
-"Statelor Unite."
+msgstr "Toate relațiile contractuale vor fi reglementate exclusiv de legea SUA."
 
 #. module: base
 #: model:ir.model.fields,help:base.field_res_partner__lang
@@ -19268,6 +19285,8 @@ msgid ""
 "An error occurred while evaluating the domain:\n"
 "%(error)s"
 msgstr ""
+"A apărut o eroare la evaluarea domeniului:\n"
+"%(error)s"
 
 #. module: base
 #. odoo-python
@@ -20716,8 +20735,8 @@ msgid ""
 "Azure Interior brings honesty and seriousness to wood industry while helping "
 "customers deal with trees, flowers and fungi."
 msgstr ""
-"Azure Interior aduce onestitate și seriozitate industriei lemnului, ajutând "
-"clienții să gestioneze copaci, flori și ciuperci."
+"Azure Interior aduce onestitate și seriozitate în industria lemnului, "
+"ajutându-și clienții să se descurce cu copaci, flori și ciuperci."
 
 #. module: base
 #: model:res.partner.industry,full_name:base.res_partner_industry_B
@@ -20798,7 +20817,7 @@ msgstr "Format fișier greșit: %s"
 #. module: base
 #: model:ir.model.fields,field_description:base.field_res_users__barcode
 msgid "Badge ID"
-msgstr "ID ecuson"
+msgstr "ID Ecuson"
 
 #. module: base
 #: model:res.country,name:base.bs
@@ -21557,8 +21576,8 @@ msgid ""
 "                IT budget by almost half within the last 2 years."
 msgstr ""
 "Brandon lucrează în sectorul IT <b>de 10 ani</b>. Este cunoscut\n"
-"                mai ales pentru că vinde capcane de șoareci. Cu acest truc a "
-"redus\n"
+"                mai ales pentru vânzarea de capcane pentru șoareci. Cu acest "
+"truc a redus\n"
 "                bugetul IT cu aproape jumătate în ultimii 2 ani."
 
 #. module: base
@@ -22410,12 +22429,12 @@ msgid ""
 "(San Francisco) in its entirety and does not include any costs relating to "
 "the legislation of the country in which the client is located."
 msgstr ""
-"Anumite țări aplică reținerea la sursă a sumei facturilor, în conformitate "
-"cu legislația internă. Orice reținere la sursă va fi plătită de clientul "
-"autorităților fiscale. Sub nicio formă My Company (San Francisco) nu poate "
-"participa la costurile legate de legislația unei țări. Suma facturii va fi "
-"de aceea datorată My Company (San Francisco) în întregime și nu include nici "
-"un cost legat de legislația țării în care se află clientul."
+"Unele țări aplică reținerea la sursă asupra valorii facturilor, în "
+"conformitate cu legislația internă. Orice reținere la sursă va fi plătită de "
+"client autorităților fiscale. În niciun caz My Company (San Francisco) nu "
+"poate suporta costuri legate de legislația unei țări. Prin urmare, valoarea "
+"facturii va fi datorată integral către My Company (San Francisco) și nu "
+"include niciun cost legat de legislația țării în care se află clientul."
 
 #. module: base
 #: model:ir.module.module,shortdesc:base.module_certificate
@@ -22863,9 +22882,10 @@ msgid ""
 "                notably for selling mouse traps. With that trick he cut\n"
 "                IT budget by almost half within the last 2 years."
 msgstr ""
-"Colleen Diaz works in IT sector <b>since 10 years</b>. He is known\n"
-"                notably for selling mouse traps. With that trick he cut\n"
-"                IT budget by almost half within the last 2 years."
+"Colleen Diaz lucrează în sectorul IT <b>de 10 ani</b>. Este cunoscută\n"
+"                mai ales pentru vânzarea de capcane pentru șoareci. Cu acest "
+"truc a redus\n"
+"                bugetul IT cu aproape jumătate în ultimii 2 ani."
 
 #. module: base
 #: model:res.country,name:base.co
@@ -23636,6 +23656,9 @@ msgid ""
 "have a 'company_id' or 'company_ids' field, and isn't company-dependent "
 "either."
 msgstr ""
+"Nu s-a putut genera un domeniu dependent de companie pentru câmpul %s. "
+"Modelul nu are un câmp 'company_id' sau 'company_ids' și nici nu este "
+"dependent de companie."
 
 #. module: base
 #: model:ir.model.fields,field_description:base.field_ir_model__count
@@ -24833,6 +24856,8 @@ msgid ""
 "Deleting the public user is not allowed. Deleting this profile will "
 "compromise critical functionalities."
 msgstr ""
+"Ștergerea utilizatorului public nu este permisă. Ștergerea acestui profil ar "
+"compromite funcționalități critice."
 
 #. module: base
 #. odoo-python
@@ -25041,7 +25066,7 @@ msgstr "Compune, trimite și urmărește emailuri"
 #. module: base
 #: model:res.partner.category,name:base.res_partner_category_14
 msgid "Desk Manufacturers"
-msgstr "Desk Manufacturers"
+msgstr "Producători de birouri"
 
 #. module: base
 #: model:ir.model.fields,field_description:base.field_base_partner_merge_automatic_wizard__dst_partner_id
@@ -25349,8 +25374,7 @@ msgstr ""
 #. module: base
 #: model_terms:ir.ui.view,arch_db:base.act_report_xml_view
 msgid "Display an option on related documents to print this report"
-msgstr ""
-"Afișează o opțiune pe documentele aferente pentru a tipări acest raport"
+msgstr "Afișează o opțiune pe documentele aferente pentru a tipări acest raport"
 
 #. module: base
 #: model:ir.module.module,summary:base.module_pos_pricer
@@ -25641,8 +25665,8 @@ msgid ""
 "Domain on non-relational field \"%(name)s\" makes no sense (domain:%"
 "(domain)s)"
 msgstr ""
-"Domeniul pe câmpul non-relațional \"%(name)s\" nu are sens (domeniu:%"
-"(domain)s)"
+"Domeniul pe câmpul non-relațional \"%(name)s\" nu are sens (domeniu:%(domain)"
+"s)"
 
 #. module: base
 #: model:res.country,name:base.dm
@@ -25696,6 +25720,8 @@ msgstr "Dong"
 #: model:res.partner,website_short_description:base.res_partner_address_3
 msgid "Douglas Fletcher is a mighty functional consultant at Acme Corporation"
 msgstr ""
+"Douglas Fletcher este un consultant funcțional excepțional la Acme "
+"Corporation"
 
 #. module: base
 #: model_terms:res.partner,website_description:base.res_partner_address_3
@@ -25704,9 +25730,10 @@ msgid ""
 "    notably for selling mouse traps. With that trick he cut\n"
 "    IT budget by almost half within the last 2 years."
 msgstr ""
-"Douglas Fletcher works in IT sector <b>since 10 years</b>. He is known\n"
-"    notably for selling mouse traps. With that trick he cut\n"
-"    IT budget by almost half within the last 2 years."
+"Douglas Fletcher lucrează în sectorul IT <b>de 10 ani</b>. Este cunoscut\n"
+"    mai ales pentru vânzarea de capcane pentru șoareci. Cu acest truc a "
+"redus\n"
+"    bugetul IT la aproape jumătate în ultimii 2 ani."
 
 #. module: base
 #: model:ir.model.fields.selection,name:base.selection__ir_actions_act_url__target__download
@@ -25783,8 +25810,7 @@ msgstr "Dutch Localization for SBR documents"
 #. module: base
 #: model:res.partner.industry,full_name:base.res_partner_industry_E
 msgid "E - WATER SUPPLY; SEWERAGE, WASTE MANAGEMENT AND REMEDIATION ACTIVITIES"
-msgstr ""
-"E - WATER SUPPLY; SEWERAGE, WASTE MANAGEMENT AND REMEDIATION ACTIVITIES"
+msgstr "E - WATER SUPPLY; SEWERAGE, WASTE MANAGEMENT AND REMEDIATION ACTIVITIES"
 
 #. module: base
 #: model:ir.module.module,shortdesc:base.module_l10n_co_edi_website_sale
@@ -27486,8 +27512,7 @@ msgstr ""
 #. module: base
 #: model:ir.module.module,summary:base.module_l10n_my_edi_extended
 msgid "Extended features for the E-invoicing using MyInvois"
-msgstr ""
-"Funcționalități extinse pentru facturarea electronică folosind MyInvois"
+msgstr "Funcționalități extinse pentru facturarea electronică folosind MyInvois"
 
 #. module: base
 #: model:ir.model.fields.selection,name:base.selection__ir_ui_view__mode__extension
@@ -27594,8 +27619,7 @@ msgstr ""
 #. module: base
 #: model:ir.module.module,summary:base.module_hr_expense_extract
 msgid "Extract data from expense scans to fill them automatically"
-msgstr ""
-"Extrageți date din scanările de cheltuieli pentru a le completa automat"
+msgstr "Extrageți date din scanările de cheltuieli pentru a le completa automat"
 
 #. module: base
 #: model:ir.module.module,summary:base.module_account_invoice_extract
@@ -28222,7 +28246,7 @@ msgstr "Florărie, Grădini, Flori, Natură, Verde, Frumusețe, Magazine"
 #. module: base
 #: model:res.partner,website_short_description:base.res_partner_address_4
 msgid "Floyd Steward is a mighty analyst at Acme Corporation."
-msgstr ""
+msgstr "Floyd Steward este un analist excepțional la Acme Corporation."
 
 #. module: base
 #: model_terms:res.partner,website_description:base.res_partner_address_4
@@ -28231,9 +28255,10 @@ msgid ""
 "    notably for selling mouse traps. With that trick he cut\n"
 "    IT budget by almost half within the last 2 years."
 msgstr ""
-"Floyd Steward works in IT sector <b>since 10 years</b>. He is known\n"
-"    notably for selling mouse traps. With that trick he cut\n"
-"    IT budget by almost half within the last 2 years."
+"Floyd Steward lucrează în sectorul IT <b>de 10 ani</b>. Este cunoscut\n"
+"    mai ales pentru vânzarea de capcane pentru șoareci. Cu acest truc a "
+"redus\n"
+"    bugetul IT la aproape jumătate în ultimii 2 ani."
 
 #. module: base
 #: model:ir.model.fields.selection,name:base.selection__report_paperformat__format__folio
@@ -28399,8 +28424,8 @@ msgid ""
 "Found more than 10 errors and more than one error per 10 records, "
 "interrupted to avoid showing too many errors."
 msgstr ""
-"S-au găsit mai mult de 10 erori și mai multe erori la 10 înregistrări, "
-"întrerupt pentru a evita afișarea prea multor erori."
+"S-au găsit peste 10 erori și mai mult de o eroare la 10 înregistrări; "
+"procesul a fost întrerupt pentru a nu afișa prea multe erori."
 
 #. module: base
 #. odoo-python
@@ -28739,8 +28764,7 @@ msgstr "Generate Electronic Invoice with custom numbers"
 #. module: base
 #: model:ir.module.module,summary:base.module_crm_iap_mine
 msgid "Generate Leads/Opportunities based on country, industries, size, etc."
-msgstr ""
-"Generați pistele/opportunități pe baza țării, industriei, mărimea, etc."
+msgstr "Generați pistele/opportunități pe baza țării, industriei, mărimea, etc."
 
 #. module: base
 #: model:ir.module.module,summary:base.module_website_crm_iap_reveal
@@ -28998,10 +29022,11 @@ msgid ""
 "                IT budget by almost half within the last 2 years.\n"
 "                Famous Senior Consultant."
 msgstr ""
-"Gordon Owens works in IT sector <b>since 10 years</b>. He is known\n"
-"                notably for selling mouse traps. With that trick he cut\n"
-"                IT budget by almost half within the last 2 years.\n"
-"                Famous Senior Consultant."
+"Gordon Owens lucrează în sectorul IT <b>de 10 ani</b>. Este cunoscut\n"
+"                mai ales pentru vânzarea de capcane pentru șoareci. Cu acest "
+"truc a redus\n"
+"                bugetul IT la aproape jumătate în ultimii 2 ani.\n"
+"                Consultant senior renumit."
 
 #. module: base
 #: model:res.currency,currency_unit_label:base.HTG
@@ -29577,8 +29602,7 @@ msgstr ""
 #. module: base
 #: model:ir.module.category,description:base.module_category_sales_sales
 msgid "Helps you handle your quotations, sale orders and invoicing."
-msgstr ""
-"Vă ajută să vă gestionați ofertele, comenzile de vânzare și facturarea."
+msgstr "Vă ajută să vă gestionați ofertele, comenzile de vânzare și facturarea."
 
 #. module: base
 #: model:ir.module.category,description:base.module_category_user_type
@@ -29849,8 +29873,8 @@ msgid ""
 "I'll be happy to send a webhook for you, but you really need to give me a "
 "URL to reach out to..."
 msgstr ""
-"I'll be happy to send a webhook for you, but you really need to give me a "
-"URL to reach out to..."
+"Vă trimit cu plăcere un webhook, dar trebuie neapărat să-mi dați un URL "
+"către care să-l trimit..."
 
 #. module: base
 #. odoo-python
@@ -30073,10 +30097,10 @@ msgid ""
 "services of a debt recovery company. All legal expenses will be payable by "
 "the client."
 msgstr ""
-"If a payment is still outstanding more than sixty (60) days after the due "
-"payment date, My Company (San Francisco) reserves the right to call on the "
-"services of a debt recovery company. All legal expenses will be payable by "
-"the client."
+"Dacă o plată rămâne neachitată la mai mult de șaizeci (60) de zile de la "
+"data scadenței, My Company (San Francisco) își rezervă dreptul de a apela la "
+"serviciile unei firme de recuperare a creanțelor. Toate cheltuielile legale "
+"vor fi suportate de client."
 
 #. module: base
 #: model:ir.model.fields,help:base.field_ir_model_fields__group_expand
@@ -30510,10 +30534,9 @@ msgid ""
 "registered office within 8 days of the delivery of the goods or the "
 "provision of the services."
 msgstr ""
-"In order for it to be admissible, My Company (San Francisco) must be "
-"notified of any claim by means of a letter sent by recorded delivery to its "
-"registered office within 8 days of the delivery of the goods or the "
-"provision of the services."
+"Pentru a fi admisibilă, orice reclamație trebuie notificată către My Company "
+"(San Francisco) printr-o scrisoare recomandată trimisă la sediul social, în "
+"termen de 8 zile de la livrarea bunurilor sau prestarea serviciilor."
 
 #. module: base
 #: model:ir.module.module,shortdesc:base.module_iap
@@ -31164,9 +31187,9 @@ msgid ""
 "separated list of valid field names (optionally followed by asc/desc for the "
 "direction)"
 msgstr ""
-"Invalid \"order\" specified (%s). A valid \"order\" specification is a comma-"
-"separated list of valid field names (optionally followed by asc/desc for the "
-"direction)"
+"„order” nevalid (%s). O specificație „order” validă este o listă de nume de "
+"câmpuri valide separate prin virgulă (urmate opțional de asc/desc pentru "
+"direcție)"
 
 #. module: base
 #. odoo-python
@@ -31255,8 +31278,8 @@ msgid ""
 "Invalid inherit mode. Module \"%(module)s\" and template name \"%"
 "(template_name)s\""
 msgstr ""
-"Mod de moștenire invalid. Modul „%(module)s” și nume șablon „%"
-"(template_name)s”"
+"Mod de moștenire invalid. Modul „%(module)s” și nume șablon „%(template_name)"
+"s”"
 
 #. module: base
 #: model:ir.model.constraint,message:base.constraint_ir_ui_view_inheritance_mode
@@ -31368,6 +31391,8 @@ msgid ""
 "Invalid value in Default Value field. Expected type '%(field_type)s' for '%"
 "(model_name)s.%(field_name)s'."
 msgstr ""
+"Valoare nevalidă în câmpul Valoare implicită. Tipul așteptat este '%"
+"(field_type)s' pentru '%(model_name)s.%(field_name)s'."
 
 #. module: base
 #. odoo-python
@@ -31586,12 +31611,14 @@ msgid ""
 "                    series) and encourages \"training in research through\n"
 "                    research\"."
 msgstr ""
-"Acesta oferă învățământ postuniversitar în domeniul dinamicii fluidelor\n"
-"                   (master de cercetare în dinamica fluidelor, fostul "
-"\"Diploma\n"
-"curs\", program de doctorat, program de stagiere și serie de prelegeri\n"
-"serii de conferințe) și încurajează \"formarea în cercetare prin\n"
-"cercetare\"."
+"Oferă învățământ postuniversitar în dinamica fluidelor\n"
+"                    (master de cercetare în dinamica fluidelor, fostul „"
+"Diploma\n"
+"                    Course”, program de doctorat, program de stagiu și "
+"serii\n"
+"                    de prelegeri) și încurajează „formarea în cercetare "
+"prin\n"
+"                    cercetare”."
 
 #. module: base
 #: model_terms:res.partner,website_description:base.res_partner_3
@@ -31612,17 +31639,21 @@ msgid ""
 "well\n"
 "                    as industries."
 msgstr ""
-"Acesta întreprinde și promovează cercetarea în domeniul dinamicii fluidelor\n"
-"                    Deține aproximativ cincizeci de tuneluri de vânt "
-"diferite,\n"
-"turbomașini și alte instalații de testare specializate, unele\n"
-"dintre care unele sunt unice sau cele mai mari din lume. Cercetări extinse\n"
-"cercetări ample privind aspectele experimentale, computaționale și "
+"Desfășoară și promovează cercetarea în domeniul dinamicii\n"
+"                    fluidelor. Deține aproximativ cincizeci de tuneluri "
+"aerodinamice,\n"
+"                    turbomașini și alte instalații de testare specializate, "
+"unele\n"
+"                    dintre ele unice sau cele mai mari din lume. Cercetări "
+"ample\n"
+"                    asupra aspectelor experimentale, computaționale și "
 "teoretice\n"
-"ale fluxurilor de gaze și lichide se desfășoară sub conducerea facultății și "
-"a inginerilor de cercetare, sponsorizate\n"
-"în principal de agenții guvernamentale și internaționale, precum și\n"
-"de industrii."
+"                    ale curgerii gazelor și lichidelor sunt efectuate sub\n"
+"                    coordonarea cadrelor didactice și a inginerilor de "
+"cercetare, finanțate\n"
+"                    în principal de agenții guvernamentale și "
+"internaționale, precum\n"
+"                    și de industrie."
 
 #. module: base
 #: model:res.country,name:base.it
@@ -33316,8 +33347,8 @@ msgid ""
 "Manage Contact Titles as well as their abbreviations (e.g. \"Mr.\", \"Mrs."
 "\", etc)."
 msgstr ""
-"Manage Contact Titles as well as their abbreviations (e.g. \"Mr.\", \"Mrs."
-"\", etc)."
+"Manage Contact Titles as well as their abbreviations (e.g. \"Mr.\", "
+"\"Mrs.\", etc)."
 
 #. module: base
 #: model:ir.module.module,summary:base.module_hr_recruitment_integration_website
@@ -33857,7 +33888,7 @@ msgstr "Program Producție Master"
 #: model_terms:res.partner,website_description:base.res_partner_2
 #: model_terms:res.partner,website_description:base.res_partner_4
 msgid "Materials Management"
-msgstr "Managementul materialelor"
+msgstr "Gestiunea materialelor"
 
 #. module: base
 #: model:res.country,name:base.mr
@@ -34286,7 +34317,7 @@ msgstr "Domnisoara"
 #. odoo-python
 #: code:addons/template_inheritance.py:0
 msgid "Missing 'expr' attribute in xpath specification"
-msgstr ""
+msgstr "Atributul 'expr' lipsește din specificația xpath"
 
 #. module: base
 #. odoo-python
@@ -34806,12 +34837,13 @@ msgid ""
 "required by the client to appear as a third party in the context of any "
 "claim for damages filed against the client by an end consumer."
 msgstr ""
-"My Company (San Francisco) undertakes to do its best to supply performant "
-"services in due time in accordance with the agreed timeframes. However, none "
-"of its obligations can be considered as being an obligation to achieve "
-"results. My Company (San Francisco) cannot under any circumstances, be "
-"required by the client to appear as a third party in the context of any "
-"claim for damages filed against the client by an end consumer."
+"My Company (San Francisco) se angajează să depună toate eforturile pentru a "
+"furniza servicii performante în timp util, în conformitate cu termenele "
+"convenite. Cu toate acestea, niciuna dintre obligațiile sale nu poate fi "
+"considerată o obligație de rezultat. My Company (San Francisco) nu poate fi "
+"obligată, în nicio situație, de către client să intervină ca terț în cadrul "
+"unei cereri de despăgubire formulate împotriva clientului de către un "
+"consumator final."
 
 #. module: base
 #: model_terms:ir.ui.view,arch_db:base.view_attachment_search
@@ -35136,8 +35168,9 @@ msgid ""
 "Nicole is <b>author of several books</b>, including Amazon best seller\n"
 "                \"How Azure and Odoo will change the business world!\"."
 msgstr ""
-"Nicole is <b>author of several books</b>, including Amazon best seller\n"
-"                \"How Azure and Odoo will change the business world!\"."
+"Nicole este <b>autoarea mai multor cărți</b>, printre care bestsellerul "
+"Amazon\n"
+"                „How Azure and Odoo will change the business world!”."
 
 #. module: base
 #: model_terms:res.partner,website_description:base.res_partner_address_16
@@ -35149,11 +35182,13 @@ msgid ""
 "                from 1 to 55 employees mostly by reselling services on\n"
 "                Odoo."
 msgstr ""
-"Nicole works in IT sector <b>since 20 years</b>. She\n"
-"                develops software to help develop websites.  She sold her\n"
-"                first company at 30 years old and manage to grow Azure "
+"Nicole lucrează în sectorul IT <b>de 20 de ani</b>. Ea\n"
+"                dezvoltă software care ajută la crearea de site-uri web.  Și-"
+"a vândut\n"
+"                prima companie la 30 de ani și a reușit să crească Azure "
 "Interior\n"
-"                from 1 to 55 employees mostly by reselling services on\n"
+"                de la 1 la 55 de angajați, în principal prin revânzarea de "
+"servicii\n"
 "                Odoo."
 
 #. module: base
@@ -35217,7 +35252,7 @@ msgstr "Niciun grup nu permite în prezent această operațiune."
 #. odoo-python
 #: code:addons/fields.py:0
 msgid "No inverse field \"%(inverse_field)s\" found for \"%(comodel)s\""
-msgstr ""
+msgstr "Nu s-a găsit câmpul invers \"%(inverse_field)s\" pentru \"%(comodel)s\""
 
 #. module: base
 #. odoo-python
@@ -35236,9 +35271,9 @@ msgid ""
 "(field)s' and the following error was encountered when we attempted to "
 "create one: %(error_message)s"
 msgstr ""
-"Nu s-a găsit nicio înregistrare de potrivire pentru %(field_type)s '%"
-"(value)s' în câmpul '%%(field)s' și a apărut următoarea eroare când am "
-"încercat să creăm una: %(error_message)s"
+"Nu s-a găsit nicio înregistrare de potrivire pentru %(field_type)s '%(value)"
+"s' în câmpul '%%(field)s' și a apărut următoarea eroare când am încercat să "
+"creăm una: %(error_message)s"
 
 #. module: base
 #: model_terms:ir.actions.act_window,help:base.open_module_tree
@@ -36047,8 +36082,8 @@ msgstr ""
 "Odoo Human Resources\n"
 "--------------------\n"
 "\n"
-"With Odoo <a href=\"https://www.odoo.com/app/employees\">Human Resources</"
-"a>,\n"
+"With Odoo <a href=\"https://www.odoo.com/app/employees\">Human Resources</a>"
+",\n"
 "manage the most important asset in your company: People\n"
 "\n"
 "Get all your HR operations managed easily: knowledge sharing, recruitments,\n"
@@ -36470,8 +36505,8 @@ msgstr ""
 "\n"
 "Send template of emails from Odoo <a href=\"https://www.odoo.com/app/email-"
 "marketing\">CRM opportunities</a>, select leads based\n"
-"on marketing segments, send <a href=\"https://www.odoo.com/app/"
-"recruitment\">job offers</a> and automate\n"
+"on marketing segments, send <a href=\"https://www.odoo.com/app/recruitment\">"
+"job offers</a> and automate\n"
 "answers to applicants, reuse email template in the lead automation "
 "marketing\n"
 "campaigns.\n"
@@ -36526,8 +36561,8 @@ msgstr ""
 "Fully Integrated With Others Apps\n"
 "---------------------------------\n"
 "\n"
-"Define automation rules (e.g. ask a salesperson to call, send an "
-"email, ...)\n"
+"Define automation rules (e.g. ask a salesperson to call, send an email, ...)"
+"\n"
 "based on triggers (no activity since 20 days, answered a promotional email,\n"
 "etc.)\n"
 "\n"
@@ -37686,7 +37721,7 @@ msgstr "OdooBot - HR"
 #. module: base
 #: model:res.partner.category,name:base.res_partner_category_12
 msgid "Office Supplies"
-msgstr "Echipament de birou"
+msgstr "Consumabile de birou"
 
 #. module: base
 #: model_terms:ir.ui.view,arch_db:base.demo_failures_dialog
@@ -38495,12 +38530,14 @@ msgid ""
 "                installed IT software into account. That is why Idealis\n"
 "                Consulting delivers excellence in HR and SC Management."
 msgstr ""
-"Experții noștri inventează, imaginează și dezvoltă soluții care îndeplinesc\n"
-"                cerințele dvs. de afaceri. Ei construiesc un nou mediu "
-"tehnic\n"
-"pentru compania dumneavoastră, dar întotdeauna iau în considerare\n"
-"software-ul IT deja instalat. Acesta este motivul pentru care Idealis\n"
-"Consulting oferă excelență în managementul HR și SC."
+"Experții noștri inventează, imaginează și dezvoltă soluții care răspund\n"
+"                cerințelor afacerii dumneavoastră. Ei construiesc un nou "
+"mediu\n"
+"                tehnic pentru compania dumneavoastră, dar țin întotdeauna "
+"cont de\n"
+"                software-ul IT deja instalat. De aceea Idealis\n"
+"                Consulting oferă excelență în managementul HR și al lanțului "
+"de aprovizionare."
 
 #. module: base
 #: model_terms:res.company,invoice_terms_html:base.main_company
@@ -38512,12 +38549,13 @@ msgid ""
 "due. My Company (San Francisco) will be authorized to suspend any provision "
 "of services without prior warning in the event of late payment."
 msgstr ""
-"Our invoices are payable within 21 working days, unless another payment "
-"timeframe is indicated on either the invoice or the order. In the event of "
-"non-payment by the due date, My Company (San Francisco) reserves the right "
-"to request a fixed interest payment amounting to 10% of the sum remaining "
-"due. My Company (San Francisco) will be authorized to suspend any provision "
-"of services without prior warning in the event of late payment."
+"Facturile noastre sunt plătibile în termen de 21 de zile lucrătoare, cu "
+"excepția cazului în care pe factură sau pe comandă este indicat un alt "
+"termen de plată. În cazul neplății până la data scadentă, My Company (San "
+"Francisco) își rezervă dreptul de a solicita o dobândă fixă în valoare de "
+"10% din suma rămasă de plată. My Company (San Francisco) va fi autorizată să "
+"suspende orice prestare de servicii fără notificare prealabilă în caz de "
+"întârziere a plății."
 
 #. module: base
 #: model:ir.module.module,shortdesc:base.module_outdoor_activities
@@ -40697,7 +40735,7 @@ msgstr "Asociația Proprietarilor de Proprietăți"
 #. module: base
 #: model:res.partner.category,name:base.res_partner_category_2
 msgid "Prospects"
-msgstr "Prospects"
+msgstr "Prospecți"
 
 #. module: base
 #: model:ir.module.module,summary:base.module_website_sale_shiprocket
@@ -41123,7 +41161,7 @@ msgstr "Qweb câmp many2many"
 #. module: base
 #: model:ir.model,name:base.model_ir_qweb_field_one2many
 msgid "Qweb field one2many"
-msgstr ""
+msgstr "Qweb câmp one2many"
 
 #. module: base
 #: model:res.partner.industry,full_name:base.res_partner_industry_R
@@ -41372,7 +41410,7 @@ msgstr "Recursion error in modules dependencies!"
 #. odoo-python
 #: code:addons/base/models/ir_actions.py:0
 msgid "Recursion found in child server actions"
-msgstr "Recursivitate găsită în acțiunile serverului copil"
+msgstr "S-a găsit o recursivitate în acțiunile server subordonate"
 
 #. module: base
 #: model:ir.model.fields,field_description:base.field_ir_model_data__reference
@@ -41471,7 +41509,7 @@ msgstr "Rămas"
 #: model:ir.module.category,name:base.module_category_human_resources_remote_work
 #: model:ir.module.module,shortdesc:base.module_hr_homeworking
 msgid "Remote Work"
-msgstr "Lucru de la distanță"
+msgstr "Muncă la distanță"
 
 #. module: base
 #: model:ir.module.module,shortdesc:base.module_hr_homeworking_calendar
@@ -41624,7 +41662,13 @@ msgid ""
 "Cannot separate file to save as attachment because the report's template "
 "does not contain the attributes 'data-oe-model' and 'data-oe-id' as part of "
 "the div with 'article' classname."
-msgstr "Raport - Stoc Contabilitate"
+msgstr ""
+"Șablonul de raport „%s” are o problemă, vă rugăm să contactați "
+"administratorul. \n"
+"\n"
+"Fișierul nu poate fi separat pentru a fi salvat ca atașament, deoarece "
+"șablonul raportului nu conține atributele 'data-oe-model' și 'data-oe-id' în "
+"div-ul cu clasa 'article'."
 
 #. module: base
 #: model_terms:ir.ui.view,arch_db:base.act_report_xml_view_tree
@@ -41723,7 +41767,7 @@ msgstr "Resetați la versiunea fișierului (resetare hard)."
 #. odoo-python
 #: code:addons/models.py:0
 msgid "Resolve other errors first"
-msgstr "Rezolvați mai întâi alte erori"
+msgstr "Rezolvați mai întâi celelalte erori"
 
 #. module: base
 #: model:ir.model.fields,field_description:base.field_ir_exports__resource
@@ -42106,8 +42150,7 @@ msgstr "SMTP Port"
 #. module: base
 #: model:ir.model.fields,help:base.field_ir_mail_server__smtp_port
 msgid "SMTP Port. Usually 465 for SSL, and 25 or 587 for other cases."
-msgstr ""
-"Port SMTP. De obicei 465 pentru SSL, și 25 sau 587 în celelalte cazuri."
+msgstr "Port SMTP. De obicei 465 pentru SSL, și 25 sau 587 în celelalte cazuri."
 
 #. module: base
 #: model:ir.model.fields,field_description:base.field_ir_mail_server__smtp_host
@@ -42762,8 +42805,7 @@ msgstr "Eticheta de căutare poate conține un singur panou de căutare"
 #. odoo-python
 #: code:addons/base/models/ir_ui_view.py:0
 msgid "Searchpanel item with select multi cannot have a domain."
-msgstr ""
-"Elementul panoului de căutare cu select multi nu poate avea un domeniu."
+msgstr "Elementul panoului de căutare cu select multi nu poate avea un domeniu."
 
 #. module: base
 #: model:ir.model.fields,field_description:base.field_res_company__secondary_color
@@ -43610,8 +43652,8 @@ msgid ""
 "`company_id` or `company_ids` field!"
 msgstr ""
 "Se omite verificarea companiei pentru modelul %(model_name)s. Câmpurile sale "
-"%(field_names)s sunt setate ca dependente de companie, dar modelul nu are "
-"câmpul `company_id` sau `company_ids`!"
+"%(field_names)s sunt definite ca dependente de companie, dar modelul nu are "
+"un câmp `company_id` sau `company_ids`!"
 
 #. module: base
 #. odoo-python
@@ -45315,8 +45357,8 @@ msgid ""
 "The Jackson Group brings honesty and seriousness to wood industry while "
 "helping customers deal with trees, flowers and fungi."
 msgstr ""
-"The Jackson Group brings honesty and seriousness to wood industry while "
-"helping customers deal with trees, flowers and fungi."
+"Jackson Group aduce onestitate și seriozitate în industria lemnului, "
+"ajutându-și clienții să se ocupe de copaci, flori și ciuperci."
 
 #. module: base
 #: model:ir.model.fields,help:base.field_res_lang__url_code
@@ -45569,12 +45611,12 @@ msgstr ""
 "The field <strong>Dependencies</strong> lists the fields that\n"
 "                                                the current field depends "
 "on. It is a comma-separated list of\n"
-"                                                field names, like "
-"<code>name, size</code>. You can also refer to\n"
+"                                                field names, like <code>"
+"name, size</code>. You can also refer to\n"
 "                                                fields accessible through "
 "other relational fields, for instance\n"
-"                                                <code>partner_id.company_id.name</"
-"code>."
+"                                                <code>"
+"partner_id.company_id.name</code>."
 
 #. module: base
 #: model_terms:ir.ui.view,arch_db:base.view_model_fields_form
@@ -45591,8 +45633,8 @@ msgstr ""
 "The field <strong>Dependencies</strong> lists the fields that\n"
 "                                    the current field depends on. It is a "
 "comma-separated list of\n"
-"                                    field names, like <code>name, size</"
-"code>. You can also refer to\n"
+"                                    field names, like <code>name, size</code>"
+". You can also refer to\n"
 "                                    fields accessible through other "
 "relational fields, for instance\n"
 "                                    <code>partner_id.company_id.name</code>."
@@ -45620,7 +45662,7 @@ msgstr "Prima dată când cron a eșuat. Se resetează automat la succes."
 #. odoo-python
 #: code:addons/models.py:0
 msgid "The following languages are not activated: %(missing_names)s"
-msgstr "The following languages are not activated: %(missing_names)s"
+msgstr "Următoarele limbi nu sunt activate: %(missing_names)s"
 
 #. module: base
 #. odoo-python
@@ -46006,12 +46048,12 @@ msgid ""
 "For example, __import__, resulting in the external id __import__.%"
 "(record_id)s."
 msgstr ""
-"The record %(xml_id)s has the module prefix %(module_name)s. This is the "
-"part before the '.' in the external id. Because the prefix refers to an "
-"existing module, the record would be deleted when the module is upgraded. "
-"Use either no prefix and no dot or a prefix that isn't an existing module. "
-"For example, __import__, resulting in the external id __import__.%"
-"(record_id)s."
+"Înregistrarea %(xml_id)s are prefixul de modul %(module_name)s. Aceasta este "
+"partea dinaintea caracterului '.' din ID-ul extern. Deoarece prefixul se "
+"referă la un modul existent, înregistrarea ar fi ștearsă la actualizarea "
+"modulului. Folosiți fie niciun prefix și niciun punct, fie un prefix care nu "
+"este un modul existent. De exemplu, __import__, rezultând ID-ul extern "
+"__import__.%(record_id)s."
 
 #. module: base
 #: model:ir.model.fields,help:base.field_res_company__company_registry
@@ -46276,8 +46318,8 @@ msgid ""
 "to (soft) reset a broken view."
 msgstr ""
 "Acest câmp va salva `arch_db` curent înainte de a scrie pe el.\n"
-"                                                                         Util "
-"pentru a reseta (soft) o vizualizare incorectă"
+"                                                                         "
+"Util pentru a reseta (soft) o vizualizare incorectă"
 
 #. module: base
 #. odoo-python
@@ -47126,9 +47168,8 @@ msgid ""
 "remaining=task_remaining_count)</code>"
 msgstr ""
 "Pentru a notifica progresul pentru apelul CRON și a reiniția un apel dacă "
-"mai sunt sarcini rămase, folosiți "
-"<code>env['ir.cron']._notify_progress(done=task_done_count, "
-"remaining=task_remaining_count)</code>"
+"mai sunt sarcini rămase, folosiți <code>env['ir.cron']._notify_progress"
+"(done=task_done_count, remaining=task_remaining_count)</code>"
 
 #. module: base
 #: model_terms:ir.ui.view,arch_db:base.view_server_action_form
@@ -47179,10 +47220,11 @@ msgid ""
 "                IT budget by almost half within the last 2 years.\n"
 "                Famous Managing Partner."
 msgstr ""
-"Toni Rhodes works in IT sector <b>since 10 years</b>. He is known\n"
-"                notably for selling mouse traps. With that trick he cut\n"
-"                IT budget by almost half within the last 2 years.\n"
-"                Famous Managing Partner."
+"Toni Rhodes lucrează în sectorul IT <b>de 10 ani</b>. Este cunoscut\n"
+"                în special pentru vânzarea de capcane pentru șoareci. Cu "
+"acest truc a redus\n"
+"                bugetul IT aproape la jumătate în ultimii 2 ani.\n"
+"                Celebru Managing Partner."
 
 #. module: base
 #. odoo-python
@@ -47326,7 +47368,8 @@ msgstr "Traduceri"
 msgid ""
 "Translations for model translated fields only accept falsy values and str"
 msgstr ""
-"Translations for model translated fields only accept falsy values and str"
+"Traducerile pentru câmpurile traduse ale modelului acceptă doar valori false "
+"și str"
 
 #. module: base
 #: model:ir.module.module,description:base.module_stock_fleet
@@ -47475,8 +47518,8 @@ msgstr ""
 "- 'Send Email': postarea unui mesaj, a unei note sau trimiterea unui e-mail "
 "(Discuție)\n"
 "- 'Send SMS': trimiteți SMS-uri, înregistrați-le pe documente (SMS)- 'Add/"
-"Remove Followers': adăugați sau eliminați adepți la o înregistrare "
-"(Discuții)\n"
+"Remove Followers': adăugați sau eliminați adepți la o înregistrare (Discuții)"
+"\n"
 "- \"Create Record\": creați o nouă înregistrare cu noi valori\n"
 "- \"Execute Code\": un bloc de cod Python care va fi executat\n"
 "- \"Send Webhook Notification\": trimiteți o cerere POST către un sistem "
@@ -47609,7 +47652,7 @@ msgstr "Cod URL"
 #. odoo-python
 #: code:addons/base/models/ir_attachment.py:0
 msgid "URL attachment (%s) shouldn't be migrated to local."
-msgstr ""
+msgstr "Atașamentul URL (%s) nu ar trebui migrat local."
 
 #. module: base
 #: model:ir.model.fields,help:base.field_ir_actions_server__webhook_url
@@ -47938,13 +47981,13 @@ msgstr "Necunoscut"
 #. odoo-python
 #: code:addons/models.py:0
 msgid "Unknown database error: '%s'"
-msgstr "eroare necunoscută în baza de date: '%s'"
+msgstr "Eroare necunoscută a bazei de date: '%s'"
 
 #. module: base
 #. odoo-python
 #: code:addons/models.py:0
 msgid "Unknown database identifier '%s'"
-msgstr "Identificator necunoscut în baza de date '%s'"
+msgstr "Identificator de bază de date necunoscut '%s'"
 
 #. module: base
 #. odoo-python
@@ -48030,8 +48073,8 @@ msgstr ""
 #: code:addons/base/models/ir_ui_view.py:0
 msgid "Unsearchable field “%(field)s” in path “%(field_path)s” in %(use)s)"
 msgstr ""
-"Câmp imposibil de căutat \"%(field)s\" în calea \"%(field_path)s\" din %"
-"(use)s)"
+"Câmp imposibil de căutat \"%(field)s\" în calea \"%(field_path)s\" din %(use)"
+"s)"
 
 #. module: base
 #: model:ir.module.module,shortdesc:base.module_web_unsplash
@@ -48899,9 +48942,10 @@ msgid ""
 "enhancing solutions through the use of advanced software for our clients "
 "worldwide. At Lumber Inc we bring operational experience combined..."
 msgstr ""
-"We are a technology consulting & strategic advisory firm that creates value "
-"enhancing solutions through the use of advanced software for our clients "
-"worldwide. At Lumber Inc we bring operational experience combined..."
+"Suntem o firmă de consultanță tehnologică și consiliere strategică ce "
+"creează soluții care aduc valoare, prin utilizarea de software avansat, "
+"pentru clienții noștri din întreaga lume. La Lumber Inc aducem experiență "
+"operațională combinată..."
 
 #. module: base
 #: model_terms:res.partner,website_description:base.res_partner_18
@@ -48918,17 +48962,17 @@ msgid ""
 "it contributes to the goals of the company, we then optimize it, and design "
 "the software solutions to best support it."
 msgstr ""
-"We are a technology consulting &amp; strategic advisory firm that creates "
-"value enhancing solutions through the use of advanced software for our "
-"clients worldwide.\n"
+"Suntem o firmă de consultanță tehnologică &amp; consiliere strategică ce "
+"creează soluții care aduc valoare, prin utilizarea de software avansat, "
+"pentru clienții noștri din întreaga lume.\n"
 " <br> <br>\n"
-"At Lumber Inc we bring operational experience combined with technological "
-"acumen. We understand that any software that supports business operations "
-"needs to be designed in such a way that facilitates the execution of "
-"critical operational processes, and serves as a tool to the users rather "
-"than a barrier. Our approach is focused on the process first, ensuring that "
-"it contributes to the goals of the company, we then optimize it, and design "
-"the software solutions to best support it."
+"La Lumber Inc aducem experiență operațională combinată cu pricepere "
+"tehnologică. Înțelegem că orice software care susține operațiunile unei "
+"afaceri trebuie proiectat astfel încât să faciliteze executarea proceselor "
+"operaționale critice și să servească drept instrument pentru utilizatori, nu "
+"drept obstacol. Abordarea noastră pune procesul pe primul loc, asigurându-ne "
+"că acesta contribuie la obiectivele companiei, apoi îl optimizăm și "
+"proiectăm soluțiile software care să-l susțină cel mai bine."
 
 #. module: base
 #: model:ir.module.module,shortdesc:base.module_web
@@ -49133,7 +49177,7 @@ msgstr "Website Payment"
 #. module: base
 #: model:ir.module.category,name:base.module_category_website_sale
 msgid "Website Sale"
-msgstr ""
+msgstr "Vânzări website"
 
 #. module: base
 #: model:ir.module.module,shortdesc:base.module_test_website_sale_full
@@ -49467,8 +49511,8 @@ msgid ""
 "Wood Corner brings honesty and seriousness to wood industry while helping "
 "customers deal with trees, flowers and fungi."
 msgstr ""
-"Wood Corner brings honesty and seriousness to wood industry while helping "
-"customers deal with trees, flowers and fungi."
+"Wood Corner aduce onestitate și seriozitate în industria lemnului, ajutându-"
+"și clienții să se ocupe de copaci, flori și ciuperci."
 
 #. module: base
 #: model:ir.module.module,shortdesc:base.module_hr_work_entry
@@ -49948,8 +49992,8 @@ msgid ""
 "You cannot use “%(property_name)s” because the linked “%(model_name)s” model "
 "doesn't exist or is invalid"
 msgstr ""
-"Nu puteți folosi „%(property_name)s” deoarece modelul asociat „%"
-"(model_name)s” nu există sau nu este valid"
+"Nu puteți folosi „%(property_name)s” deoarece modelul asociat „%(model_name)s"
+"” nu există sau este invalid"
 
 #. module: base
 #. odoo-python
@@ -49974,7 +50018,8 @@ msgstr "Nu aveți suficiente drepturi de acces pentru a rula această acțiune."
 msgid ""
 "You don't have the rights to export data. Please contact an Administrator."
 msgstr ""
-"Nu aveți dreptul de a exporta date. Vă rugăm să contactați un administrator."
+"Nu aveți drepturi pentru a exporta date. Vă rugăm să contactați un "
+"administrator."
 
 #. module: base
 #. odoo-python
@@ -50153,7 +50198,7 @@ msgstr "active"
 #. odoo-python
 #: code:addons/models.py:0
 msgid "allowed for groups %s"
-msgstr "permis pentru grupuri %s"
+msgstr "permis pentru grupurile %s"
 
 #. module: base
 #: model_terms:ir.ui.view,arch_db:base.view_partner_form
@@ -50164,7 +50209,7 @@ msgstr "există deja ("
 #. odoo-python
 #: code:addons/models.py:0
 msgid "always forbidden"
-msgstr "mereu interzis"
+msgstr "întotdeauna interzis"
 
 #. module: base
 #: model:ir.module.category,name:base.module_category_services_assets

@@ -6,6 +6,7 @@ from odoo.addons.account_edi_ubl_cii.models.account_edi_common import FloatFmt
 PDP_CUSTOMIZATION_ID = 'urn:cen.eu:en16931:2017#conformant#urn.cpro.gouv.fr:1p0:extended-ctc-fr'  # Not accepted by SuperPDP due to missing validator
 
 CPRO_CUSTOMIZATION_ID = 'urn:cen.eu:en16931:2017#conformant#urn.cpro.gouv.fr:1p0:extended-ctc-fr'
+EN16931_CUSTOMIZATION_ID = 'urn:cen.eu:en16931:2017'
 CPRO_INVOICE_IDENTIFIER = f'busdox-docid-qns::urn:oasis:names:specification:ubl:schema:xsd:Invoice-2::Invoice##{CPRO_CUSTOMIZATION_ID}::2.1'
 
 PAID_STATES = frozenset({'in_payment', 'paid'})
@@ -64,6 +65,11 @@ class AccountEdiXmlUbl21Fr(models.AbstractModel):
             constraints["ubl_21_fr_cpro_module_missing"] = self.env._("This partner is behind Chorus PRO. Please install the module '%s'", cpro_module_name)
 
         return constraints
+
+    def _get_invoice_node(self, vals):
+        document_node = super()._get_invoice_node(vals)
+        self._pdp_add_invoice_tax_representative_party_nodes(document_node, vals)
+        return document_node
 
     def _add_invoice_header_nodes(self, document_node, vals):
         # EXTENDS account.edi.xml.ubl_bis3
@@ -135,6 +141,21 @@ class AccountEdiXmlUbl21Fr(models.AbstractModel):
                 'cbc:ID': {'_text': invoice.purchase_order_reference}
             }
 
+    def _pdp_add_invoice_tax_representative_party_nodes(self, document_node, vals):
+        # [BR-FR-CO-15] For Single Taxpayer Groups, report the group in cac:TaxRepresentativeParty (BG-11)
+        if tax_unit := self._l10n_fr_pdp_get_company_tax_unit(vals['company']):
+            address_node = self._get_address_node({'partner': tax_unit.main_company_id.partner_id})
+            # [UBL-CR-323] A UBL invoice should not include the TaxRepresentativeParty PostalAddress Country Name
+            address_node['cac:Country']['cbc:Name'] = None
+            document_node['cac:TaxRepresentativeParty'] = {
+                'cac:PartyName': {'cbc:Name': {'_text': tax_unit.name}},
+                'cac:PostalAddress': address_node,
+                'cac:PartyTaxScheme': {
+                    'cbc:CompanyID': {'_text': tax_unit.vat},
+                    'cac:TaxScheme': {'cbc:ID': {'_text': 'VAT'}},
+                },
+            }
+
     def _add_invoice_payment_means_nodes(self, document_node, vals):
         # EXTENDS account.edi.xml.ubl_bis3
         super()._add_invoice_payment_means_nodes(document_node, vals)
@@ -179,9 +200,20 @@ class AccountEdiXmlUbl21Fr(models.AbstractModel):
         else:  # id_type == 'siren'
             party_id_scheme = "0002"
         # [UBL-SR-16] Buyer identifier shall occur maximum once
-        vals['party_node']['cac:PartyIdentification'] = {
+        vals['party_node']['cac:PartyIdentification'] = [{
             'cbc:ID': {'_text': party_id, 'schemeID': party_id_scheme},
-        }
+        }]
+
+    def _ubl_add_accounting_supplier_party_identification_nodes(self, vals):
+        # [CGI art. 256 C] [BR-FR-32] For Single Taxpayer Groups, report the group SIREN (BT-29) with scheme 0231
+        super()._ubl_add_accounting_supplier_party_identification_nodes(vals)
+        if tax_unit := self._l10n_fr_pdp_get_company_tax_unit(vals['company']):
+            vals['party_node']['cac:PartyIdentification'].append({
+                'cbc:ID': {
+                    '_text': self._l10n_fr_pdp_get_siren_from_vat(tax_unit.vat),
+                    'schemeID': '0231',
+                },
+            })
 
     def _ubl_add_party_legal_entity_nodes(self, vals):
         # EXTENDS account.edi.xml.ubl_bis3
@@ -196,6 +228,20 @@ class AccountEdiXmlUbl21Fr(models.AbstractModel):
                 'schemeID': '0002',
             },
         }
+
+    def _ubl_add_accounting_supplier_party_tax_scheme_nodes(self, vals):
+        # EXTENDS account.edi.xml.ubl_bis3
+        super()._ubl_add_accounting_supplier_party_tax_scheme_nodes(vals)
+        partner = vals['party_vals']['partner']
+        commercial_partner = partner.commercial_partner_id
+
+        if (not commercial_partner.vat or commercial_partner.vat == '/') and commercial_partner.siret:
+            vals['party_node']['cac:PartyTaxScheme'] = [{
+                'cbc:CompanyID': {'_text': commercial_partner.siret},
+                'cac:TaxScheme': {
+                    'cbc:ID': {'_text': 'TAX'},
+                },
+            }]
 
     def _ubl_add_line_price_node(self, vals, in_foreign_currency=True):
         # OVERRIDE
@@ -226,6 +272,40 @@ class AccountEdiXmlUbl21Fr(models.AbstractModel):
                 },
             }
         }
+
+    def _import_ubl_invoice_add_customer_values(self, collected_values):
+        invoice = collected_values['invoice']
+        super()._import_ubl_invoice_add_customer_values(collected_values)
+        party_tag = "AccountingCustomerParty" if collected_values['odoo_document_type'] == 'sale' else "AccountingSupplierParty"
+        collected_values['customer_values']['siret'] = collected_values['tree'].findtext(
+            f"./{{*}}{party_tag}/{{*}}Party/{{*}}PartyIdentification/{{*}}ID[@schemeID='0009']"
+        )
+
+        # The sender identifier of the envelope is the one to use to send responses back, unlike the endpoint
+        # in the document (which may be a SIREN/SIRET). It is used to check the endpoint of the retrieved partner.
+        if sender_identifier := collected_values['file_data'].get('peppol_sender_identifier'):
+            peppol_eas, _sep, peppol_endpoint = sender_identifier.partition(':')
+            if peppol_eas and peppol_endpoint and invoice.peppol_message_uuid:
+                collected_values['customer_values'].update({
+                    'sender_eas': peppol_eas,
+                    'sender_endpoint': peppol_endpoint,
+                })
+
+    def _import_prepare_missing_customer_create_values(self, collected_values):
+        # EXTENDS account_edi_ubl_cii
+        # Create the partner with the sender identifier of the envelope, so that responses can be sent back.
+        partner_create_values = super()._import_prepare_missing_customer_create_values(collected_values)
+        customer_values = collected_values['customer_values']
+        if (sender_eas := customer_values.get('sender_eas')) and (sender_endpoint := customer_values.get('sender_endpoint')):
+            partner_create_values['peppol_eas'] = sender_eas
+            partner_create_values['peppol_endpoint'] = sender_endpoint
+        return partner_create_values
+
+    def _import_ubl_retrieve_customer_search_plan(self, collected_values):
+        return [
+            self.env['res.partner']._import_retrieve_customer_from_siret,
+            *super()._import_ubl_retrieve_customer_search_plan(collected_values),
+        ]
 
     def _import_ubl_invoice_add_prepaid_amount(self, collected_values):
         # imported invoice is a final invoice following downpayments.
@@ -269,3 +349,8 @@ class AccountEdiXmlUbl21Fr(models.AbstractModel):
                 invoice._sync_dynamic_lines(container),
             ):
                 downpayment_lines.move_id = invoice.id
+
+    def _fix_price_unit_quantity_discount(self, quantity, discount, price_unit, line_extension_amount, currency):
+        # EXTENDS account.edi.ubl
+        # TODO: Remove this when french enforces stricter rules
+        return self._import_fix_line_price_unit_quantity_discount(quantity, discount, price_unit, line_extension_amount, currency)

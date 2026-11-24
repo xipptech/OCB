@@ -462,6 +462,18 @@ class AccountEdiCommon(models.AbstractModel):
     # Import invoice
     # -------------------------------------------------------------------------
 
+    def _import_fix_line_price_unit_quantity_discount(self, quantity, discount, price_unit, line_total_amount, currency):
+        """ Recompute the quantity, discount and price unit so the line subtotal matches the line total amount
+        (LineExtensionAmount in UBL, LineTotalAmount in CII).
+        """
+        # TODO remove when France enforce stricter rules
+        current_line_subtotal = (1 - discount / 100) * (quantity * price_unit)
+        if not currency.is_zero((line_total_amount or 0.0) - current_line_subtotal):
+            quantity = quantity or 1
+            discount = 0
+            price_unit = (line_total_amount or 0.0) / quantity
+        return quantity, discount, price_unit
+
     def _import_invoice_ubl_cii(self, invoice, file_data, new=False):
         tree = file_data['xml_tree']
 
@@ -1093,7 +1105,8 @@ class AccountEdiCommon(models.AbstractModel):
     def _import_retrieve_customer(self, collected_values):
         company = collected_values['company']
         customer_values = collected_values['customer_values']
-        customer_values['account_numbers'] = collected_values.get('partner_bank_values', {}).get('account_numbers')
+        if collected_values['invoice'].move_type in ('out_refund', 'in_invoice'):
+            customer_values['account_numbers'] = collected_values.get('partner_bank_values', {}).get('account_numbers')
         self.env['res.partner']._import_retrieve_customer(
             search_plan=self._import_retrieve_customer_search_plan(collected_values),
             company=company,
@@ -1123,11 +1136,16 @@ class AccountEdiCommon(models.AbstractModel):
             ResPartner._import_retrieve_customer_from_name,
         ]
 
+    def _check_customer_endpoint_match(self, customer, peppol_eas, peppol_endpoint):
+        return customer.commercial_partner_id.peppol_eas == peppol_eas and customer.commercial_partner_id.peppol_endpoint == peppol_endpoint
+
     def _check_customer_vat_match(self, customer, vat, collected_values):
         """
-        Compare the VAT from an EDI document against a partner's stored VAT,
-        with country-specific normalization where needed.
-        Should stay consistent with `_get_country_specific_vat_variants`.
+        Compare the VAT from an EDI document against a partner's stored VAT:
+        - country-specific normalization where needed, which should stay consistent
+          with `_get_country_specific_vat_variants`,
+        - country prefixes are ignored, as the VAT may be stored with or without one
+          (ISO code or VAT-specific prefix, e.g. EL for Greece).
         """
         country = self._import_retrieve_country(collected_values)
         customer_vat = customer.vat.replace(' ', '').upper()
@@ -1135,35 +1153,60 @@ class AccountEdiCommon(models.AbstractModel):
         if country and country.code == 'CH':
             customer_vat = re.sub(r"(TVA|IVA|MWST)?$", "", customer_vat.replace('.', '').replace('-', ''))
             vat_to_compare = re.sub(r"(TVA|IVA|MWST)?$", "", vat_to_compare.replace('-', ''))
+        if country:
+            for prefix in {country.code, *{'GB': ('XI',), 'GR': ('EL',), 'JP': ('T',)}.get(country.code, ())}:
+                customer_vat = customer_vat.removeprefix(prefix)
+                vat_to_compare = vat_to_compare.removeprefix(prefix)
         return customer_vat == vat_to_compare
+
+    def _import_check_retrieved_customer(self, collected_values):
+        """Check whether the retrieved customer matches the one described in the EDI document."""
+        customer_values = collected_values['customer_values']
+        logs = collected_values['logs']
+        customer = customer_values['customer']
+        name = customer_values.get('name')
+        vat = customer_values.get('vat')
+
+        sender_eas = customer_values.get('sender_eas')
+        sender_endpoint = customer_values.get('sender_endpoint')
+
+        if vat:
+            country = self._import_retrieve_country(collected_values)
+            if not customer.vat:
+                if self.env['res.partner']._run_vat_test(vat, country, True):
+                    customer.vat = vat
+            else:
+                country_mismatch = bool(country and customer.country_id and customer.country_id != country)
+                if country_mismatch or not self._check_customer_vat_match(customer, vat, collected_values):
+                    logs.append(_("Could not retrieve a partner corresponding to '%s' with the same VAT and country. A new partner was created.", name))
+                    return False
+
+        if sender_eas and sender_endpoint:
+            if not customer.commercial_partner_id.peppol_eas and not customer.commercial_partner_id.peppol_endpoint:
+                customer.commercial_partner_id.peppol_eas = sender_eas
+                customer.commercial_partner_id.peppol_endpoint = sender_endpoint
+            elif not self._check_customer_endpoint_match(customer, sender_eas, sender_endpoint):
+                logs.append(_("Could not retrieve a partner corresponding to '%s' with the same endpoint. A new partner was created.", name))
+                return False
+        return True
 
     def _import_create_missing_customer(self, collected_values):
         customer_values = collected_values['customer_values']
-        logs = collected_values['logs']
         customer = customer_values.get('customer')
-
         name = customer_values.get('name')
-        vat = customer_values.get('vat')
-        if not name or not vat:
+        logs = collected_values['logs']
+
+        if not name:
             return
 
-        vat_mismatch = False
         if customer:
-            if not customer.vat:
-                country = self._import_retrieve_country(collected_values)
-                if self.env['res.partner']._run_vat_test(vat, country, True):
-                    customer.vat = vat
+            if self._import_check_retrieved_customer(collected_values):
                 return
-            if self._check_customer_vat_match(customer, vat, collected_values):
-                return
-            vat_mismatch = True
+        else:
+            logs.append(_("Could not retrieve a partner corresponding to '%s'. A new partner was created.", name))
 
         partner_create_values = self._import_prepare_missing_customer_create_values(collected_values)
         customer = self.env['res.partner'].create(partner_create_values)
-        if vat_mismatch:
-            logs.append(_("Could not retrieve a partner corresponding to '%s' with the same VAT. A new partner was created.", name))
-        else:
-            logs.append(_("Could not retrieve a partner corresponding to '%s'. A new partner was created.", name))
         customer_values['customer'] = customer
         collected_values['to_write']['partner_id'] = customer.id
 
@@ -1449,7 +1492,7 @@ class AccountEdiCommon(models.AbstractModel):
 
         if base_amount := allowance_charge.get('base_amount'):
             price_unit = base_amount * charge_indicator_sign * file_document_sign
-            quantity = multiplier_factor_numeric / 100
+            quantity = multiplier_factor_numeric / 100 if multiplier_factor_numeric is not None else 1
         else:
             price_unit = amount * charge_indicator_sign * file_document_sign
             quantity = 1
@@ -1460,7 +1503,9 @@ class AccountEdiCommon(models.AbstractModel):
             'price_unit': price_unit,
             'tax_ids': tax_values.get('tax') if tax_values else None,
         }
-        base_line_kwargs['_create_values']['name'] = reason
+        base_line_kwargs['_create_values']['name'] = reason or (
+            self.env._('Charge') if charge_indicator_sign == 1 else self.env._('Discount')
+        )
         return base_line_kwargs
 
     def _import_invoice_line_get_product_base_line_kwargs(self, collected_values):

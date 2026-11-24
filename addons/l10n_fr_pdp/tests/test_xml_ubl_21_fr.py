@@ -1,13 +1,28 @@
+from lxml import etree
+import requests
+from base64 import b64decode, b64encode
+from cryptography.fernet import Fernet
+from unittest.mock import patch
+
 from odoo import Command
+from odoo.models import fields
 from odoo.tests import tagged
+from odoo.tools.misc import file_open
 
 from odoo.addons.l10n_fr_pdp.models.account_edi_xml_ubl_21_fr import CPRO_INVOICE_IDENTIFIER
-
-from .common import TestL10nFrPdpCommon
+from .common import FAKE_UUID, FILE_PATH, TestL10nFrPdpCommon
 
 
 @tagged('post_install_l10n', 'post_install', '-at_install')
 class TestL10nFrPdpXml(TestL10nFrPdpCommon):
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.ubl_namespaces = {
+            'cbc': "urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2",
+            'cac': "urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2",
+        }
 
     @classmethod
     def subfolders(cls):
@@ -18,6 +33,36 @@ class TestL10nFrPdpXml(TestL10nFrPdpCommon):
         invoice.action_post()
         self._send_patched(invoice)
         self._assert_invoice_ubl_file(invoice, "ubl_21_fr_out_invoice")
+
+    def test_export_invoice_partner_fr_tax_unit(self):
+        """
+        Under French Single Taxpayer Group rules (Assujetti Unique, CGI art. 256 C):
+        - BT-29 (Seller identifier): The Single Taxpayer Group's 9-digit SIREN must appear
+          under cac:PartyIdentification with schemeID "0231" (BR-FR-32).
+        - BT-21/BT-22: Mandatory note #TXD#MEMBRE_ASSUJETTI_UNIQUE must appear (BR-FR-CO-14).
+        - BG-11 (Tax Representative): cac:TaxRepresentativeParty must be present and contain
+          the Single Taxpayer Group's VAT under BT-63 (BR-FR-CO-15), along with name (BT-62)
+          and postal address (BG-12).
+        - BT-31: The member company's own VAT remains under cac:AccountingSupplierParty.
+        """
+        self.ensure_installed('account_reports')
+        other_company = self.env['res.company'].create({
+            'name': 'Company 2',
+            'country_id': self.env.ref('base.fr').id,
+            'currency_id': self.env.company.currency_id.id,
+        })
+        self.env['account.tax.unit'].create({  # noqa: OLS03001
+            'name': 'company_1_data',
+            'country_id': self.env.ref('base.fr').id,
+            'vat': 'FR05677404089',
+            'company_ids': [Command.set((self.env.company + other_company).ids)],
+            'main_company_id': self.env.company.id,
+        })
+
+        invoice = self._create_french_invoice()
+        invoice.action_post()
+        self._send_patched(invoice)
+        self._assert_invoice_ubl_file(invoice, "ubl_21_fr_out_invoice_tax_unit")
 
     def test_export_invoice_partner_fr_without_pdp(self):
         """
@@ -138,6 +183,15 @@ class TestL10nFrPdpXml(TestL10nFrPdpCommon):
         self._send_patched(final_invoice)
         self._assert_invoice_ubl_file(final_invoice, "ubl_21_fr_out_final_invoice")
 
+    def test_export_invoice_with_no_vat(self):
+        self.company_data['company'].write({'vat': False, 'siret': '96851575905808'})
+        invoice = self._create_french_invoice()
+        invoice.action_post()
+
+        wizard = self.create_send_and_print(invoice, sending_methods=['manual'], extra_edis=['ubl_21_fr'])
+        wizard.action_send_and_print()
+        self._assert_invoice_ubl_file(invoice, "ubl_21_fr_out_no_vat_invoice")
+
     def test_import_downpayments_partner_fr(self):
         downpayment_invoice = self._import_invoice_as_attachment_on('ubl_21_fr_in_downpayment_invoice')
         self.assertEqual(downpayment_invoice.move_type, 'in_invoice')
@@ -181,3 +235,210 @@ class TestL10nFrPdpXml(TestL10nFrPdpCommon):
             {'price_subtotal': 1000.0, 'price_total': 1200.0},
             {'price_subtotal': 400.0, 'price_total': 480.0},
         ])
+
+    def test_import_partner_with_siret(self):
+        """ Test that Odoo retrieves correctly the partner using the SIRET """
+        # partner a is SUPER FRENCH PARTNER with VAT FR23334175221
+        self.partner_a.supplier_rank = 10
+        other_establishment = self.env['res.partner'].create({
+            'name': 'SUPER FRENCH PARTNER PARIS',
+            'country_id': self.env.ref('base.fr').id,
+            'vat': 'FR23334175221',
+            'siret': '33417522100012',
+        })
+        bill = self._import_invoice_as_attachment_on('ubl_21_fr_in_invoice_establishment')
+        self.assertEqual(bill.partner_id, other_establishment)
+        self.assertEqual(bill.partner_bank_id.partner_id, other_establishment)
+
+    def test_ubl_use_correct_vat(self):
+        """Test that UBL use the foreign VAT when available, else the company VAT."""
+        germany = self.env.ref("base.de")
+
+        tax_group = self.env['account.tax.group'].create({
+            'name': 'German Taxes',
+            'company_id': self.company.id,
+            'country_id': germany.id,
+        })
+        tax = self.env['account.tax'].create({
+            'name': 'DE VAT 19%',
+            'amount': 19,
+            'amount_type': 'percent',
+            'type_tax_use': 'sale',
+            'country_id': germany.id,
+            'tax_group_id': tax_group.id,
+        })
+
+        fiscal_position = self.env['account.fiscal.position'].create({
+            'name': 'German FP',
+            'vat_required': True,
+            'foreign_vat': 'DE123456788',
+            'country_id': germany.id,
+        })
+
+        invoice_with_fp = self.env['account.move'].create({
+            'partner_id': self.partner_a.id,
+            'move_type': 'out_invoice',
+            'fiscal_position_id': fiscal_position.id,
+            'invoice_date': fields.Date.from_string('2025-12-22'),
+            'invoice_line_ids': [Command.create({
+                'product_id': self.product_a.id,
+                'tax_ids': [Command.set(tax.ids)],
+            })],
+        })
+        local_invoice = self.env['account.move'].create({
+            'partner_id': self.partner_a.id,
+            'move_type': 'out_invoice',
+            'invoice_date': fields.Date.from_string('2025-12-22'),
+            'invoice_line_ids': [Command.create({
+                'product_id': self.product_a.id,
+            })],
+        })
+        invoice_with_fp.action_post()
+        local_invoice.action_post()
+
+        # Check XML for foreign VAT
+        xml_bytes = self.env["account.edi.xml.ubl_21_fr"]._export_invoice(invoice_with_fp)[0]
+        xml_tree = etree.fromstring(xml_bytes)
+        node = xml_tree.xpath(
+            "//cac:AccountingSupplierParty//cac:PartyTaxScheme/cbc:CompanyID",
+            namespaces=self.ubl_namespaces,
+        )
+        self.assertEqual(node[0].text, fiscal_position.foreign_vat, "Foreign Fiscal Position VAT")
+
+        # Check XML for company VAT fallback
+        xml_bytes = self.env["account.edi.xml.ubl_21_fr"]._export_invoice(local_invoice)[0]
+        xml_tree = etree.fromstring(xml_bytes)
+        node = xml_tree.xpath(
+            "//cac:AccountingSupplierParty//cac:PartyTaxScheme/cbc:CompanyID",
+            namespaces=self.ubl_namespaces,
+        )
+        self.assertEqual(node[0].text, self.company.vat, "Company VAT fallback")
+
+    def _import_invoice_from_pdp(self, test_name, uuid, sender=None):
+        """ Simulate the reception of a document through the PDP proxy. """
+        self.env.company.peppol_purchase_journal_id = self.company_data['default_journal_purchase']
+        _filename, file_content = self._import_file_content(test_name, 'xml')
+        enc_key = file_open(f'{FILE_PATH}/enc_key', 'rb').read()
+        fernet_key = self.private_key._decrypt(b64decode(enc_key))
+        document = b64encode(Fernet(fernet_key).encrypt(file_content))
+
+        def _request_handler(s: requests.Session, r: requests.PreparedRequest, /, **kwargs):
+            message = {
+                'uuid': uuid,
+                'origin_message_uuid': uuid,
+                'accounting_supplier_party': None,
+                'filename': test_name,
+                'state': 'done',
+                'direction': 'incoming',
+                'document_type': 'Invoice',
+            }
+            responses = {
+                '/api/pdp/1/get_all_documents': {'messages': [{
+                    **message,
+                    'sender': sender,
+                    'receiver': self.proxy_user.edi_identification,
+                }]},
+                '/api/pdp/1/get_document': {uuid: {**message, 'enc_key': enc_key, 'document': document}},
+                '/api/pdp/1/ack': {},
+            }
+            if r.path_url not in responses:
+                return self._request_handler(s, r, **kwargs)
+            response = requests.Response()
+            response.status_code = 200
+            response.json = lambda: {'result': responses[r.path_url]}
+            return response
+
+        with patch.object(requests.sessions.Session, 'send', _request_handler):
+            self.proxy_user._peppol_get_new_documents()
+        return self.env['account.move'].search([('peppol_message_uuid', '=', uuid)])
+
+    def test_import_retrieve_partner(self):
+        """ Without the sender identifier of the envelope, the endpoint of the document is not used to check the
+        retrieved partner: the matching partner is kept and left untouched.
+        """
+        invoice = self._import_invoice_from_pdp('ubl_21_fr_in_partial_invoice_retrieve_partner', FAKE_UUID[0])
+        self.assertEqual(invoice.peppol_message_uuid, FAKE_UUID[0])
+        self.assertEqual(invoice.partner_id, self.partner_a)
+
+        self.partner_a.peppol_eas = False
+        self.partner_a.peppol_endpoint = False
+        invoice = self._import_invoice_from_pdp('ubl_21_fr_in_partial_invoice_retrieve_partner', FAKE_UUID[1])
+        self.assertEqual(invoice.peppol_message_uuid, FAKE_UUID[1])
+        self.assertEqual(invoice.partner_id, self.partner_a)
+        self.assertRecordValues(self.partner_a, [{'peppol_eas': False, 'peppol_endpoint': False}])
+
+        self.partner_a.peppol_eas = '0225'
+        self.partner_a.peppol_endpoint = '968515759_96851575905823'
+        partner_count = self.env['res.partner'].search_count([])
+        invoice = self._import_invoice_from_pdp('ubl_21_fr_in_partial_invoice_retrieve_partner', FAKE_UUID[2])
+        self.assertEqual(invoice.peppol_message_uuid, FAKE_UUID[2])
+        self.assertEqual(invoice.partner_id, self.partner_a)
+        self.assertEqual(self.env['res.partner'].search_count([]), partner_count)
+
+    def test_import_retrieve_partner_from_sender_identifier(self):
+        """ Some platforms only put a SIRET/SIREN as seller endpoint in the document: the '0225' identifier
+        to send responses to is then only known from the sender identifier of the envelope, which takes
+        precedence over the endpoint in the document.
+        """
+        sender = '0225:334175221_33417522105821'
+
+        invoice = self._import_invoice_from_pdp(
+            'ubl_21_fr_in_partial_invoice_retrieve_partner_siret', 'sender-uuid-match', sender=sender,
+        )
+        self.assertEqual(invoice.partner_id, self.partner_a)
+        self.assertTrue(invoice.pdp_can_send_response)
+
+        self.partner_a.peppol_eas = False
+        self.partner_a.peppol_endpoint = False
+        invoice = self._import_invoice_from_pdp(
+            'ubl_21_fr_in_partial_invoice_retrieve_partner_siret', 'sender-uuid-fill', sender=sender,
+        )
+        self.assertEqual(invoice.partner_id, self.partner_a)
+        self.assertRecordValues(self.partner_a, [{'peppol_eas': '0225', 'peppol_endpoint': '334175221_33417522105821'}])
+        self.assertTrue(invoice.pdp_can_send_response)
+
+        self.partner_a.peppol_endpoint = '968515759_96851575905823'
+        invoice = self._import_invoice_from_pdp(
+            'ubl_21_fr_in_partial_invoice_retrieve_partner_siret', 'sender-uuid-mismatch', sender=sender,
+        )
+        self.assertNotEqual(invoice.partner_id, self.partner_a)
+        self.assertRecordValues(invoice.partner_id, [{
+            'name': 'SUPER FRENCH PARTNER',
+            'peppol_eas': '0225',
+            'peppol_endpoint': '334175221_33417522105821',
+        }])
+        self.assertTrue(invoice.pdp_can_send_response)
+
+# Tests below tests unusuals invoice line.
+# Since ubl 2.1 doesn't include the peppol rule https://docs.peppol.eu/poacc/billing/3.0/rules/ubl-peppol/PEPPOL-EN16931-R120/
+# People can ends up with weird invoices that were validated by the Approved Plateform
+# At the end, the imported line subtotal should match LineExtensionAmount
+
+    def test_import_partial_invoice_line_charges_price_details(self):
+        # Some invoice provider (FedEx) uses allowances and charges to details the price of an items
+        invoice = self._import_invoice_as_attachment_on('ubl_21_fr_in_partial_invoice_line_charges_price_details')
+        self.assertRecordValues(invoice.invoice_line_ids, [
+            {'quantity': 1, 'price_subtotal': 100.0},
+        ])
+
+    def test_import_partial_invoice_line_wrong_unit_price(self):
+        # Some invoice provider puts the subtotal of the line (without charges and allowances) on the PriceAmount in the price section.
+        # Without taking into account the invoiced quantity or the implicite PriceAmount quantity.
+        invoice = self._import_invoice_as_attachment_on('ubl_21_fr_in_partial_invoice_line_wrong_unit_price')
+        self.assertRecordValues(invoice.invoice_line_ids, [
+            {'quantity': 10, 'price_subtotal': 100.0},
+        ])
+
+    def test_import_en16931_customization_id(self):
+        # Some Approved Platforms only set the EN16931 CustomizationID, but the documents still follow the French rules
+        attachment = self._import_invoice_as_attachment('ubl_21_fr_in_partial_invoice_en16931_customization_id')
+        tree = etree.fromstring(attachment.raw)
+        self.assertEqual(self.env['account.move']._get_ubl_cii_builder_from_xml_tree(tree)._name, 'account.edi.xml.ubl_21_fr')
+        invoice = self._import_invoice_as_attachment_on(attachment=attachment)
+        self.assertRecordValues(invoice.invoice_line_ids, [
+            {'quantity': 10, 'price_unit': 10.0, 'discount': 0.0, 'price_subtotal': 100.0},
+        ])
+
+        # Without PDP, the generic format is used
+        with patch.object(self.env.registry['res.company'], '_get_peppol_proxy_type', return_value='peppol'):
+            self.assertEqual(self.env['account.move']._get_ubl_cii_builder_from_xml_tree(tree)._name, 'account.edi.xml.ubl_21')

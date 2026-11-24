@@ -5,6 +5,8 @@ import * as ProductScreen from "@point_of_sale/../tests/tours/utils/product_scre
 import * as TicketScreen from "@point_of_sale/../tests/tours/utils/ticket_screen_util";
 import * as PosSale from "@pos_sale/../tests/tours/utils/pos_sale_utils";
 import * as Dialog from "@point_of_sale/../tests/tours/utils/dialog_util";
+import * as Numpad from "@point_of_sale/../tests/tours/utils/numpad_util";
+import * as SelectionPopup from "@point_of_sale/../tests/tours/utils/selection_popup_util";
 import * as Order from "@point_of_sale/../tests/tours/utils/generic_components/order_widget_util";
 import * as Utils from "@point_of_sale/../tests/tours/utils/common";
 import { registry } from "@web/core/registry";
@@ -224,6 +226,17 @@ registry.category("web_tour.tours").add("PoSSaleOrderWithDownpayment", {
             PosSale.settleNthOrder(1),
             ProductScreen.selectedOrderlineHas("Down Payment (POS)"),
             ProductScreen.totalAmountIs(980.0),
+        ].flat(),
+});
+
+registry.category("web_tour.tours").add("test_settle_so_without_downpayment_product", {
+    steps: () =>
+        [
+            Chrome.startPoS(),
+            Dialog.confirm("Open Register"),
+            PosSale.selectNthOrder(1),
+            SelectionPopup.has("Settle the order", { run: "click" }),
+            Dialog.is({ title: "No down payment product" }),
         ].flat(),
 });
 
@@ -650,6 +663,61 @@ registry.category("web_tour.tours").add("test_settle_cancelled_sale_order", {
             PosSale.settleNthOrder(1),
             Order.hasLine({ productName: "Product A", price: "10.00" }),
             Order.hasLine({ productName: "Product B", price: "20.00" }),
+            ProductScreen.clickPayButton(),
+            PaymentScreen.clickPaymentMethod("Bank"),
+            PaymentScreen.clickValidate(),
+            ReceiptScreen.isShown(),
+        ].flat(),
+});
+
+registry.category("web_tour.tours").add("test_full_down_payment_so_still_listed", {
+    steps: () =>
+        [
+            Chrome.startPoS(),
+            Dialog.confirm("Open Register"),
+            PosSale.selectNthOrder(1),
+            {
+                content: "Apply a down payment (percentage)",
+                trigger: ".selection-item:contains('Apply a down payment (percentage)')",
+                run: "click",
+            },
+            Numpad.enterValue("100"),
+            Dialog.confirm("Ok"),
+            ProductScreen.clickPayButton(),
+            PaymentScreen.clickPaymentMethod("Bank"),
+            PaymentScreen.clickValidate(),
+            ReceiptScreen.clickNextOrder(),
+            ProductScreen.clickControlButton("Quotation/Order"),
+            {
+                content: "The fully down paid sale order is still listed",
+                trigger: ".modal .o_data_row td:contains('Full Down Payment SO')",
+            },
+        ].flat(),
+});
+
+registry.category("web_tour.tours").add("test_settle_so_again_after_new_line_1", {
+    steps: () =>
+        [
+            Chrome.startPoS(),
+            Dialog.confirm("Open Register"),
+            PosSale.settleNthOrder(1),
+            ProductScreen.totalAmountIs("30.00"),
+            ProductScreen.clickPayButton(),
+            PaymentScreen.clickPaymentMethod("Bank"),
+            PaymentScreen.clickValidate(),
+            ReceiptScreen.isShown(),
+        ].flat(),
+});
+
+registry.category("web_tour.tours").add("test_settle_so_again_after_new_line_2", {
+    steps: () =>
+        [
+            Chrome.startPoS(),
+            PosSale.settleNthOrder(1),
+            ProductScreen.orderLineHas("New Service", "1.00"),
+            ProductScreen.orderLineHas("Settled Service", "0.00"),
+            ProductScreen.orderLineHas("Settled Goods", "0.00"),
+            ProductScreen.totalAmountIs("5.00"),
             ProductScreen.clickPayButton(),
             PaymentScreen.clickPaymentMethod("Bank"),
             PaymentScreen.clickValidate(),

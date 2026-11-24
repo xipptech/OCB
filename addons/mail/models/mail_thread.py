@@ -1618,7 +1618,13 @@ class MailThread(models.AbstractModel):
                 if part.get('Content-Type', '').startswith('pdf;'):
                     part.replace_header('Content-Type', 'application/pdf' + part.get('Content-Type', '')[3:])
 
-                content = part.get_content()
+                is_attachment = bool(filename) or part.get('content-disposition', '').strip().startswith('attachment')
+                content = None
+                if is_attachment:
+                    content = part.get_payload(decode=True)
+                if content is None:
+                    # Parts holding a message, such as a forwarded eml, decode to no payload
+                    content = part.get_content()
                 info = {'encoding': encoding}
                 # 0) Inline Attachments -> attachments, with a third part in the tuple to match cid / attachment
                 if filename and part.get('content-id'):
@@ -1626,7 +1632,7 @@ class MailThread(models.AbstractModel):
                     attachments.append(self._Attachment(filename, content, info))
                     continue
                 # 1) Explicit Attachments -> attachments
-                if filename or part.get('content-disposition', '').strip().startswith('attachment'):
+                if is_attachment:
                     attachments.append(self._Attachment(filename or 'attachment', content, info))
                     continue
                 # 2) text/plain -> <pre/>
@@ -3713,14 +3719,16 @@ class MailThread(models.AbstractModel):
         # have a fallback in case replies mess with Messsage-Id in the In-Reply-To (e.g. amazon
         # SES SMTP may replace Message-Id and In-Reply-To refers an internal ID not stored in Odoo)
         message_sudo = message.sudo()
-        ancestors = self.env['mail.message'].sudo().search(
-            [
-                ('model', '=', message_sudo.model), ('res_id', '=', message_sudo.res_id),
-                ('id', '!=', message_sudo.id),
-                ('subtype_id', '!=', False),  # filters out logs
-                ('message_id', '!=', False),  # ignore records that somehow don't have a message_id (non ORM created)
-            ], limit=32, order='id DESC',  # take 32 last, hoping to find public discussions in it
-        )
+        ancestors = self.env['mail.message'].sudo()
+        if message_sudo.model and message_sudo.res_id:
+            ancestors = ancestors.search(
+                [
+                    ('model', '=', message_sudo.model), ('res_id', '=', message_sudo.res_id),
+                    ('id', '!=', message_sudo.id),
+                    ('subtype_id', '!=', False),  # filters out logs
+                    ('message_id', '!=', False),  # ignore records that somehow don't have a message_id (non ORM created)
+                ], limit=32, order='id DESC',  # take 32 last, hoping to find public discussions in it
+            )
 
         # filter out internal messages, to fetch 'public discussion' first
         outgoing_types = ('comment', 'auto_comment', 'email', 'email_outgoing')
@@ -3881,6 +3889,7 @@ class MailThread(models.AbstractModel):
             'options': {
                 'icon': icon,
                 'data': {
+                    "message_id": message.id,
                     'model': model if model else '',
                     'res_id': res_id if res_id else '',
                 }

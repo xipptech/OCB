@@ -19,7 +19,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 18.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-07-31 17:39+0000\n"
-"PO-Revision-Date: 2026-09-11 16:32+0000\n"
+"PO-Revision-Date: 2026-11-11 18:33+0000\n"
 "Last-Translator: Weblate <noreply-mt-weblate@weblate.org>\n"
 "Language-Team: Hindi <https://translate.odoo.com/projects/odoo-18/website/"
 "hi/>\n"
@@ -4925,7 +4925,7 @@ msgstr ""
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_mega_menu_cards
 msgid "Deliveries"
-msgstr ""
+msgstr "डिलीवरी"
 
 #. module: website
 #: model:ir.model.fields,field_description:website.field_website_controller_page__url_demo
@@ -6033,7 +6033,8 @@ msgstr "एक्सप्लोर करें"
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_numbers_showcase
 msgid "Explore a vast array of practical and beneficial choices."
-msgstr "व्यावहारिक और फ़ायदेमंद विकल्पों की एक बड़ी कैटगरी को जानें और उन पर विचार करें।"
+msgstr ""
+"व्यावहारिक और फ़ायदेमंद विकल्पों की एक बड़ी कैटगरी को जानें और उन पर विचार करें।"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_quadrant
@@ -7179,7 +7180,7 @@ msgstr ""
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_mega_menu_images_subtitles
 msgid "Help center"
-msgstr ""
+msgstr "हेल्प सेंटर"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_pricelist_cafe
@@ -7204,7 +7205,8 @@ msgstr ""
 msgid ""
 "Here is an overview of the cookies that may be stored on your device when "
 "you visit our website:"
-msgstr "जब आप हमारी वेबसाइट पर आते हैं, तो आपके डिवाइस ये कुकी स्टोर की जा सकती हैं:"
+msgstr ""
+"जब आप हमारी वेबसाइट पर आते हैं, तो आपके डिवाइस ये कुकी स्टोर की जा सकती हैं:"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_image_gallery_options
@@ -9281,7 +9283,7 @@ msgstr "संदेश"
 #. odoo-python
 #: code:addons/website/controllers/form.py:0
 msgid "Metadata"
-msgstr ""
+msgstr "मेटाडेटा"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_company_team
@@ -9583,7 +9585,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:website.field_res_config_settings__group_multi_website
 #: model:res.groups,name:website.group_multi_website
 msgid "Multi-website"
-msgstr ""
+msgstr "मल्टी-वेबसाइट"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_website_form_options
@@ -9770,7 +9772,7 @@ msgstr ""
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.step_wizard
 msgid "Next:"
-msgstr ""
+msgstr "अगला"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_tabs_options
@@ -10916,7 +10918,7 @@ msgstr ""
 #. odoo-javascript
 #: code:addons/website/static/src/snippets/s_website_form/000.js:0
 msgid "Please fill in the form correctly."
-msgstr ""
+msgstr "कृपया फ़ॉर्म को सही तरीके से भरें।"
 
 #. module: website
 #. odoo-javascript
@@ -12741,7 +12743,7 @@ msgstr ""
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.snippet_options_shadow_widgets
 msgid "Spread"
-msgstr ""
+msgstr "प्रसार करें"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_mega_menu_menus_logos
@@ -14280,7 +14282,7 @@ msgstr ""
 #: code:addons/website/static/src/components/fields/publish_button.xml:0
 #: code:addons/website/static/src/components/views/page_list.js:0
 msgid "Unpublish"
-msgstr ""
+msgstr "अप्रकाशित करें"
 
 #. module: website
 #. odoo-javascript
@@ -15633,8 +15635,8 @@ msgid ""
 "chat on our website. Our dedicated team is available 24/7 to assist with any "
 "inquiries or issues."
 msgstr ""
-"आप हमारी ग्राहक सहायता टीम तक info@yourcompany.example.com पर ईमेल करके, +1 "
-"555-555-5556 पर कॉल करके, या हमारी वेबसाइट पर लाइव चैट का उपयोग करके पहुंच सकते हैं. "
+"आप हमारी ग्राहक सहायता टीम तक info@yourcompany.example.com पर ईमेल करके, +1 555-"
+"555-5556 पर कॉल करके, या हमारी वेबसाइट पर लाइव चैट का उपयोग करके पहुंच सकते हैं. "
 "हमारी समर्पित टीम किसी भी पूछताछ या समस्या में सहायता के लिए 24/7 उपलब्ध है।"
 
 #. module: website

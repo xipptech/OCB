@@ -347,24 +347,27 @@ class Website(models.Model):
             (original_company | self.company_id)._compute_website_id()
 
         if 'cookies_bar' in values:
-            existing_policy_page = self.env['website.page'].search([
-                ('website_id', '=', self.id),
+            existing_policy_pages = self.env['website.page'].search([
+                ('website_id', 'in', self.ids),
                 ('url', '=', '/cookie-policy'),
             ])
             if not values['cookies_bar']:
-                existing_policy_page.unlink()
-            elif not existing_policy_page:
+                existing_policy_pages.unlink()
+            else:
                 cookies_view = self.env.ref('website.cookie_policy', raise_if_not_found=False)
                 if cookies_view:
-                    cookies_view.with_context(website_id=self.id).write({'website_id': self.id})
-                    specific_cook_view = self.with_context(website_id=self.id).viewref('website.cookie_policy')
-                    self.env['website.page'].create({
-                        'is_published': True,
-                        'website_indexed': False,
-                        'url': '/cookie-policy',
-                        'website_id': self.id,
-                        'view_id': specific_cook_view.id,
-                    })
+                    page_vals_list = []
+                    for website in self - existing_policy_pages.website_id:
+                        cookies_view.with_context(website_id=website.id).write({'website_id': website.id})
+                        specific_cook_view = website.with_context(website_id=website.id).viewref('website.cookie_policy')
+                        page_vals_list.append({
+                            'is_published': True,
+                            'website_indexed': False,
+                            'url': '/cookie-policy',
+                            'website_id': website.id,
+                            'view_id': specific_cook_view.id,
+                        })
+                    self.env['website.page'].create(page_vals_list)
 
         return result
 
@@ -2185,24 +2188,22 @@ class Website(models.Model):
             similarities.extend(indirect_similarities)
             best_similarity = SQL('GREATEST(%(similarities)s)', similarities=SQL(', ').join(similarities))
 
-            # Filter unpublished records for portal and public user for
-            # performance.
-            # TODO: Same for `active` field?
-            filter_is_published = (
-                'is_published' in model._fields
-                and model._fields['is_published'].base_field.model_name == model_name
-                and not self.env.user._is_internal()
-            )
-            if filter_is_published:
-                query.add_where('is_published')
+            # Rank only the records eligible for the provider domain, before the
+            # similarity LIMIT. The eligible ids are a sub-select (not fetched)
+            # to keep the domain's joins/aliases out of the similarity query.
+            query.add_where(SQL(
+                "%(id)s IN %(eligible_ids)s",
+                id=SQL.identifier(model._table, 'id'),
+                eligible_ids=model._search(AND(domain)).subselect(),
+            ))
 
             query.order = '_best_similarity desc'
             query.limit = 1000
-            self.env.cr.execute(query.select(
+            rows = self.env.execute_query(query.select(
                 SQL.identifier(model._table, 'id'),
                 SQL('%s AS _best_similarity', best_similarity),
             ))
-            ids = {row[0] for row in self.env.cr.fetchall() if row[1] and row[1] >= similarity_threshold}
+            ids = {row[0] for row in rows if row[1] and row[1] >= similarity_threshold}
             domain.append([('id', 'in', list(ids))])
             domain = AND(domain)
             records = model.search_read(domain, direct_fields, limit=limit)

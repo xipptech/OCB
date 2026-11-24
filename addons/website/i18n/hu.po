@@ -24,7 +24,7 @@
 # Larissa Manderfeld, 2025
 # gezza <geza.nagy@oregional.hu>, 2025
 # Pammer József, 2025
-# Tamás Dombos <tdombos@gmail.com>, 2025.
+# Tamás Dombos <tdombos@gmail.com>, 2025, 2026.
 # Weblate <noreply-mt-weblate@weblate.org>, 2025, 2026.
 # Odoo Translation Bot <c3p@odoo.com>, 2026.
 msgid ""
@@ -32,7 +32,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 18.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-07-31 17:39+0000\n"
-"PO-Revision-Date: 2026-05-16 09:07+0000\n"
+"PO-Revision-Date: 2026-11-11 18:33+0000\n"
 "Last-Translator: Weblate <noreply-mt-weblate@weblate.org>\n"
 "Language-Team: Hungarian <https://translate.odoo.com/projects/odoo-18/"
 "website/hu/>\n"
@@ -41,7 +41,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.17\n"
+"X-Generator: Weblate 2026.8.1\n"
 
 #. module: website
 #. odoo-javascript
@@ -4343,8 +4343,8 @@ msgstr ""
 "szerverünkre, így környezet függő tartalmakat tudunk előállítani.\n"
 "Sütik nélkül a böngészés sokkal frusztrálóbb lenne.\n"
 "Arra használjuk őket, hogy a weboldalunkon végzett tevékenységeket "
-"támogassuk. Például a munkamenetet (így nem kell újra és újra "
-"bejelentkezni), vagy a bevásárló kocsit.\n"
+"támogassuk. Például a munkamenetet (így nem kell újra és újra bejelentkezni)"
+", vagy a bevásárló kocsit.\n"
 "<br/>\n"
 "A Sütik abban szintén segítenek nekünk, hogy megértsük a felhasználók "
 "preferenciáit, a korábbi, vagy aktuális tevékenységeik alapján.\n"
@@ -8775,7 +8775,7 @@ msgstr "Könyvtár"
 #: model_terms:ir.ui.view,arch_db:website.s_badge_options
 #: model_terms:ir.ui.view,arch_db:website.searchbar_input_snippet_options
 msgid "Light"
-msgstr ""
+msgstr "Világos"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.snippet_options
@@ -9579,7 +9579,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:website.field_res_config_settings__group_multi_website
 #: model:res.groups,name:website.group_multi_website
 msgid "Multi-website"
-msgstr ""
+msgstr "Több weboldal kezelése"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_website_form_options
@@ -13897,7 +13897,7 @@ msgstr ""
 #. odoo-javascript
 #: code:addons/website/static/src/xml/website.cookies_warning.xml:0
 msgid "To see the interactive content, you need to accept optional cookies."
-msgstr ""
+msgstr "Az interaktív tartalom megtekintéséhez fogadd el az opcionális sütiket."
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.res_config_settings_view_form
